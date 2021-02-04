@@ -25,18 +25,19 @@ def start_training(config):
     date = datetime.now().strftime('%d-%m-%Y')
     tt_logger = TestTubeLogger(conf.dataset.output_dir, name=date, create_git_tag=True)
     tt_logger.log_hyperparams(dict(conf))
-    OmegaConf.save(
-        conf,
-        os.path.join(
+    prism_save_path = os.path.join(
             tt_logger.experiment.save_dir,
             str(date),
             "version_{}".format(tt_logger.version),
+        )
+    OmegaConf.save(
+        conf,
+        os.path.join(
+            prism_save_path,
             "config.yml"
         )
     )
-
-
-    # TODO: Add resume training in the documentation.
+    m.save_path = prism_save_path
 
     if conf.resume_path:
         runner = Trainer(
@@ -53,12 +54,13 @@ def start_training(config):
             min_epochs=25, logger=tt_logger,
             max_epochs=conf.max_epochs,
             num_sanity_val_steps=5,
-            gpus=[0],
+            # gpus=[0],
         )
     runner.fit(m)
     m.summarize()
 
 
+
 if __name__ == '__main__':
     #TODO: Add argparse to take this input.
-    start_training('/home/nikhilk/dlintegrativemodels/test_config.yml')
+    start_training('/Users/nikhilkasukurthi/data/shruthi_lab/prism/src/prism/test_config.yml')

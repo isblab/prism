@@ -5,7 +5,7 @@ import torch.utils.data
 from torch import optim
 from torch.nn import functional as F
 
-from src.prism.model.ae_1d import AE1D
+from .model.ae_1d import AE1D
 from .data_utils.distance_vectors_dataset import DistanceVectorsDataset
 
 
@@ -25,7 +25,7 @@ class ModelBuilder(pl.LightningModule):
         return model
 
     def get_loss(self):
-        def mse(*args, **kwargs):
+        def mse(**kwargs):
             x = kwargs['x']
             recon_x = kwargs['recon_x']
             MSE = F.mse_loss(recon_x, x, reduction='sum')
@@ -71,24 +71,26 @@ class ModelBuilder(pl.LightningModule):
         data = batch
         output = self.model.forward(data)
         loss = self.loss(**output)
+        self.log('train_loss', loss, on_step=True, prog_bar=True)
         return loss
 
     def validation_step(self, batch, batch_index):
         data = batch
         output = self.model.forward(data)
         loss = self.loss(**output)
+        self.log('val_loss', loss, on_step=True, prog_bar=True)
         return loss
 
     def forward(self, *args, **kwargs):
         return self.model.forward(*args, **kwargs)
 
     def training_epoch_end(self, outputs):
-        # TODO: On Last training epoch dump the precision values.
         keys = list(outputs[0].keys())
         loss_dict = {}
         for key in keys:
             loss_dict.update({'train_' + key: torch.stack([x[key] for x in outputs]).mean()})
-        return {'loss': loss_dict.get('train_loss'), 'log': loss_dict, 'progress_bar': loss_dict}
+
+        self.log('train_loss', loss_dict.get('train_loss'), on_epoch=True, prog_bar=True)
 
     def validation_epoch_end(self, outputs):
         keys = list(outputs[0].keys())
@@ -96,4 +98,21 @@ class ModelBuilder(pl.LightningModule):
         for key in keys:
             loss_dict.update({'val_' + key: torch.stack([x[key] for x in outputs]).mean()})
 
-        return {'val_loss': loss_dict.get('val_loss'), 'log': loss_dict, 'progress_bar': loss_dict}
+        self.log('train_loss', loss_dict.get('val_loss'), on_epoch=True, prog_bar=True)
+
+    def on_fit_end(self):
+        random_input = torch.ones((1, self.dataset.input_size)).double()
+        beadwise_precision = self.forward(random_input)['recon_x'].detach().cpu().numpy()
+
+        def min_max_scaler(input_arr):
+            return (input_arr - np.min(input_arr)) / (np.max(input_arr) - np.min(input_arr))
+        scaled_precision = min_max_scaler(beadwise_precision)
+        print("Saving model in path: {}".format(self.save_path))
+
+        import os
+        with open(os.path.join(self.save_path, "precision.txt"), 'w') as f:
+            for i in scaled_precision[0]:
+                f.write(str(i)+" \n")
+
+        super(ModelBuilder, self).on_fit_end()
+

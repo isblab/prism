@@ -10,12 +10,12 @@ loss:
   hyper_params:
     kld_beta: 100
 batch_size: 64
-max_epochs: 100
+max_epochs: 1
 max_steps: 5000
 seed: 1
 dataset:
   dataset_type: distance_vectors
-  input_dir: /home/nikhilk/data/tfiih_superposed/distance_vectors
-  output_dir: /home/nikhilk/dlintegrativemodels/runs/vae_encoder
+  input_dir: /Users/nikhilkasukurthi/data/shruthi_lab/data/coordinates/1AVX/distance_vectors
+  output_dir: /Users/nikhilkasukurthi/data/shruthi_lab/runs/test_prism/
   apply_sigmoid_input: True
   apply_padding: False

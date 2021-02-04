@@ -1,7 +1,6 @@
 import os
 import numpy as np
 import argparse
-from tqdm import tqdm
 
 def create_dir(dir):
     if not os.path.exists(dir):
@@ -10,13 +9,9 @@ def create_dir(dir):
 
 def run(input_dir, output_dir):
     """
-    Generates the pairwise euclidean distance from the centroids of each bead.
-    Args:
-        input_dir: expects .npz or .npy files containing xyz coordinates in 'arr_0' and radii in 'arr_1'
-        output_dir: output_directory to write the distance tensor and distance plot.
-
-    Returns:
-        Returns nothing, saves tensor to the output_dir and the plots.
+    :param input_dir: expects .npz or .npy files containing xyz coordinates in 'arr_0' and radii in 'arr_1'
+    :param output_dir: output_directory to write the distance tensor and distance plot.
+    :return: saves tensor to the output_dir and the plots.
     """
     data = np.load(input_dir)
     distance_vectors_dir = os.path.join(output_dir, 'distance_vectors')
