@@ -2,10 +2,9 @@
 Deep learning on ensembles of integrative models
 
 ## Dependencies
-### Conda
-If you are using conda, use this command to create a new environment with all the depedencies for the project.
-```
-conda env create -f environment.yml
+Install the through the following command
+```python
+pip install -r install_requires.txt
 ```
 
 ## Script to get XYZ coordinates and radii of beads in a set of models
@@ -35,7 +34,6 @@ The training can be triggered by running the following command
 ```buildoutcfg
 python train.py --config test_config.yml
 ```
-asfasd
 [Sample test_config.yml]()
 ```buildoutcfg
 model_architecture: VAE_bn

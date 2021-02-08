@@ -1,7 +1,7 @@
 from torch import nn
 
 class DecoderBacbone(nn.Sequential):
-    def __init__(self, input_sequence_length, latent_dim=8, depth=3):
+    def __init__(self, input_sequence_length, latent_dim, depth):
         """
         Decoder with variable depth.
         Args:

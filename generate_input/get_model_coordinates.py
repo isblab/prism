@@ -23,6 +23,8 @@ def _get_number_of_beads(rmf_file, resolution, molecule):
 
     return(len(s0.get_selected_particles()))
 
+# TODO
+# Get number of residues.
 
 def get_coordinates(path, output_base_path, output_path, resolution, molecule): # path to directory containing RMF3 files
 
@@ -87,7 +89,11 @@ if __name__ == '__main__':
     warnings.warn("This module is deprected.")
     parser = argparse.ArgumentParser(description='Generate distance matrices')
     parser.add_argument('--input',
-                        help="The path to rmf3 files",
+                        help="The path to rmf3 or files",
+                        required=True)
+    parser.add_argument('--type',
+                        default='rmf',
+                        help="rmf or pdb input.",
                         required=True)
     parser.add_argument('--output_dir',
                         help="Path to save the model_cooridnate files",
@@ -100,6 +106,8 @@ if __name__ == '__main__':
                         help="Molecule that needs to be sampled",
                         default="B",
                         required=False)
+    # TODO
+    # Take PDB or RMF as input
 
     args = parser.parse_args()
     output_base_path = args.output_dir

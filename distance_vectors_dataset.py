@@ -10,7 +10,7 @@ class DistanceVectorsDataset(Dataset):
     def __init__(self, root_dir, normalize=True, apply_sigmoid_input=True):
         """
         Args:
-            root_dir (string): Directory with all the tensors of contact maps.
+            root_dir (string): The path to the npz file containing beadwise distances to the mean.
             normalize (boolean): Min-Max Normalize the input.
             apply_sigmoid_input (boolean): Apply sigmoid on the input or not.
         """

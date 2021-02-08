@@ -1,35 +1,34 @@
+import argparse
 import os
 from datetime import datetime
 
-import torch
 from omegaconf import OmegaConf
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TestTubeLogger
 
-from .model_builder import ModelBuilder
+from model_builder import ModelBuilder
+
 
 def start_training(config):
-    """This method is useful for doing hyper-parameter search.
-    Pass the config on which you want to train. This will start the training.
+    """Pass the config on which you want to train. This will start the training.
     Args:
-        config (OmegaConf, str): OmegaConf object
+        config (str): path to the config file
     """
     if isinstance(config, str):
         conf = OmegaConf.load(config)
     else:
         conf = config
 
-    torch.manual_seed(conf.seed)
-    m = ModelBuilder(**{'config':conf})
+    m = ModelBuilder(**{'config': conf})
 
     date = datetime.now().strftime('%d-%m-%Y')
     tt_logger = TestTubeLogger(conf.dataset.output_dir, name=date, create_git_tag=True)
     tt_logger.log_hyperparams(dict(conf))
     prism_save_path = os.path.join(
-            tt_logger.experiment.save_dir,
-            str(date),
-            "version_{}".format(tt_logger.version),
-        )
+        tt_logger.experiment.save_dir,
+        str(date),
+        "version_{}".format(tt_logger.version),
+    )
     OmegaConf.save(
         conf,
         os.path.join(
@@ -43,24 +42,30 @@ def start_training(config):
         runner = Trainer(
             resume_from_checkpoint=conf.resume_path,
             default_root_dir=conf.dataset.output_dir,
-            min_epochs=25, logger=tt_logger,
+            logger=tt_logger,
             max_epochs=conf.max_epochs,
-            train_percent_check=1., val_percent_check=1.,
             num_sanity_val_steps=5,
+            gpus=[0],
         )
     else:
         runner = Trainer(
             default_root_dir=conf.dataset.output_dir,
-            min_epochs=25, logger=tt_logger,
+            logger=tt_logger,
             max_epochs=conf.max_epochs,
             num_sanity_val_steps=5,
-            # gpus=[0],
+            gpus=[0],
         )
     runner.fit(m)
     m.summarize()
 
 
-
 if __name__ == '__main__':
-    #TODO: Add argparse to take this input.
-    start_training('/Users/nikhilkasukurthi/data/shruthi_lab/prism/src/prism/test_config.yml')
+    parser = argparse.ArgumentParser(description='Train PrISM on given ensemble of integrative structure models.')
+    parser.add_argument('--config',
+                        help="Config file containing the details to train",
+                        default='test_config.yml')
+    parser.add_argument('--gpu',
+                        help="Set to 1, to use GPU.",
+                        default=0)
+    args = parser.parse_args()
+    start_training(args.config)

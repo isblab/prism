@@ -5,11 +5,15 @@ import torch.utils.data
 from torch import optim
 from torch.nn import functional as F
 
-from .model.ae_1d import AE1D
-from .data_utils.distance_vectors_dataset import DistanceVectorsDataset
+from model.ae_1d import AE1D
+from distance_vectors_dataset import DistanceVectorsDataset
 
 
 class ModelBuilder(pl.LightningModule):
+    """
+    Class that stores all the models, loss and executes training loop.
+    """
+
     def __init__(self, *args, **kwargs):
         super(ModelBuilder, self).__init__()
         self.config = kwargs.pop('config')
@@ -17,6 +21,10 @@ class ModelBuilder(pl.LightningModule):
         self.model = self.get_model()
 
     def get_model(self):
+        """
+        Provides the AE architecture from config.
+        :return: Torch object
+        """
         self.prepare_data()
         self.config.model_params.input_size = self.dataset.input_size
 
@@ -38,8 +46,9 @@ class ModelBuilder(pl.LightningModule):
     def prepare_data(self):
         self.dataset = DistanceVectorsDataset(
             self.config.dataset.input_dir,
-            apply_sigmoid_input=self.config.dataset.apply_sigmoid_input,
-            normalize=True)
+            apply_sigmoid_input=True,
+            normalize=True
+        )
 
         n = len(self.dataset)  # how many total elements you have
         val_len = int(np.ceil(n * 0.20))  # number of test/val elements
@@ -106,13 +115,13 @@ class ModelBuilder(pl.LightningModule):
 
         def min_max_scaler(input_arr):
             return (input_arr - np.min(input_arr)) / (np.max(input_arr) - np.min(input_arr))
+
         scaled_precision = min_max_scaler(beadwise_precision)
         print("Saving model in path: {}".format(self.save_path))
 
         import os
         with open(os.path.join(self.save_path, "precision.txt"), 'w') as f:
             for i in scaled_precision[0]:
-                f.write(str(i)+" \n")
+                f.write(str(i) + " \n")
 
         super(ModelBuilder, self).on_fit_end()
-

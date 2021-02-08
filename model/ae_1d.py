@@ -9,11 +9,12 @@ class AE1D(nn.Module):
     """
     AutoEncoder Module.
     """
-    def __init__(self, input_size=64, latent_dim=4096, encoder_depth=3, decoder_depth=3, *args, **kwargs):
+
+    def __init__(self, input_size, latent_dim, encoder_depth, decoder_depth, *args, **kwargs):
         """
         AutoEncoder with variable encoder and decoder sizes.
         Args:
-            input_size: The input size which will later be use for setting the reconstructed output.
+            input_size: The input size that is based on the number of beads in the model.
             latent_dim: The bottleneck dimension
             encoder_depth: Number of layers to be stacked in encoder.
             decoder_depth: Number of layers to be stacked in decoder.
@@ -28,9 +29,11 @@ class AE1D(nn.Module):
         # encoder
         self.encoder_backbone = EncoderBackbone(input_sequence_length=input_size,
                                                 depth=encoder_depth)
-        # decoder
-        self.latent_repr = nn.Linear(self.encoder_backbone.encoder_filters, latent_dim)
 
+        # bottle-neck layer
+        self.latent_repr = nn.Linear(self.encoder_backbone.encoder_neurons, latent_dim)
+
+        # decoder
         self.decoder_layers = DecoderBacbone(
             input_sequence_length=input_size,
             latent_dim=latent_dim,
