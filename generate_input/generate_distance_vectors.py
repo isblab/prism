@@ -21,9 +21,11 @@ def run(input_dir, output_dir):
     centroid_coordinates = all_model_coords.mean(axis=0)
 
     distance_from_centroid = np.linalg.norm(all_model_coords - centroid_coordinates, axis=2)
-    np.savez(os.path.join(distance_vectors_dir, 'distance_vectors.npz'), distance_from_centroid)
+    out_path = os.path.join(distance_vectors_dir, 'distance_vectors.npz')
+    np.savez(out_path, distance_from_centroid)
 
-    print("Saved the distance vectors in {}".format(os.path.join(distance_vectors_dir, 'distance_vectors.npz')))
+    print("Saved the distance vectors in {}".format(out_path))
+    return out_path
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generate distance matrices')

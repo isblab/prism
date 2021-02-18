@@ -12,7 +12,7 @@ from model_builder import ModelBuilder
 def start_training(config):
     """Pass the config on which you want to train. This will start the training.
     Args:
-        config (str): path to the config file
+        config (str, OmegaConf): path to the config file
     """
     if isinstance(config, str):
         conf = OmegaConf.load(config)

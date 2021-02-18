@@ -14,7 +14,7 @@ class DistanceVectorsDataset(Dataset):
             normalize (boolean): Min-Max Normalize the input.
             apply_sigmoid_input (boolean): Apply sigmoid on the input or not.
         """
-        self.distance_vectors = np.load(os.path.join(root_dir, 'distance_vectors.npz'))['arr_0']
+        self.distance_vectors = np.load(root_dir)['arr_0']
         self.min_distances_beadwise = np.min(self.distance_vectors, axis=0)
         self.max_distances_beadwise = np.max(self.distance_vectors, axis=0)
         self.normalize = normalize
