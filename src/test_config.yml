@@ -1,0 +1,12 @@
+model_desc: Default PrISM hyperparameters established on benchmarks.
+model_params:
+  encoder_depth: 2
+  decoder_depth: 3
+  latent_dim: 64
+lr: 1e-3
+batch_size: 64
+max_epochs: 50
+# resume_path: /Users/nikhilkasukurthi/data/shruthi_lab/runs/test_prism/version_0/
+dataset:
+  input_dir: /Users/nikhilkasukurthi/data/shruthi_lab/data/coordinates/1AVX/distance_vectors
+  output_dir: /Users/nikhilkasukurthi/data/shruthi_lab/runs/test_prism/
