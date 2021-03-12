@@ -60,7 +60,7 @@ if __name__ == '__main__':
     conf = OmegaConf.load(args.config)
     
     # Add input and output directory details
-    conf['dataset']={'input_dir':"",'output_dir':""}
+    # conf['dataset']={'input_dir':"",'output_dir':""}
     conf['dataset']['input_dir'] = npz_path
     conf['dataset']['output_dir'] = args.output_dir
     conf['use_gpu'] = True if args.gpu == 1 else False
