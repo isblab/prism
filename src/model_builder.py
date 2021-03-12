@@ -5,7 +5,7 @@ import torch.utils.data
 from torch import optim
 from torch.nn import functional as F
 
-from src.model.ae_1d import AE1D
+from model.ae_1d import AE1D
 from distance_vectors_dataset import DistanceVectorsDataset
 
 
