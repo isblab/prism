@@ -9,7 +9,7 @@ from pytorch_lightning.loggers import TestTubeLogger
 from model_builder import ModelBuilder
 
 
-def start_training(config):
+def start_training(config, gpu):
     """Pass the config on which you want to train. This will start the training.
     Args:
         config (str, OmegaConf): path to the config file
@@ -38,23 +38,13 @@ def start_training(config):
     )
     m.save_path = prism_save_path
 
-    if conf.resume_path:
-        runner = Trainer(
-            resume_from_checkpoint=conf.resume_path,
-            default_root_dir=conf.dataset.output_dir,
-            logger=tt_logger,
-            max_epochs=conf.max_epochs,
-            num_sanity_val_steps=5,
-            gpus=[0],
-        )
-    else:
-        runner = Trainer(
-            default_root_dir=conf.dataset.output_dir,
-            logger=tt_logger,
-            max_epochs=conf.max_epochs,
-            num_sanity_val_steps=5,
-            gpus=[0],
-        )
+    runner = Trainer(
+        default_root_dir=conf.dataset.output_dir,
+        logger=tt_logger,
+        max_epochs=conf.max_epochs,
+        num_sanity_val_steps=5,
+        # gpus=[gpu],
+    )
     runner.fit(m)
     m.summarize()
 
@@ -68,4 +58,4 @@ if __name__ == '__main__':
                         help="Set to 1, to use GPU.",
                         default=0)
     args = parser.parse_args()
-    start_training(args.config)
+    start_training(args.config, args.gpu)

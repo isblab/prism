@@ -30,6 +30,9 @@ if __name__ == '__main__':
     parser.add_argument('--config',
                         help="Config file containing details of training parameters",
                         default='test_config.yml')
+    parser.add_argument('--skip_input_generation',
+                        help="If the input has already been generated and you would like to train with different paramters set this flag to 1",
+                        default=0)
     parser.add_argument('--gpu',
                         help="Set to 1, to use GPU.",
                         type=int,default=0)
@@ -41,27 +44,30 @@ if __name__ == '__main__':
     os.makedirs(output_path, exist_ok=True)
     type = args.type
 
-    npz_path = None
-    if type == 'rmf':
-        resolution = int(args.resolution)
-        print("Getting the bead coordinates from RMF files with following parameters")
-        print("Input: {}, Output: {}".format(args.input, output_base_path))
-        print("Resolution: {}, Subunit: {}".format(resolution, args.subunit))
-        npz_path = get_coordinates(args.input, output_base_path, output_path, resolution, args.subunit)
-        type = 'npz'
+    if not args.skip_input_generation:
+        npz_path = None
+        if type == 'rmf':
+            resolution = int(args.resolution)
+            print("Getting the bead coordinates from RMF files with following parameters")
+            print("Input: {}, Output: {}".format(args.input, output_base_path))
+            print("Resolution: {}, Subunit: {}".format(resolution, args.subunit))
+            npz_path = get_coordinates(args.input, output_base_path, output_path, resolution, args.subunit)
+            type = 'npz'
 
-    # Generate bead_wise distance.
-    if type == 'npz':
-        if not npz_path:
-            npz_path = args.input
-        print("Generating bead-wise distances")
-        generate_dist_vectors(npz_path, args.output_dir)
+        # Generate bead_wise distance.
+        if type == 'npz':
+            if not npz_path:
+                npz_path = args.input
+            print("Generating bead-wise distances")
+            beadwise_distances_path = generate_dist_vectors(npz_path, args.output_dir)
+    else:
+        beadwise_distances_path = args.input
 
     conf = OmegaConf.load(args.config)
     
     # Add input and output directory details
     # conf['dataset']={'input_dir':"",'output_dir':""}
-    conf['dataset']['input_dir'] = npz_path
+    conf['dataset']['input_dir'] = beadwise_distances_path
     conf['dataset']['output_dir'] = args.output_dir
     conf['use_gpu'] = True if args.gpu == 1 else False
 

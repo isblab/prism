@@ -17,8 +17,7 @@ def _get_number_of_beads(rmf_file, resolution, molecule):
     h = IMP.rmf.create_hierarchies(inf, m)[0]
     IMP.rmf.load_frame(inf, 0)
 
-    # s0 = IMP.atom.Selection(h, resolution=resolution, molecule=molecule)
-    s0 = IMP.atom.Selection(h, resolution=resolution)
+    s0 = IMP.atom.Selection(h, resolution=resolution, molecule=molecule)
 
     return (len(s0.get_selected_particles()))
 
@@ -89,7 +88,6 @@ def get_coordinates(path, output_base_path, output_path, resolution,
 
 
 if __name__ == '__main__':
-    warnings.warn("This module is deprected.")
     parser = argparse.ArgumentParser(description='Generate distance matrices')
     parser.add_argument('--input',
                         help="The path to rmf3 or files",
