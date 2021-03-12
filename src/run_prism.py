@@ -28,11 +28,11 @@ if __name__ == '__main__':
                         default="B",
                         required=False)
     parser.add_argument('--config',
-                        help="Config file containing the details to train",
+                        help="Config file containing details of training parameters",
                         default='test_config.yml')
     parser.add_argument('--gpu',
                         help="Set to 1, to use GPU.",
-                        default=0)
+                        type=int,default=0)
     args = parser.parse_args()
 
     # Get model coordinates.
@@ -64,5 +64,6 @@ if __name__ == '__main__':
     conf['dataset']['input_dir'] = npz_path
     conf['dataset']['output_dir'] = args.output_dir
     conf['use_gpu'] = True if args.gpu == 1 else False
+
     print("Starting training")
     start_training(conf)
