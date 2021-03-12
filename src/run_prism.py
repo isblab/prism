@@ -25,7 +25,7 @@ if __name__ == '__main__':
                         required=False)
     parser.add_argument('--subunit',
                         help="Subunit for which precision is to be calculated",
-                        default="B",
+                        default="all",
                         required=False)
     parser.add_argument('--config',
                         help="Config file containing details of training parameters",
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     npz_path = None
     if type == 'rmf':
         resolution = int(args.resolution)
-        print("Getting the bead coordinates from NPZ files with following parameters")
+        print("Getting the bead coordinates from RMF files with following parameters")
         print("Input: {}, Output: {}".format(args.input, output_base_path))
         print("Resolution: {}, Subunit: {}".format(resolution, args.subunit))
         npz_path = get_coordinates(args.input, output_base_path, output_path, resolution, args.subunit)
