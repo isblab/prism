@@ -11,20 +11,20 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train PrISM on given ensemble of integrative structure models.')
 
     parser.add_argument('--input',
-                        help="The path to input files or folder in case of rmf3",
+                        help="The path to input files",
                         required=True)
     parser.add_argument('--output_dir',
-                        help="Path to save the model_cooridnate files",
+                        help="Path to save the model_coordinate files",
                         required=True)
     parser.add_argument('--type',
-                        default='rmf',
+                        default='npz',
                         help="rmf, pdb or npz input.")
     parser.add_argument('--resolution',
                         help="The resolution to sample the beads",
                         default=1,
                         required=False)
-    parser.add_argument('--molecule',
-                        help="Molecule that needs to be sampled",
+    parser.add_argument('--subunit',
+                        help="Subunit for which precision is to be calculated",
                         default="B",
                         required=False)
     parser.add_argument('--config',
@@ -44,10 +44,10 @@ if __name__ == '__main__':
     npz_path = None
     if type == 'rmf':
         resolution = int(args.resolution)
-        print("Getting the cooridnates from NPZ files with following parameters")
+        print("Getting the bead coordinates from NPZ files with following parameters")
         print("Input: {}, Output: {}".format(args.input, output_base_path))
-        print("Resolution: {}, Molecule: {}".format(resolution, args.molecule))
-        npz_path = get_coordinates(args.input, output_base_path, output_path, resolution, args.molecule)
+        print("Resolution: {}, Subunit: {}".format(resolution, args.subunit))
+        npz_path = get_coordinates(args.input, output_base_path, output_path, resolution, args.subunit)
         type = 'npz'
 
     # Generate bead_wise distance.
