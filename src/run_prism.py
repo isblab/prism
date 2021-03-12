@@ -10,11 +10,11 @@ from train import start_training
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train PrISM on given ensemble of integrative structure models.')
 
-    parser.add_argument('--input',
-                        help="The path to input files",
+    parser.add_argument('--input_dir',
+                        help="The path to the input files",
                         required=True)
     parser.add_argument('--output_dir',
-                        help="Path to save the model_coordinate files",
+                        help="Path to save the intermediate and final output files",
                         required=True)
     parser.add_argument('--type',
                         default='npz',
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     if type == 'rmf':
         resolution = int(args.resolution)
         print("Getting the bead coordinates from NPZ files with following parameters")
-        print("Input: {}, Output: {}".format(args.input, output_base_path))
+        print("Input: {}, Output: {}".format(args.input_dir, output_base_path))
         print("Resolution: {}, Subunit: {}".format(resolution, args.subunit))
         npz_path = get_coordinates(args.input, output_base_path, output_path, resolution, args.subunit)
         type = 'npz'
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     # Generate bead_wise distance.
     if type == 'npz':
         if not npz_path:
-            npz_path = args.input
+            npz_path = args.input_dir
         print("Generating bead-wise distances")
         generate_dist_vectors(npz_path, args.output_dir)
 
