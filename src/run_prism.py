@@ -24,14 +24,14 @@ if __name__ == '__main__':
                         default=1,
                         required=False)
     parser.add_argument('--subunit',
-                        help="Subunit for which precision is to be calculated",
-                        default="all",
+                        help="Subunit (protein) for which precision is to be calculated (applicable only on rmf or pdb input types). Only one subunit can be specified. By default precision is calculated on all subunits.",
+                        default=None,
                         required=False)
     parser.add_argument('--config',
                         help="Config file containing details of training parameters",
                         default='test_config.yml')
     parser.add_argument('--skip_input_generation',
-                        help="If the input has already been generated and you would like to train with different paramters set this flag to 1",
+                        help="If the input has already been generated and you would like to train with different hyperparamters set this flag to 1",
                         default=0)
     parser.add_argument('--gpu',
                         help="Set to 1, to use GPU.",
@@ -50,7 +50,7 @@ if __name__ == '__main__':
             resolution = int(args.resolution)
             print("Getting the bead coordinates from RMF files with following parameters")
             print("Input: {}, Output: {}".format(args.input, output_base_path))
-            print("Resolution: {}, Subunit: {}".format(resolution, args.subunit))
+            print("Resolution: {}, Selected subunit (if 'None', by default all subunits are selected): {}".format(resolution, args.subunit))
             npz_path = get_coordinates(args.input, output_base_path, output_path, resolution, args.subunit)
             type = 'npz'
 
@@ -64,9 +64,8 @@ if __name__ == '__main__':
         beadwise_distances_path = args.input
 
     conf = OmegaConf.load(args.config)
-    
+
     # Add input and output directory details
-    # conf['dataset']={'input_dir':"",'output_dir':""}
     conf['dataset']['input_dir'] = beadwise_distances_path
     conf['dataset']['output_dir'] = args.output_dir
     conf['use_gpu'] = True if args.gpu == 1 else False
