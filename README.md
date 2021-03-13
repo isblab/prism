@@ -14,7 +14,7 @@ pip install -r install_requires.txt
 
 ## Running PriSM
 
-### Inputs
+### Input formats
 There are three ways to run PrISM, based on the inputs at hand.
 
 1. `NPZ`: Runs PrISM directly on the output of the IMP analysis pipeline, after running `imp-sampcon`, the module to test sampling exhaustiveness and cluster sampled models generated using [IMP](http://integrativemodeling.org). For each output cluster, the superposed bead coordinates are stored in an `.npz` file (e.g., `cluster.0.superposed.npz` for cluster 0), which is passed as input to PriSM.  
@@ -42,30 +42,57 @@ batch_size: 64 # number of inputs trained at once, larger is better. This depend
 max_epochs: 50 # number of steps to train the network.
 ```
 
+### Run command
+
+Use `src/run_prism.py`to generate the precision for the given input. Use the `--help` option to generate descriptions of arguments.
+
 ### Run command examples
 
-Run PrISM like this, initially:
+#### Example 1. PrISM on NPZ file
+To run PrISM on an NPZ file, use the following type of command. Here, we assume you are in the `example/1AVX_sample_npz` directory:
 
 ```
-$IMP/build/setup_environment.sh python run_prism.py
+$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input 1AVX_all_models_coordinates.npz --output_dir output/ --type npz --config ../../src/test_config.yml --gpu 1
 ```
+(**test1**)
 
 Here `$IMP` is the path to local installation of IMP (if compiled from source). If IMP has been installed using a binary installer, the `$IMP/build/setup_environment.sh` argument may be skipped.
 
-To change params and run: One may choose to increase the size of the network if a large assembly is being modeled.
+This runs the training on the GPU on the given NPZ input file and generates an output `bead_precision.txt` file.
 
+To run the same command on the CPU instead, set the gpu flag to 0 (**test2**)
 
+#### Example 2.  PrISM on NPZ file with new hyperparameters
 
-To run on a selected subunit only:
+One can change the default size of the network or other learning parameters in the YAML file and rerun.
+But the expensive step of input generation need not be performed if PrISM has already been run once on the system. To skip input generation one can run as follows.
 
+```
+$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input 1AVX_all_models_coordinates.npz --skip_input_generation 1 --output_dir output/ --type npz --config ../../src/test_config.yml --gpu 1
+```
+(**test3**)
 
+#### Example 3. PrISM on RMF file
+Here's an example with an RMF file. Assumes you are in `example/1AVX_sample_rmf` directory.
 
+```
+$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/test_config.yml --gpu 1
+```
+(**test4**)
 
+#### Example 4. PrISM on RMF file and selected subunit
 
+Here's another example with RMF and assuming you want to calculate precision on a given subunit only (perhaps because the rest of the subunits were fixed during modeling).
+Here precision is calculated on the protein `B`.
 
-
+```
+$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/test_config.yml --gpu 1 --subunit B
+```
+(**test5**)
 
 ### Using the output
 The output precision values are stored in a text file ``.
 
 `color_precision.py`
+
+Visualize in Chimera. 
