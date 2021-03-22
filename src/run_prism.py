@@ -72,4 +72,4 @@ if __name__ == '__main__':
     conf['use_gpu'] = True if args.gpu == 1 else False
 
     print("Starting training")
-    start_training(conf)
+    start_training(conf, args.gpu)
