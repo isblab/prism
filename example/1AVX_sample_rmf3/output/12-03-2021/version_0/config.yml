@@ -1,0 +1,13 @@
+model_desc: Default PrISM hyperparameters established on benchmarks.
+model_params:
+  encoder_depth: 2
+  decoder_depth: 3
+  latent_dim: 64
+  input_size: 391
+lr: 0.001
+batch_size: 64
+max_epochs: 50
+dataset:
+  input_dir: output/all_models_coordinates.npz
+  output_dir: output/
+use_gpu: true
