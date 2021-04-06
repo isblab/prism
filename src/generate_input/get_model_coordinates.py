@@ -53,7 +53,7 @@ def get_coordinates(input_type, path, output_base_path, output_path, resolution,
         f.write('Number of Models: {} \n Number of bead in each model: {}'.format(num_models, num_beads))
 
     # for mod_id,str_file in tqdm(enumerate(sorted(glob.glob("%s/*.rmf3" % (path)),key=lambda x:int(x.split('/')[-1].split('.')[0])))):
-    def get_coordinates(mod_id, str_file):
+    def get_coordinates(input_type,mod_id, str_file):
         conform = np.empty([num_beads, 3])
         radii = None
         m = IMP.Model()
@@ -90,11 +90,11 @@ def get_coordinates(input_type, path, output_base_path, output_path, resolution,
         np.savez(os.path.join(output_path, "{}.npz".format(mod_id)), conform, radii)
         return conform, radii
 
-    path = glob.glob("%s/*.rmf3" % (path))
+    path = glob.glob("%s/*."+input_suffix % (path))
     sorted_paths = sorted(path, key=lambda x: int(x.split('/')[-1].split('.')[0]))
 
     Parallel(n_jobs=-1)(
-        delayed(get_coordinates)(mod_id, str_file) for mod_id, str_file in tqdm(enumerate(sorted_paths)))
+        delayed(get_coordinates)(input_type,mod_id, str_file) for mod_id, str_file in tqdm(enumerate(sorted_paths)))
 
     conform = np.empty([num_models, num_beads, 3])
     radii = np.empty([num_models])
