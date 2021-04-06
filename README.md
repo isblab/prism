@@ -12,7 +12,7 @@ or
 pip install -r install_requires.txt
 ```
 
-## Running PriSM
+## Running PrISM
 
 ### Input formats
 There are three ways to run PrISM, based on the inputs at hand.
@@ -89,10 +89,10 @@ $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --o
 
 #### Example 5. PrISM on PDB file 
 
-Here's an example with PDB files. Assumes you are in `example/1AVX_sample_pdb` directory. One can also specify the chain name/subunit as in the previous example.  
+Here's an example with PDB files. Assumes you are in `example/1AVX_sample_pdb` directory. By default all chains are selected. 
 
 ```
-$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input pdbs/ --output_dir output/ --type pdb --config ../../src/test_config.yml --gpu 1 --subunit B
+$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input pdbs/ --output_dir output/ --type pdb --config ../../src/test_config.yml --gpu 1 
 ```
  
 
@@ -117,10 +117,8 @@ The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visual
 #### Example 2. PDB input
 For e.g. in `example/1AVX_sample_pdb`, the input argument is changed to a PDB file.  
 
-The `-su` subunit option should be **identical** to what was passed in the previous step to `run_prism.py`.
-
 Note that we still visualize the output in an RMF file. This is because beads can be colored to show precision in RMFs. PDBs on the other hand do not store color information for residues, and one would need an additional Chimera script for coloring residues.  
 
 ```
-$IMP/build/setup_environment.sh python ../../src/color_precision.py -su B -pf bead_precision.txt -i cluster_center_model.pdb -o precision_colored_cluster_center_model.rmf3 
+$IMP/build/setup_environment.sh python ../../src/color_precision.py -pf bead_precision.txt -i cluster_center_model.pdb -o precision_colored_cluster_center_model.rmf3 
 ```
