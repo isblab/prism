@@ -28,7 +28,7 @@ Note that PrISM assumes that the models are structurally superposed and does not
 The PDB format is commonly used to store atomistic integrative models.
 
 ### Training Parameters
-Parameters for training the deep neural network are specified in the YAML file ([Sample test_config.yml](src/test_config.yaml)).
+Parameters for training the deep neural network are specified in the YAML file ( [Sample test_config.yml](src/test_config.yml) ).
 A brief description of each is provided in the comments below.
 
 ```
@@ -65,7 +65,7 @@ To run the same command on the CPU instead, set the gpu flag to 0 (**test2**)
 #### Example 2.  PrISM on NPZ file with new hyperparameters
 
 One can change the default size of the network or other learning parameters in the YAML file and rerun.
-But the expensive step of input generation need not be performed if PrISM has already been run once on the system. To skip input generation one can run as follows.
+But the expensive step of input pre-processing need not be performed if PrISM has already been run once on the system. To skip input generation one can run as follows.
 
 ```
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input 1AVX_all_models_coordinates.npz --skip_input_generation 1 --output_dir output/ --type npz --config ../../src/test_config.yml --gpu 1
@@ -83,12 +83,22 @@ $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --o
 #### Example 4. PrISM on RMF file and selected subunit
 
 Here's another example with RMF and assuming you want to calculate precision on a given subunit only (perhaps because the rest of the subunits were fixed during modeling).
-Here precision is calculated on the protein `B`.
+Here precision is calculated on the protein `B`. Note that only a single subunit can be specified at a time currently. 
 
 ```
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/test_config.yml --gpu 1 --subunit B
 ```
 (**test5**)
+
+#### Example 5. PrISM on PDB file 
+
+Here's the same example as the previous one with PDB files. Assumes you are in `example/1AVX_sample_pdb` directory. 
+
+```
+$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input pdbs/ --output_dir output/ --type pdb --config ../../src/test_config.yml --gpu 1 --subunit B
+```
+(**test6**)
+
 
 ### Using the output
 The output precision values are stored in a text file ``.
