@@ -80,7 +80,7 @@ $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --o
 
 Here's another example with RMF and assuming you want to calculate precision on a given subunit only (perhaps because the rest of the subunits were fixed during modeling), and at a given resolution (bead-size in terms of number of residues per bead). 
 
-Here precision is calculated on the protein `B` on 1-residue beads. Note that only one single subunit can be specified at a time currently. 
+Here precision is calculated on the protein `B` on `1-residue` beads. Note that only one single subunit can be specified at a time currently. 
 
 ```
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/test_config.yml --gpu 1 --subunit B --resolution 1 
@@ -89,7 +89,7 @@ $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --o
 
 #### Example 5. PrISM on PDB file 
 
-Here's an example with PDB files. Assumes you are in `example/1AVX_sample_pdb` directory. One can also specify the chain name/subunit here.  
+Here's an example with PDB files. Assumes you are in `example/1AVX_sample_pdb` directory. One can also specify the chain name/subunit as in the previous example.  
 
 ```
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input pdbs/ --output_dir output/ --type pdb --config ../../src/test_config.yml --gpu 1 --subunit B
@@ -99,22 +99,22 @@ $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input pdbs/ --o
 (**test6**)
 
 ### Using the output
-The output precision values are stored in a text file `bead_precision.txt` with precision per bead (for IMP RMF models) or per residue (for PDB models). The annotated precision can be visualized by coloring the beads of a representative model (e.g., the cluster center model) using the following command.  
+The output precision values are stored in a text file `bead_precision.txt` with precision per bead (for NPZ/RMF input) or per residue (for PDB input). The annotated precision can be visualized by coloring the beads of a representative model (e.g., the cluster center model) using the following command.  
 
-#### Example 1. NPZ / RMF format  
+#### Example 1. NPZ / RMF input  
 For e.g. in `example/1AVX_sample_npz` or `example/1AVX_sample_rmf3` the representative model is in RMF format and specified by the `-i` option below. 
 
 For `NPZ` input, the `-su` subunit option and `-r` resolution option below should be **identical** to what was passed in the sampling exhaustiveness script `exhaust.py`.
 For `RMF` input, the `-su` subunit option and `-r` resolution option below should be **identical** to what was passed in the previous step to `run_prism.py`.
 
-The `-o` option specifies the output precision colored RMF file. 
+The `-o` option specifies the name of the output precision colored RMF file. 
 
 ```
 $IMP/build/setup_environment.sh python ../../src/color_precision.py -su B -r 1 -pf bead_precision.txt -i cluster_center_model.rmf3 -o precision_colored_cluster_center_model.rmf3
 ```
 The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visualized in UCSF Chimera. 
 
-#### Example 2. PDB format
+#### Example 2. PDB input
 For e.g. in `example/1AVX_sample_pdb`, the input argument is changed to a PDB file.  
 
 The `-su` subunit option should be **identical** to what was passed in the previous step to `run_prism.py`.
