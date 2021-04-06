@@ -11,25 +11,44 @@ import argparse
 import warnings
 
 
-def _get_number_of_beads(rmf_file, resolution, molecule):
+def _get_number_of_beads(input_type,input_file, resolution, subunit):
     m = IMP.Model()
-    inf = RMF.open_rmf_file_read_only(rmf_file)
-    h = IMP.rmf.create_hierarchies(inf, m)[0]
-    IMP.rmf.load_frame(inf, 0)
 
-    s0 = IMP.atom.Selection(h, resolution=resolution, molecule=molecule)
+    if input_type =="rmf":
+        inf = RMF.open_rmf_file_read_only(input_file)
+        h = IMP.rmf.create_hierarchies(inf, m)[0]
+        IMP.rmf.load_frame(inf, 0)
+        m.update()
+
+        if subunit:
+            s0 = IMP.atom.Selection(h, resolution=args.resolution, molecule=subunit)
+
+        else:
+            s0 = IMP.atom.Selection(h, resolution=args.resolution)
+
+
+    elif input_type == "pdb":
+
+        h = IMP.atom.read_pdb(args.input, m, IMP.atom.CAlphaPDBSelector())
+
+        s0 = IMP.atom.Selection(h)
 
     return (len(s0.get_selected_particles()))
 
 
-# TODO
-# Get number of residues.
 
-def get_coordinates(path, output_base_path, output_path, resolution,
-                    molecule):  # path to directory containing RMF3 files
+def get_coordinates(input_type, path, output_base_path, output_path, resolution,
+                    subunit):  # path to directory containing RMF/PDB files
 
-    num_models = len(glob.glob("%s/*.rmf3" % (path)))
-    num_beads = _get_number_of_beads(glob.glob("%s/*.rmf3" % (path))[0], resolution, molecule=molecule)
+    if input_type=="rmf":
+        input_suffix = "rmf3"
+    elif input_type=="pdb":
+        input_suffix = "pdb"
+
+    num_models = len(glob.glob("%s/*." + input_suffix % (path)))
+
+    num_beads = _get_number_of_beads(input_type, glob.glob("%s/*."+input_suffix % (path))[0], resolution, subunit)
+
     with open(os.path.join(output_base_path, 'meta_info.txt'), 'w') as f:
         f.write('Number of Models: {} \n Number of bead in each model: {}'.format(num_models, num_beads))
 
@@ -39,17 +58,23 @@ def get_coordinates(path, output_base_path, output_path, resolution,
         radii = None
         m = IMP.Model()
 
-        # print str_file
-        # print(str_file, mod_id)
+        if input_type =="rmf":
+            inf = RMF.open_rmf_file_read_only(input_file)
+            h = IMP.rmf.create_hierarchies(inf, m)[0]
+            IMP.rmf.load_frame(inf, 0)
+            m.update()
 
-        inf = RMF.open_rmf_file_read_only(str_file)
-        h = IMP.rmf.create_hierarchies(inf, m)[0]
-        IMP.rmf.load_frame(inf, 0)
+            if subunit:
+                s0 = IMP.atom.Selection(h, resolution=args.resolution, molecule=subunit)
 
-        m.update()
+            else:
+                s0 = IMP.atom.Selection(h, resolution=args.resolution)
 
-        # s0 = IMP.atom.Selection(h, resolution=resolution, molecule=molecule)
-        s0 = IMP.atom.Selection(h, resolution=resolution)
+        elif input_type == "pdb":
+
+            h = IMP.atom.read_pdb(args.input, m, IMP.atom.CAlphaPDBSelector())
+
+            s0 = IMP.atom.Selection(h)
 
         for i, leaf in enumerate(s0.get_selected_particles()):
             # print leaf, make sure multiple beads are not present in multiscale systems
@@ -67,8 +92,7 @@ def get_coordinates(path, output_base_path, output_path, resolution,
 
     path = glob.glob("%s/*.rmf3" % (path))
     sorted_paths = sorted(path, key=lambda x: int(x.split('/')[-1].split('.')[0]))
-    # print(sorted_paths[449])
-    # sys.exit(0)
+
     Parallel(n_jobs=-1)(
         delayed(get_coordinates)(mod_id, str_file) for mod_id, str_file in tqdm(enumerate(sorted_paths)))
 

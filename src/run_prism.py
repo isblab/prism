@@ -51,8 +51,15 @@ if __name__ == '__main__':
             print("Getting the bead coordinates from RMF files with following parameters")
             print("Input: {}, Output: {}".format(args.input, output_base_path))
             print("Resolution: {}, Selected subunit (if 'None', by default all subunits are selected): {}".format(resolution, args.subunit))
-            npz_path = get_coordinates(args.input, output_base_path, output_path, resolution, args.subunit)
+            npz_path = get_coordinates(type, args.input, output_base_path, output_path, resolution, args.subunit)
             type = 'npz'
+
+        elif type == 'pdb':
+            print("Getting the CA  coordinates from PDB files with following parameters")
+            print("Input: {}, Output: {}".format(args.input, output_base_path))
+            npz_path = get_coordinates(type, args.input, output_base_path, output_path, resolution, args.subunit)
+            type = 'npz'
+
 
         # Generate bead_wise distance.
         if type == 'npz':
