@@ -97,12 +97,28 @@ Here's the same example as the previous one with PDB files. Assumes you are in `
 ```
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input pdbs/ --output_dir output/ --type pdb --config ../../src/test_config.yml --gpu 1 --subunit B
 ```
+Note that molecules in the PDB are converted to a bead representation with one residue per bead, with beads centered at the respective C-alpha coordinates. 
+
 (**test6**)
 
-
 ### Using the output
-The output precision values are stored in a text file ``.
+The output precision values are stored in a text file `bead_precision.txt` with precision per bead (for IMP RMF models) or per residue (for PDB models). The annotated precision can be visualized by coloring the beads of a representative model (e.g., the cluster center model) using the following command.  
 
-`color_precision.py`
+#### Example 1. RMF format
+For e.g. in `example/1AVX_sample_npz` or `example/1AVX_sample_rmf3` the representative model is in RMF format and specified by the `-i` option below. 
+Note that the `-su` subunit option and `-r` resolution option should be identical to what was passed in the sampling exhaustiveness script `exhaust.py` if the IMP pipeline was used prior to PrISM. 
+The `-o` option specifies the output precision colored RMF file. 
 
-Visualize in Chimera. 
+```
+$IMP/build/setup_environment.sh python ../../src/color_precision.py -su B -r 1 -pf bead_precision.txt -i cluster_center_model.rmf3 -o precision_colored_cluster_center_model.rmf3
+```
+The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visualized in UCSF Chimera. 
+
+#### Example 2. PDB format
+For PDB files, the input, output and type arguments are slightly changed as follows. Examples in `example/1AVX_sample_pdb`. 
+
+Note that the output is still visualized as an RMF file with residue-level beads. This is because beads can be colored to show precision in RMFs, however PDB format files do not store color information for residues, and one would need an additional Chimera script for coloring residues.  
+
+```
+$IMP/build/setup_environment.sh python ../../src/color_precision.py -su B -r 1 -pf bead_precision.txt -i cluster_center_model.pdb -o precision_colored_cluster_center_model.rmf3 
+```
