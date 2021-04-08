@@ -89,13 +89,12 @@ $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --o
 
 #### Example 5. PrISM on PDB file 
 
-Here's an example with PDB files. Assumes you are in `example/1AVX_sample_pdb` directory. By default all chains are selected. 
+Here's an example with PDB files. Assumes you are in `example/1AVX_sample_pdb` directory. By default all chains are selected and Calpha atoms are selected. 
 
 ```
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input pdbs/ --output_dir output/ --type pdb --config ../../src/test_config.yml --gpu 1 
 ```
  
-
 (**test6**)
 
 ### Using the output
@@ -115,10 +114,10 @@ $IMP/build/setup_environment.sh python ../../src/color_precision.py -su B -r 1 -
 The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visualized in UCSF Chimera. 
 
 #### Example 2. PDB input
-For e.g. in `example/1AVX_sample_pdb`, the input argument is changed to a PDB file.  
+For e.g. in `example/1AVX_sample_pdb`, the representative model is in PDB format.   
 
 Note that we still visualize the output in an RMF file. This is because beads can be colored to show precision in RMFs. PDBs on the other hand do not store color information for residues, and one would need an additional Chimera script for coloring residues.  
 
 ```
-$IMP/build/setup_environment.sh python ../../src/color_precision.py -pf bead_precision.txt -i cluster_center_model.pdb -o precision_colored_cluster_center_model.rmf3 
+$IMP/build/setup_environment.sh python ../../src/color_precision.py -pf bead_precision.txt -i representative_model.pdb -o precision_colored_representative_model.rmf3 
 ```
