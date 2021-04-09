@@ -21,10 +21,10 @@ def _get_number_of_beads(input_type,input_file, resolution, subunit):
         m.update()
 
         if subunit:
-            s0 = IMP.atom.Selection(h, resolution=args.resolution, molecule=subunit)
+            s0 = IMP.atom.Selection(h, resolution=resolution, molecule=subunit)
 
         else:
-            s0 = IMP.atom.Selection(h, resolution=args.resolution)
+            s0 = IMP.atom.Selection(h, resolution=resolution)
 
 
     elif input_type == "pdb":
@@ -45,9 +45,9 @@ def get_coordinates(input_type, path, output_base_path, output_path, resolution,
     elif input_type=="pdb":
         input_suffix = "pdb"
 
-    num_models = len(glob.glob("%s/*." + input_suffix % (path)))
+    num_models = len(glob.glob("{}/*.".format(path) + input_suffix))
 
-    num_beads = _get_number_of_beads(input_type, glob.glob("%s/*."+input_suffix % (path))[0], resolution, subunit)
+    num_beads = _get_number_of_beads(input_type, glob.glob("{}/*.".format(path)+input_suffix)[0], resolution, subunit)
 
     with open(os.path.join(output_base_path, 'meta_info.txt'), 'w') as f:
         f.write('Number of Models: {} \n Number of bead in each model: {}'.format(num_models, num_beads))
@@ -59,20 +59,20 @@ def get_coordinates(input_type, path, output_base_path, output_path, resolution,
         m = IMP.Model()
 
         if input_type =="rmf":
-            inf = RMF.open_rmf_file_read_only(input_file)
+            inf = RMF.open_rmf_file_read_only(str_file)
             h = IMP.rmf.create_hierarchies(inf, m)[0]
             IMP.rmf.load_frame(inf, 0)
             m.update()
 
             if subunit:
-                s0 = IMP.atom.Selection(h, resolution=args.resolution, molecule=subunit)
+                s0 = IMP.atom.Selection(h, resolution=resolution, molecule=subunit)
 
             else:
-                s0 = IMP.atom.Selection(h, resolution=args.resolution)
+                s0 = IMP.atom.Selection(h, resolution=resolution)
 
         elif input_type == "pdb":
 
-            h = IMP.atom.read_pdb(args.input, m, IMP.atom.CAlphaPDBSelector())
+            h = IMP.atom.read_pdb(str_file, m, IMP.atom.CAlphaPDBSelector())
 
             s0 = IMP.atom.Selection(h)
 
@@ -90,11 +90,11 @@ def get_coordinates(input_type, path, output_base_path, output_path, resolution,
         np.savez(os.path.join(output_path, "{}.npz".format(mod_id)), conform, radii)
         return conform, radii
 
-    path = glob.glob("%s/*."+input_suffix % (path))
+    path = glob.glob("{}/*.".format(path) + input_suffix)
     sorted_paths = sorted(path, key=lambda x: int(x.split('/')[-1].split('.')[0]))
 
     Parallel(n_jobs=-1)(
-        delayed(get_coordinates)(input_type,mod_id, str_file) for mod_id, str_file in tqdm(enumerate(sorted_paths)))
+        delayed(get_coordinates)(input_type, mod_id, str_file) for mod_id, str_file in tqdm(enumerate(sorted_paths)))
 
     conform = np.empty([num_models, num_beads, 3])
     radii = np.empty([num_models])

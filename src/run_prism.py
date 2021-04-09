@@ -44,7 +44,7 @@ if __name__ == '__main__':
     os.makedirs(output_path, exist_ok=True)
     type = args.type
 
-    if not args.skip_input_generation:
+    if args.skip_input_generation!=1:
         npz_path = None
         if type == 'rmf':
             resolution = int(args.resolution)
