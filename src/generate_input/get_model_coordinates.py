@@ -29,7 +29,7 @@ def _get_number_of_beads(input_type,input_file, resolution, subunit):
 
     elif input_type == "pdb":
 
-        h = IMP.atom.read_pdb(args.input, m, IMP.atom.CAlphaPDBSelector())
+        h = IMP.atom.read_pdb(input_file, m, IMP.atom.CAlphaPDBSelector())
 
         s0 = IMP.atom.Selection(h)
 

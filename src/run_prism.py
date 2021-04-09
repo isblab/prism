@@ -55,6 +55,7 @@ if __name__ == '__main__':
             type = 'npz'
 
         elif type == 'pdb':
+            resolution = int(args.resolution)
             print("Getting the CA  coordinates from PDB files with following parameters")
             print("Input: {}, Output: {}".format(args.input, output_base_path))
             npz_path = get_coordinates(type, args.input, output_base_path, output_path, resolution, args.subunit)
