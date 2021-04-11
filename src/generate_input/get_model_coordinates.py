@@ -91,18 +91,16 @@ def get_coordinates(input_type, path, output_base_path, output_path, resolution,
         return conform, radii
 
     path = glob.glob("{}/*.".format(path) + input_suffix)
-    sorted_paths = sorted(path, key=lambda x: int(x.split('/')[-1].split('.')[0]))
 
     Parallel(n_jobs=-1)(
-        delayed(get_coordinates)(input_type, mod_id, str_file) for mod_id, str_file in tqdm(enumerate(sorted_paths)))
+        delayed(get_coordinates)(input_type, mod_id, str_file) for mod_id, str_file in tqdm(enumerate(path)))
 
     conform = np.empty([num_models, num_beads, 3])
     radii = np.empty([num_models])
     # This step is an additional overhead because while using joblib, the same array cannot be manipulated.
     # Adding it as a separate step will have less time overhead as compared to running everything in a for-loop.
     output_models = glob.glob(output_path + "/*")
-    sorted_paths = sorted(output_models, key=lambda x: int(x.split('/')[-1].split('.')[0]))
-    for index, model_path in enumerate(sorted_paths):
+    for index, model_path in enumerate(output_models):
         model = np.load(model_path)
         conform[index] = model['arr_0']
         radii[index] = model['arr_1']
