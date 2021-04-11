@@ -37,9 +37,7 @@ class ModelBuilder(pl.LightningModule):
             x = kwargs['x']
             recon_x = kwargs['recon_x']
             MSE = F.mse_loss(recon_x, x, reduction='sum')
-            loss = {'loss': MSE}
-
-            return loss
+            return MSE
 
         return mse
 
@@ -77,15 +75,13 @@ class ModelBuilder(pl.LightningModule):
         return optimizer
 
     def training_step(self, batch, batch_index):
-        data = batch
-        output = self.model.forward(data)
+        output = self.model.forward(batch)
         loss = self.loss(**output)
         self.log('train_loss', loss, on_step=True, prog_bar=True)
         return loss
 
     def validation_step(self, batch, batch_index):
-        data = batch
-        output = self.model.forward(data)
+        output = self.model.forward(batch)
         loss = self.loss(**output)
         self.log('val_loss', loss, on_step=True, prog_bar=True)
         return loss
@@ -102,12 +98,8 @@ class ModelBuilder(pl.LightningModule):
         self.log('train_loss', loss_dict.get('train_loss'), on_epoch=True, prog_bar=True)
 
     def validation_epoch_end(self, outputs):
-        keys = list(outputs[0].keys())
-        loss_dict = {}
-        for key in keys:
-            loss_dict.update({'val_' + key: torch.stack([x[key] for x in outputs]).mean()})
-
-        self.log('train_loss', loss_dict.get('val_loss'), on_epoch=True, prog_bar=True)
+        loss = torch.stack([x for x in outputs]).mean()
+        self.log('val_loss', loss, on_epoch=True, prog_bar=True)
 
     def on_fit_end(self):
         random_input = torch.ones((1, self.dataset.input_size)).double()

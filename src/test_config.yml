@@ -4,5 +4,5 @@ model_params:
   decoder_depth: 3
   latent_dim: 64
 lr: 1e-3
-batch_size: 64
+batch_size: 32
 max_epochs: 5
