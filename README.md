@@ -50,13 +50,12 @@ To run PrISM on an NPZ file, use the following type of command. Here, we assume 
 ```
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input 1AVX_all_models_coordinates.npz --output_dir output/ --type npz --config ../../src/test_config.yml --gpu 1
 ```
-(**test1**)
 
 Here `$IMP` is the path to local installation of IMP (if compiled from source). If IMP has been installed using a binary installer, the `$IMP/build/setup_environment.sh` argument may be skipped.
 
 This runs the training on the GPU on the given NPZ input file and generates an output `bead_precision.txt` file.
 
-To run the same command on the CPU instead, set the gpu flag to 0 (**test2**)
+To run the same command on the CPU instead, set the gpu flag to 0. 
 
 #### Example 2.  PrISM on NPZ file with new hyperparameters
 
@@ -66,7 +65,6 @@ But the expensive step of input pre-processing need not be performed if PrISM ha
 ```
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input 1AVX_all_models_coordinates.npz --skip_input_generation 1 --output_dir output/ --type npz --config ../../src/test_config.yml --gpu 1
 ```
-(**test3**)
 
 #### Example 3. PrISM on RMF file
 Here's an example with an RMF file. Assumes you are in `example/1AVX_sample_rmf` directory.
@@ -74,7 +72,6 @@ Here's an example with an RMF file. Assumes you are in `example/1AVX_sample_rmf`
 ```
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/test_config.yml --gpu 1
 ```
-(**test4**)
 
 #### Example 4. PrISM on RMF file and selected subunit and resolution. 
 
@@ -85,7 +82,6 @@ Here precision is calculated on the protein `B` on `1-residue` beads. Note that 
 ```
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/test_config.yml --gpu 1 --subunit B --resolution 1 
 ```
-(**test5**)
 
 #### Example 5. PrISM on PDB file 
 
@@ -94,8 +90,6 @@ Here's an example with PDB files. Assumes you are in `example/1AVX_sample_pdb` d
 ```
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input pdbs/ --output_dir output/ --type pdb --config ../../src/test_config.yml --gpu 1 
 ```
- 
-(**test6**)
 
 ### Using the output
 The output precision values are stored in a text file `bead_precision.txt` with precision per bead (for NPZ/RMF input) or per residue (for PDB input). The annotated precision can be visualized by coloring the beads of a representative model (e.g., the cluster center model) using the following command.  
