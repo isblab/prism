@@ -117,4 +117,4 @@ Note that we still visualize the output in an RMF file. This is because beads ca
 ```
 $IMP/build/setup_environment.sh python ../../src/color_precision.py -pf precision.txt -i representative_model.pdb -o precision_colored_representative_model.rmf3 
 ```
-The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visualized in UCSF Chimera. It has a flat hierarchy with each bead named in the format `PROTEIN:COPY NUMBER:RESIDUE`. It may be helpful to view this file along with the representative model simultaneously, or hide/select a set of beads from this hierarchy. 
+The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visualized in UCSF Chimera. It has a flat hierarchy with each bead named in the format `PROTEIN:RESIDUE`. It may be helpful to view this file along with the representative model simultaneously, or hide/select a set of beads from this hierarchy. 
