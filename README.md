@@ -94,7 +94,7 @@ $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input pdbs/ --o
 ```
 
 ### Using the output
-The output precision values are stored in a text file `bead_precision.txt` with precision per bead (for NPZ/RMF input) or per residue (for PDB input). The annotated precision can be visualized by coloring the beads of a representative model (e.g., the cluster center model) using the following command.  
+The output precision values are stored in a text file in the output directory called `precision.txt` with precision per bead (for NPZ/RMF input) or per residue (for PDB input). The annotated precision can be visualized by coloring the beads of a representative model (e.g., the cluster center model) using the following command.  
 
 #### Example 1. NPZ / RMF input  
 For e.g. in `example/1AVX_sample_npz` or `example/1AVX_sample_rmf3` the representative model is in RMF format and specified by the `-i` option below. 
@@ -105,7 +105,7 @@ For `RMF` input, the `-su` subunit option and `-r` resolution option below shoul
 The `-o` option specifies the name of the output precision colored RMF file. 
 
 ```
-$IMP/build/setup_environment.sh python ../../src/color_precision.py -su B -r 1 -pf bead_precision.txt -i cluster_center_model.rmf3 -o precision_colored_cluster_center_model.rmf3
+$IMP/build/setup_environment.sh python ../../src/color_precision.py -su B -r 1 -pf precision.txt -i cluster_center_model.rmf3 -o precision_colored_cluster_center_model.rmf3
 ```
 The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visualized in UCSF Chimera. 
 
@@ -115,5 +115,5 @@ For e.g. in `example/1AVX_sample_pdb`, the representative model is in PDB format
 Note that we still visualize the output in an RMF file. This is because beads can be colored to show precision in RMFs. PDBs on the other hand do not store color information for residues, and one would need an additional Chimera script for coloring residues.  
 
 ```
-$IMP/build/setup_environment.sh python ../../src/color_precision.py -pf bead_precision.txt -i representative_model.pdb -o precision_colored_representative_model.rmf3 
+$IMP/build/setup_environment.sh python ../../src/color_precision.py -pf precision.txt -i representative_model.pdb -o precision_colored_representative_model.rmf3 
 ```
