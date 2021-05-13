@@ -43,7 +43,7 @@ def start_training(config, gpu):
         logger=tt_logger,
         max_epochs=conf.max_epochs,
         num_sanity_val_steps=5,
-        # gpus=[gpu],
+        gpus=[gpu],
     )
     runner.fit(m)
     m.summarize()
