@@ -55,7 +55,7 @@ $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input 1AVX_all_
 
 Here `$IMP` is the path to local installation of IMP (if compiled from source). If IMP has been installed using a binary installer, the `$IMP/build/setup_environment.sh` argument may be skipped.
 
-This runs the training on the GPU on the given NPZ input file and generates an output `bead_precision.txt` file.
+This runs the training on the GPU on the given NPZ input file and generates an output `precision.txt` file.
 
 To run the same command on the CPU instead, set the gpu flag to 0. 
 
