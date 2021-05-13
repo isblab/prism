@@ -109,10 +109,14 @@ class ModelBuilder(pl.LightningModule):
             return (input_arr - np.min(input_arr)) / (np.max(input_arr) - np.min(input_arr))
 
         scaled_precision = min_max_scaler(beadwise_precision)
-        print("Saving model in path: {}".format(self.save_path))
+        print("Saving color_precision file in path: {}".format(self.color_precision_save_path))
 
         import os
         with open(os.path.join(self.save_path, "precision.txt"), 'w') as f:
+            for i in scaled_precision[0]:
+                f.write(str(i) + " \n")
+
+        with open(os.path.join(self.color_precision_save_path, "precision.txt"), 'w') as f:
             for i in scaled_precision[0]:
                 f.write(str(i) + " \n")
 

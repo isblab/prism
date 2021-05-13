@@ -37,6 +37,7 @@ def start_training(config, gpu):
         )
     )
     m.save_path = prism_save_path
+    m.color_precision_save_path = conf.dataset.output_dir
 
     runner = Trainer(
         default_root_dir=conf.dataset.output_dir,
