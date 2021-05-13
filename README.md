@@ -107,7 +107,7 @@ The `-o` option specifies the name of the output precision colored RMF file.
 ```
 $IMP/build/setup_environment.sh python ../../src/color_precision.py -su B -r 1 -pf precision.txt -i cluster_center_model.rmf3 -o precision_colored_cluster_center_model.rmf3
 ```
-The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visualized in UCSF Chimera. 
+The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visualized in UCSF Chimera. It has a flat hierarchy with each bead named in the format `PROTEIN:COPY NUMBER:START_RESIDUE-END_RESIDUE`. It may be helpful to view this file along with the representative model simultaneously, or hide/select a set of beads from this hierarchy. 
 
 #### Example 2. PDB input
 For e.g. in `example/1AVX_sample_pdb`, the representative model is in PDB format.   
@@ -117,3 +117,4 @@ Note that we still visualize the output in an RMF file. This is because beads ca
 ```
 $IMP/build/setup_environment.sh python ../../src/color_precision.py -pf precision.txt -i representative_model.pdb -o precision_colored_representative_model.rmf3 
 ```
+The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visualized in UCSF Chimera. It has a flat hierarchy with each bead named in the format `PROTEIN:COPY NUMBER:RESIDUE`. It may be helpful to view this file along with the representative model simultaneously, or hide/select a set of beads from this hierarchy. 
