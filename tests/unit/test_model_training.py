@@ -11,7 +11,7 @@ np.random.seed(3)
 @pytest.fixture(scope='session')
 def test_config():
     from omegaconf import OmegaConf
-    config = OmegaConf.load('../../src/test_config.yml')
+    config = OmegaConf.load('data/test_config.yml')
     return config
 
 
@@ -37,7 +37,6 @@ def test_generate_distance_vectors(input_npz_path, output_dir, request):
 
 
 def test_model_train(test_config, request):
-    test_config['max_epochs'] = 5
     test_config['dataset'] = {}
     test_config['dataset']['input_dir'] = request.config.cache.get("input_dir", None)
     test_config['dataset']['output_dir'] = request.config.cache.get("output_dir", None)
