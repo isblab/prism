@@ -11,7 +11,7 @@ np.random.seed(3)
 @pytest.fixture(scope='session')
 def test_config():
     from omegaconf import OmegaConf
-    config = OmegaConf.load('data/test_config.yml')
+    config = OmegaConf.load('tests/data/test_config.yml')
     return config
 
 
