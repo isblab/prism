@@ -4,6 +4,7 @@ import os
 import IMP
 import RMF
 import IMP.rmf
+import IMP.sampcon
 
 __doc__ = "Get an RMF where beads of the cluster representative model are colored \
 based on their precision as reported by PRISM."
@@ -19,12 +20,23 @@ def parse_args():
             help='annotate variation in precision over this subunit only', default=None)
     parser.add_argument('--resolution', '-r', dest="resolution", type=int,
             help='bead size (residues per bead) for annotating precision', default=1)
+    parser.add_argument(
+        '--selection', '-sn', dest="selection",
+        help='file containing dictionary'
+        'of selected subunits and residues'
+        'for RMSD and clustering calculation'
+        "each entry in the dictionary takes the form"
+        "'selection name': [(residue_start, residue_end, protein name)",
+        default=None)
     parser.add_argument('--precision_file','-pf',dest="precision_file",required=True,type=str,
             help='location of output from the autoencoder; one precision per line; required argument')
     parser.add_argument('--output', '-o', dest="output",
             help='precision-colored model in RMF format. Visualize using Chimera.', default="precision_colored_cluster_center_model.rmf3")
 
     return parser.parse_args()
+
+#Improvement This function is duplicated in IMP.sampcon.rmsd_calculation's get_rmfs_coordinates_one_rmf
+# Consider moving to 1 function
 
 def get_bead_name(p, input_type):
     ''' Input: particle
@@ -68,6 +80,9 @@ def main():
         print("Cluster representative file not found %s",args.input)
         exit(1)
 
+    if args.selection:
+        rmsd_custom_ranges = IMP.sampcon.precision_rmsd.parse_custom_ranges(args.selection)
+
     # create model and hierarchy for input file
     m = IMP.Model()
     if args.input.lower().endswith("rmf") or args.input.lower().endswith("rmf3"):
@@ -82,9 +97,14 @@ def main():
 
         m.update()
 
+        #Improvement Lines 101-110 are duplicated in IMP.sampcon.rmsd_calculation. Consider moving to common function
+
         # Select particles to color by precision
         if args.subunit:
             s0 = IMP.atom.Selection(h, resolution=args.resolution, molecule=args.subunit)
+
+        elif args.selection:
+            s0 = IMP.sampcon.rmsd_calculation.parse_rmsd_selection(h, selection)
 
         else:
             s0 = IMP.atom.Selection(h, resolution=args.resolution)
