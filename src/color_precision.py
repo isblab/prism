@@ -4,7 +4,8 @@ import os
 import IMP
 import RMF
 import IMP.rmf
-import IMP.sampcon
+import IMP.sampcon.precision_rmsd
+import IMP.sampcon.rmsd_calculation
 
 __doc__ = "Get an RMF where beads of the cluster representative model are colored \
 based on their precision as reported by PRISM."
