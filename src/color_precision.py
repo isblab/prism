@@ -7,6 +7,8 @@ import IMP.rmf
 import IMP.sampcon.precision_rmsd
 import IMP.sampcon.rmsd_calculation
 
+from .generate_input.get_model_coordinates import get_selected_particles
+
 __doc__ = "Get an RMF where beads of the cluster representative model are colored \
 based on their precision as reported by PRISM."
 
@@ -37,7 +39,7 @@ def parse_args():
     return parser.parse_args()
 
 #Improvement This function is duplicated in IMP.sampcon.rmsd_calculation's get_rmfs_coordinates_one_rmf
-# Consider moving to 1 function
+# Consider moving to common function
 
 def get_bead_name(p, input_type):
     ''' Input: particle
@@ -90,36 +92,15 @@ def main():
 
         input_type = "rmf"
 
-        rmf_fh = RMF.open_rmf_file_read_only(args.input)
-
-        # Build hierarchy from the RMF file
-        h = IMP.rmf.create_hierarchies(rmf_fh, m)[0]
-        IMP.rmf.load_frame(rmf_fh, 0)
-
-        m.update()
-
-        #Improvement Lines 101-110 are duplicated in IMP.sampcon.rmsd_calculation. Consider moving to common function
-
-        # Select particles to color by precision
-        if args.subunit:
-            s0 = IMP.atom.Selection(h, resolution=args.resolution, molecule=args.subunit)
-
-        elif args.selection:
-            s0 = IMP.sampcon.rmsd_calculation.parse_rmsd_selection(h, selection)
-
-        else:
-            s0 = IMP.atom.Selection(h, resolution=args.resolution)
-
     elif args.input.lower().endswith("pdb"):
+
         input_type = "pdb"
-
-        h = IMP.atom.read_pdb(args.input, m, IMP.atom.CAlphaPDBSelector())
-
-        s0 = IMP.atom.Selection(h)
 
     else:
         print("Input file is not in RMF or PDB format.")
         exit(1)
+
+    s0 = get_selected_particles(m,args.input,input_type,args.resolution,args.subunit,args.selection)
 
     particles = s0.get_selected_particles()
 

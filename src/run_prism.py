@@ -1,6 +1,8 @@
 import argparse
 import os
 
+import IMP.sampcon.precision_rmsd
+
 from omegaconf import OmegaConf
 
 from .generate_input.generate_distance_vectors import run as generate_dist_vectors
@@ -27,6 +29,14 @@ if __name__ == '__main__':
                         help="Subunit (protein) for which precision is to be calculated (applicable only on rmf or pdb input types). Only one subunit can be specified. By default precision is calculated on all subunits.",
                         default=None,
                         required=False)
+    parser.add_argument(
+        '--selection', '-sn', dest="selection",
+        help='file containing dictionary'
+        'of selected subunits and residues'
+        'for RMSD and clustering calculation'
+        "each entry in the dictionary takes the form"
+        "'selection name': [(residue_start, residue_end, protein name)]. See example.",
+        default=None)
     parser.add_argument('--config',
                         help="Config file containing details of training parameters",
                         default='test_config.yml')
@@ -46,20 +56,29 @@ if __name__ == '__main__':
 
     if args.skip_input_generation != 1:
         npz_path = None
+
+        if args.selection:
+            rmsd_custom_ranges = IMP.sampcon.precision_rmsd.parse_custom_ranges(args.selection)
+
+        else:
+            rmsd_custom_ranges = None
+
         if type == 'rmf':
             resolution = int(args.resolution)
+
             print("Getting the bead coordinates from RMF files with following parameters")
             print("Input: {}, Output: {}".format(args.input, output_base_path))
-            print("Resolution: {}, Selected subunit (if 'None', by default all subunits are selected): {}".format(
-                resolution, args.subunit))
-            npz_path = get_coordinates(type, args.input, output_base_path, output_path, resolution, args.subunit)
+            print("Resolution: {}, Selected single subunit: {}, Selected group of subunits: {} (if both selections are 'None', by default all subunits are selected).".format(
+                resolution, args.subunit, args.selection))
+
+            npz_path = get_coordinates(type, args.input, output_base_path, output_path, resolution, args.subunit,rmsd_custom_ranges)
             type = 'npz'
 
         elif type == 'pdb':
             resolution = int(args.resolution)
             print("Getting the CA  coordinates from PDB files with following parameters")
             print("Input: {}, Output: {}".format(args.input, output_base_path))
-            npz_path = get_coordinates(type, args.input, output_base_path, output_path, resolution, args.subunit)
+            npz_path = get_coordinates(type, args.input, output_base_path, output_path, resolution, args.subunit,rmsd_custom_ranges)
             type = 'npz'
 
         # Generate bead_wise distance.

@@ -5,16 +5,24 @@ from joblib import Parallel, delayed
 import IMP
 import IMP.atom
 import IMP.rmf
+
+import IMP.sampcon.precision_rmsd
+import IMP.sampcon.rmsd_calculation
+
 import RMF
 from tqdm import tqdm
 import argparse
 import warnings
 
+#Improvement This function is duplicated in IMP.sampcon.rmsd_calculation's get_rmfs_coordinates_one_rmf
+# Consider moving to common function
 
-def _get_number_of_beads(input_type,input_file, resolution, subunit):
-    m = IMP.Model()
+def get_selected_particles(m,input_file, input_type, resolution, subunit,selection):
+
+    s0 = None
 
     if input_type =="rmf":
+
         inf = RMF.open_rmf_file_read_only(input_file)
         h = IMP.rmf.create_hierarchies(inf, m)[0]
         IMP.rmf.load_frame(inf, 0)
@@ -23,9 +31,11 @@ def _get_number_of_beads(input_type,input_file, resolution, subunit):
         if subunit:
             s0 = IMP.atom.Selection(h, resolution=resolution, molecule=subunit)
 
-        else:
-            s0 = IMP.atom.Selection(h, resolution=resolution)
+        elif selection:
+            s0 = IMP.sampcon.rmsd_calculation.parse_rmsd_selection(h, selection)
 
+        else:
+            s0 = IMP.atom.Selection(h, resolution=args.resolution)
 
     elif input_type == "pdb":
 
@@ -33,12 +43,21 @@ def _get_number_of_beads(input_type,input_file, resolution, subunit):
 
         s0 = IMP.atom.Selection(h)
 
-    return (len(s0.get_selected_particles()))
+    return s0
 
 
+def _get_number_of_beads(input_type,input_file, resolution, subunit,selection):
+    m = IMP.Model()
 
-def get_coordinates(input_type, path, output_base_path, output_path, resolution,
-                    subunit):  # path to directory containing RMF/PDB files
+    s0 = get_selected_particles(m,input_file, input_type, resolution, subunit,selection)
+
+    if s0:
+        return (len(s0.get_selected_particles()))
+
+    return 0
+
+def get_coordinates(input_type, path, output_base_path, output_path, resolution=1,
+                    subunit=None,selection=None):  # path to directory containing RMF/PDB files
 
     if input_type=="rmf":
         input_suffix = "rmf3"
@@ -47,7 +66,9 @@ def get_coordinates(input_type, path, output_base_path, output_path, resolution,
 
     num_models = len(glob.glob("{}/*.".format(path) + input_suffix))
 
-    num_beads = _get_number_of_beads(input_type, glob.glob("{}/*.".format(path)+input_suffix)[0], resolution, subunit)
+    m_b = IMP.Model()
+
+    num_beads = _get_number_of_beads(m_b,glob.glob("{}/*.".format(path)+input_suffix)[0],input_type, resolution, subunit,selection)
 
     with open(os.path.join(output_base_path, 'meta_info.txt'), 'w') as f:
         f.write('Number of Models: {} \n Number of bead in each model: {}'.format(num_models, num_beads))
@@ -58,23 +79,7 @@ def get_coordinates(input_type, path, output_base_path, output_path, resolution,
         radii = None
         m = IMP.Model()
 
-        if input_type =="rmf":
-            inf = RMF.open_rmf_file_read_only(str_file)
-            h = IMP.rmf.create_hierarchies(inf, m)[0]
-            IMP.rmf.load_frame(inf, 0)
-            m.update()
-
-            if subunit:
-                s0 = IMP.atom.Selection(h, resolution=resolution, molecule=subunit)
-
-            else:
-                s0 = IMP.atom.Selection(h, resolution=resolution)
-
-        elif input_type == "pdb":
-
-            h = IMP.atom.read_pdb(str_file, m, IMP.atom.CAlphaPDBSelector())
-
-            s0 = IMP.atom.Selection(h)
+        s0 = get_selected_particles(m,str_file,input_type,resolution,subunit, selection)
 
         for i, leaf in enumerate(s0.get_selected_particles()):
             # print leaf, make sure multiple beads are not present in multiscale systems
