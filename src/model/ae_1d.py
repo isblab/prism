@@ -1,8 +1,8 @@
 import torch
 from torch import nn
 
-from .decoder_fc_layers import DecoderBacbone
-from .encoder_backbone import EncoderBackbone
+from decoder_fc_layers import DecoderBacbone
+from encoder_backbone import EncoderBackbone
 
 
 class AE1D(nn.Module):

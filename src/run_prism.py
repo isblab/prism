@@ -5,9 +5,9 @@ import IMP.sampcon.precision_rmsd
 
 from omegaconf import OmegaConf
 
-from .generate_input.generate_distance_vectors import run as generate_dist_vectors
-from .generate_input.get_model_coordinates import get_coordinates
-from .train import start_training
+from generate_input.generate_distance_vectors import run as generate_dist_vectors
+from generate_input.get_model_coordinates import get_coordinates
+from train import start_training
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train PrISM on given ensemble of integrative structure models.')
