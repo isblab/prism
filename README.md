@@ -145,7 +145,7 @@ $IMP/build/setup_environment.sh python ../../src/color_precision.py -pf precisio
 
 Note that we still visualize the output in an RMF file. This is because beads can be colored to show precision in RMFs. PDBs on the other hand do not store color information for residues, and one would need an additional Chimera script for coloring residues.  
 
-## Visualizing the precision-colored model
+### Visualizing the precision-colored model
 
 The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visualized in UCSF Chimera.
 
