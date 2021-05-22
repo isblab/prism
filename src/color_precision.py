@@ -100,7 +100,7 @@ def main():
         print("Input file is not in RMF or PDB format.")
         exit(1)
 
-    s0 = get_selected_particles(m,args.input,input_type,args.resolution,args.subunit,args.selection)
+    s0 = get_selected_particles(m,args.input,input_type,args.resolution,args.subunit,rmsd_custom_ranges)
 
     particles = s0.get_selected_particles()
 
@@ -146,7 +146,7 @@ def main():
         h_root.add_child(h_new)
 
         # Also, output bead name and precision to a text file so user can see the values
-        print(bead_name,precisions[i], file=precisions_out_file)
+        print(bead_name,"%.4f" % precisions[i], file=precisions_out_file)
 
     precisions_out_file.close()
 
@@ -156,7 +156,6 @@ def main():
     IMP.rmf.add_hierarchy(rmf_new,h_root)
     IMP.rmf.save_frame(rmf_new)
 
-    del rmf_fh
     del rmf_new
 
 if __name__ == '__main__':
