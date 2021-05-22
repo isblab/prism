@@ -126,13 +126,13 @@ The `-o` option specifies the name of the output precision-colored RMF file.
 For e.g. in `example/1AVX_npz` or `example/1AVX_rmf3`
 
 ```
-$IMP/build/setup_environment.sh python ../../src/color_precision.py -su B -r 1 -pf precision.txt -i cluster_center_model.rmf3 -o precision_colored_cluster_center_model.rmf3
+$IMP/build/setup_environment.sh python ../../src/color_precision.py -su B -r 1 -pf output/precision.txt -i cluster_center_model.rmf3 -o precision_colored_cluster_center_model.rmf3
 ```
 
 For e.g. in `example/rnapol_npz`
 
 ```
-$IMP/build/setup_environment.sh python ../../src/color_precision.py -sn selection.txt -r 1 -pf precision.txt -i cluster_center_model.rmf3 -o precision_colored_cluster_center_model.rmf3
+$IMP/build/setup_environment.sh python ../../src/color_precision.py -sn selection.txt -r 1 -pf output/precision.txt -i cluster_center_model.rmf3 -o precision_colored_cluster_center_model.rmf3
 ```
 (**test this**)
 
@@ -140,7 +140,7 @@ $IMP/build/setup_environment.sh python ../../src/color_precision.py -sn selectio
 For e.g. in `example/1AVX_pdb`   
 
 ```
-$IMP/build/setup_environment.sh python ../../src/color_precision.py -pf precision.txt -i representative_model.pdb -o precision_colored_representative_model.rmf3
+$IMP/build/setup_environment.sh python ../../src/color_precision.py -pf output/precision.txt -i representative_model.pdb -o precision_colored_representative_model.rmf3
 ```
 
 Note that we still visualize the output in an RMF file. This is because beads can be colored to show precision in RMFs. PDBs on the other hand do not store color information for residues, and one would need an additional Chimera script for coloring residues.  

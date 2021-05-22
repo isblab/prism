@@ -43,8 +43,9 @@ def get_selected_particles(m,input_file, input_type, resolution, subunit,selecti
 
         s0 = IMP.atom.Selection(h)
 
-    return s0
+    del inf
 
+    return s0
 
 def _get_number_of_beads(input_type,input_file, resolution, subunit,selection):
     m = IMP.Model()

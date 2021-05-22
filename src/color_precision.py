@@ -7,7 +7,7 @@ import IMP.rmf
 import IMP.sampcon.precision_rmsd
 import IMP.sampcon.rmsd_calculation
 
-from .generate_input.get_model_coordinates import get_selected_particles
+from generate_input.get_model_coordinates import get_selected_particles
 
 __doc__ = "Get an RMF where beads of the cluster representative model are colored \
 based on their precision as reported by PRISM."
