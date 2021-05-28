@@ -85,7 +85,8 @@ def main():
 
     if args.selection:
         rmsd_custom_ranges = IMP.sampcon.precision_rmsd.parse_custom_ranges(args.selection)
-
+    else:
+        rmsd_custom_ranges = None
     # create model and hierarchy for input file
     m = IMP.Model()
     if args.input.lower().endswith("rmf") or args.input.lower().endswith("rmf3"):
