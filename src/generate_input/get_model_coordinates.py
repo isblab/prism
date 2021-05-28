@@ -35,7 +35,7 @@ def get_selected_particles(m,input_file, input_type, resolution, subunit,selecti
             s0 = IMP.sampcon.rmsd_calculation.parse_rmsd_selection(h, selection)
 
         else:
-            s0 = IMP.atom.Selection(h, resolution=args.resolution)
+            s0 = IMP.atom.Selection(h, resolution=resolution)
 
     elif input_type == "pdb":
 
