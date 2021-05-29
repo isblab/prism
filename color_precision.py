@@ -153,13 +153,15 @@ def main():
 
         # Create a new particle
         start_res = bead_name.split(':')[2]
-        end_res = bead_name.split(':')[3]
 
-        if end_res ==start_res:
+        if len(bead_name.split(':')==4):
+            end_res = bead_name.split(':')[3]
+
+        if end_res ==start_res or len(bead_name.split(':')==3:
             particle_name = start_res
         else:
             particle_name = start_res+"-"+end_res
-            
+
         p_new = m_new.add_particle(particle_name)
 
         # Decorate it with the same XYZR (sphere) as original particle
