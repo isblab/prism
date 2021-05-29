@@ -125,12 +125,31 @@ def main():
     # Simultaneously output precisions with bead names to a text file for user to see
     precisions_out_file = open('bead_precisions.txt','w')
 
+    # default protein
+    prev_prot ="DUMMY.0"
+
+
     for i,leaf in enumerate(particles):
 
         #ASSUMPTION Assuming single state models for now
         # One can make this multi-state by adding state name in the bead name
 
         bead_name = get_bead_name(leaf,input_type)
+
+        ## see if we need to create a new protein
+        prot_base_name = bead_name.split(':')[0]
+        copy_number = bead_name.split(':')[1]
+        curr_prot = prot_base_name+"."+copy_number
+
+        if curr_prot != prev_prot:
+            # Create a new hierarchy particle for the protein
+            p_curr_prot = m_new.add_particle(curr_prot)
+
+            # Add to the new model's hierarchy
+            h_curr_prot = IMP.atom.Hierarchy.setup_particle(m_new,p_curr_prot)
+            h_root.add_child(h_curr_prot)
+
+            prev_prot = curr_prot
 
         # Create a new particle
         p_new = m_new.add_particle(bead_name)
@@ -144,7 +163,7 @@ def main():
 
         # Add particle to the new model's hierarchy
         h_new = IMP.atom.Hierarchy.setup_particle(m_new,p_new)
-        h_root.add_child(h_new)
+        h_curr_prot.add_child(h_new)
 
         # Also, output bead name and precision to a text file so user can see the values
         print(bead_name,"%.4f" % precisions[i], file=precisions_out_file)
