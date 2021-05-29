@@ -138,8 +138,24 @@ def main():
 
         ## see if we need to create a new protein
         prot_base_name = bead_name.split(':')[0]
-        copy_number = bead_name.split(':')[1]
-        curr_prot = prot_base_name+"."+copy_number
+
+        if input_type == "rmf":
+            copy_number = bead_name.split(':')[1]
+            curr_prot = prot_base_name+"."+copy_number
+
+            start_res = bead_name.split(':')[2]
+
+            end_res = bead_name.split(':')[3]
+
+            if start_res ==end_res:
+                res_range =start_res
+            else:
+                res_range = start_res+"-"+end_res
+
+        elif input_type =="pdb":
+            curr_prot = prot_base_name
+
+            res_range = bead_name.split(':')[1]
 
         if curr_prot != prev_prot:
             # Create a new hierarchy particle for the protein
@@ -151,18 +167,8 @@ def main():
 
             prev_prot = curr_prot
 
-        # Create a new particle
-        start_res = bead_name.split(':')[2]
-
-        if len(bead_name.split(':')==4):
-            end_res = bead_name.split(':')[3]
-
-        if end_res ==start_res or len(bead_name.split(':')==3:
-            particle_name = start_res
-        else:
-            particle_name = start_res+"-"+end_res
-
-        p_new = m_new.add_particle(particle_name)
+        # create new particle 
+        p_new = m_new.add_particle(res_range)
 
         # Decorate it with the same XYZR (sphere) as original particle
         xyzr_new = IMP.core.XYZR.setup_particle(m_new,p_new,IMP.core.XYZR(leaf).get_sphere())
