@@ -5,4 +5,4 @@ model_params:
   latent_dim: 64
 lr: 1e-3
 batch_size: 32
-max_epochs: 5
+max_epochs: 50
