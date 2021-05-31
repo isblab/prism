@@ -149,8 +149,6 @@ Note that we still visualize the output in an RMF file. This is because beads ca
 
 The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visualized in UCSF Chimera.
 
-The model has a flat hierarchy with each bead named in the format `PROTEIN:COPY NUMBER:START_RESIDUE-END_RESIDUE` (RMF) or `PROTEIN:RESIDUE` (PDB).
-
 1. It may be helpful to view this file along with the representative model simultaneously.
 2. One can hide/select a set of beads from this hierarchy using the RMF viewer.
 3. [rmfalias](https://www.cgl.ucsf.edu/chimera/docs/UsersGuide/midas/rmfalias.html) might be helpful for selecting/unselection sets of beads.
