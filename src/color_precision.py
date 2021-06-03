@@ -55,12 +55,12 @@ def get_bead_name(p, input_type):
         if IMP.atom.Fragment.get_is_setup(p):
             residues_in_bead = IMP.atom.Fragment(p).get_residue_indexes()
 
-            bead_name = mol_name+":"+str(copy_number)+":"+str(min(residues_in_bead))+"-"+str(max(residues_in_bead))
+            bead_name = mol_name+":"+str(copy_number)+":"+str(min(residues_in_bead))+":"+str(max(residues_in_bead))
 
         else:
             residue_in_bead = str(IMP.atom.Residue(p).get_index())
 
-            bead_name = mol_name+":"+str(copy_number)+":"+residue_in_bead+"-"+residue_in_bead
+            bead_name = mol_name+":"+str(copy_number)+":"+residue_in_bead+":"+residue_in_bead
 
         return bead_name
 
@@ -138,8 +138,24 @@ def main():
 
         ## see if we need to create a new protein
         prot_base_name = bead_name.split(':')[0]
-        copy_number = bead_name.split(':')[1]
-        curr_prot = prot_base_name+"."+copy_number
+
+        if input_type == "rmf":
+            copy_number = bead_name.split(':')[1]
+            curr_prot = prot_base_name+"."+copy_number
+
+            start_res = bead_name.split(':')[2]
+
+            end_res = bead_name.split(':')[3]
+
+            if start_res ==end_res:
+                res_range =start_res
+            else:
+                res_range = start_res+"-"+end_res
+
+        elif input_type =="pdb":
+            curr_prot = prot_base_name
+
+            res_range = bead_name.split(':')[1]
 
         if curr_prot != prev_prot:
             # Create a new hierarchy particle for the protein
@@ -151,8 +167,8 @@ def main():
 
             prev_prot = curr_prot
 
-        # Create a new particle
-        p_new = m_new.add_particle(bead_name)
+        # create new particle
+        p_new = m_new.add_particle(res_range)
 
         # Decorate it with the same XYZR (sphere) as original particle
         xyzr_new = IMP.core.XYZR.setup_particle(m_new,p_new,IMP.core.XYZR(leaf).get_sphere())
