@@ -169,6 +169,9 @@ def main():
 
         # create new particle
         p_new = m_new.add_particle(res_range)
+        
+        # Decorate with arbitrary mass
+        m_new = IMP.atom.Mass.setup_particle(m_new,p_new,1.0)
 
         # Decorate it with the same XYZR (sphere) as original particle
         xyzr_new = IMP.core.XYZR.setup_particle(m_new,p_new,IMP.core.XYZR(leaf).get_sphere())
