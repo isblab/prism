@@ -101,7 +101,6 @@ More than one selected subunit can also be specified using the selection file as
 ```
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/test_config.yml --gpu 1 --selection selection.txt
 ```
-**test this**
 
 #### Example 5. PrISM on PDB file
 
@@ -134,7 +133,6 @@ For e.g. in `example/rnapol_npz`
 ```
 $IMP/build/setup_environment.sh python ../../src/color_precision.py -sn selection.txt -r 1 -pf output/precision.txt -i cluster_center_model.rmf3 -o precision_colored_cluster_center_model.rmf3
 ```
-(**test this**)
 
 ### Example 2. PDB input
 For e.g. in `example/1AVX_pdb`   
