@@ -47,7 +47,7 @@ def get_selected_particles(m,input_file, input_type, resolution, subunit,selecti
 
     return s0
 
-def _get_number_of_beads(input_type,input_file, resolution, subunit,selection):
+def _get_number_of_beads(input_file,input_type, resolution, subunit,selection):
     m = IMP.Model()
 
     s0 = get_selected_particles(m,input_file, input_type, resolution, subunit,selection)
@@ -70,6 +70,8 @@ def get_coordinates(input_type, path, output_base_path, output_path, resolution=
     m_b = IMP.Model()
 
     num_beads = _get_number_of_beads(glob.glob("{}/*.".format(path)+input_suffix)[0],input_type, resolution, subunit,selection)
+
+    print("number of beads",num_beads)
 
     with open(os.path.join(output_base_path, 'meta_info.txt'), 'w') as f:
         f.write('Number of Models: {} \n Number of bead in each model: {}'.format(num_models, num_beads))
