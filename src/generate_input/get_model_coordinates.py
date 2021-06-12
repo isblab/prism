@@ -69,7 +69,7 @@ def get_coordinates(input_type, path, output_base_path, output_path, resolution=
 
     m_b = IMP.Model()
 
-    num_beads = _get_number_of_beads(m_b,glob.glob("{}/*.".format(path)+input_suffix)[0],input_type, resolution, subunit,selection)
+    num_beads = _get_number_of_beads(glob.glob("{}/*.".format(path)+input_suffix)[0],input_type, resolution, subunit,selection)
 
     with open(os.path.join(output_base_path, 'meta_info.txt'), 'w') as f:
         f.write('Number of Models: {} \n Number of bead in each model: {}'.format(num_models, num_beads))
