@@ -154,3 +154,5 @@ The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visual
 ## Tips to improve the usability of PrISM output
 
 - In cases where an assembly has both fixed subunits and moving subunits, the superposition step in `sampcon` where each model is superposed to the cluster center produces a slight distortion (1-2 A) in the coordinates of the fixed subunit. Since PrISM is sensitive to small fluctuations in coordinates, this may result in a confusing PrISM output. To alleviate this, run `sampcon` and PrISM in the selection mode (`-sn` option), specifying only the moving subunits in the selection.  
+
+- Try to increase the number of decoder layers (`decoder_depth`) to improve the accuracy of precision annotation. 
