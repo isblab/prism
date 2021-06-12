@@ -37,7 +37,7 @@ There are three ways to run PrISM, based on the inputs at hand.
    Note that PrISM assumes that the models are structurally superposed and does not perform the superposition before calculating precision.
 
 ### Training Parameters
-Parameters for training the deep neural network are specified in the YAML file ( [Sample test_config.yml](src/test_config.yml) ).
+Parameters for training the deep neural network are specified in the YAML file ( [Sample config.yml](src/sample_config.yml) ).
 A brief description of each is provided in the comments below.
 
 ```
@@ -62,7 +62,7 @@ Use `src/run_prism.py`to generate the precision for the given input. Use the `--
 To run PrISM on an NPZ file, use the following type of command. Here, we assume you are in the `example/1AVX_npz` directory:
 
 ```
-$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input 1AVX_all_models_coordinates.npz --output_dir output/ --type npz --config ../../src/test_config.yml --gpu 1
+$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input 1AVX_all_models_coordinates.npz --output_dir output/ --type npz --config ../../src/sample_config.yml --gpu 1
 ```
 
 Here `$IMP` is the path to local installation of IMP (if compiled from source). If IMP has been installed using a binary installer, the `$IMP/build/setup_environment.sh` argument may be skipped.
@@ -77,14 +77,14 @@ One can change the default size of the network or other learning parameters in t
 But the expensive step of input pre-processing need not be performed if PrISM has already been run once on the system. To skip input generation one can run as follows.
 
 ```
-$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input 1AVX_all_models_coordinates.npz --skip_input_generation 1 --output_dir output/ --type npz --config ../../src/test_config.yml --gpu 1
+$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input 1AVX_all_models_coordinates.npz --skip_input_generation 1 --output_dir output/ --type npz --config ../../src/sample_config.yml --gpu 1
 ```
 
 ####  Example 3. PrISM on RMF file
 Here's an example with an RMF file. Assumes you are in `example/1AVX_rmf` directory.
 
 ```
-$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/test_config.yml --gpu 1
+$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/sample_config.yml --gpu 1
 ```
 
 #### Example 4. PrISM on RMF file and selected subunits
@@ -94,12 +94,12 @@ Here's another example with RMF and assuming you want to calculate precision on 
 Here precision is calculated on the protein `B` on `1-residue` beads.
 
 ```
-$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/test_config.yml --gpu 1 --subunit B --resolution 1
+$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/sample_config.yml --gpu 1 --subunit B --resolution 1
 ```
 
 More than one selected subunit can also be specified using the selection file as follows
 ```
-$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/test_config.yml --gpu 1 --selection selection.txt
+$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/sample_config.yml --gpu 1 --selection selection.txt
 ```
 
 #### Example 5. PrISM on PDB file
@@ -107,7 +107,7 @@ $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --o
 Here's an example with PDB files. Assumes you are in `example/1AVX_pdb` directory. By default all chains are selected and Calpha atoms are selected.
 
 ```
-$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input pdbs/ --output_dir output/ --type pdb --config ../../src/test_config.yml --gpu 1
+$IMP/build/setup_environment.sh python ../../src/run_prism.py  --input pdbs/ --output_dir output/ --type pdb --config ../../src/sample_config.yml --gpu 1
 ```
 
 ## Step 2. Getting the precision-colored model from PrISM
