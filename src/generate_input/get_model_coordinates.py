@@ -37,13 +37,13 @@ def get_selected_particles(m,input_file, input_type, resolution, subunit,selecti
         else:
             s0 = IMP.atom.Selection(h, resolution=resolution)
 
+        del inf
+
     elif input_type == "pdb":
 
         h = IMP.atom.read_pdb(input_file, m, IMP.atom.CAlphaPDBSelector())
 
         s0 = IMP.atom.Selection(h)
-
-    del inf
 
     return s0
 
