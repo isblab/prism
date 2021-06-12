@@ -97,7 +97,7 @@ Here precision is calculated on the protein `B` on `1-residue` beads.
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/sample_config.yml --gpu 1 --subunit B --resolution 1
 ```
 
-More than one selected subunit can also be specified using the selection file as follows
+More than one selected subunit can also be specified using the selection file (one protein per key in the dictionary) as follows
 ```
 $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input rmfs/ --output_dir output/ --type rmf --config ../../src/sample_config.yml --gpu 1 --selection selection.txt
 ```
