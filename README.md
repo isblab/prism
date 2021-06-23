@@ -3,6 +3,8 @@ PrISM is a package for visualizing regions of high and low precision in ensemble
 
 <img width="684" alt="Screenshot 2021-05-05 at 10 08 18 AM" src="https://user-images.githubusercontent.com/8314735/117098728-e8effa00-ad8c-11eb-8ed6-04485b2f9d36.png">
 
+**Manuscript** Find details of the method [here](https://www.biorxiv.org/content/10.1101/2021.06.22.449385v1).
+
 ## Installation
 PrISM requires [IMP](http://integrativemodeling.org) to be installed.
 Ensure that the `sampcon` module is also installed (if installing IMP from source: clone `sampcon` from [github](https://github.com/salilab/imp-sampcon/) into its module directory and recompile IMP).
@@ -153,6 +155,6 @@ The output RMF file, `precision_colored_cluster_center_model.rmf3` can be visual
 
 ## Tips to improve the usability of PrISM output
 
-- In cases where an assembly has both fixed subunits and moving subunits, the superposition step in `sampcon` where each model is superposed to the cluster center produces a slight distortion (1-2 A) in the coordinates of the fixed subunit. Since PrISM is sensitive to small fluctuations in coordinates, this may result in a confusing PrISM output. To alleviate this, run `sampcon` and PrISM in the selection mode (`-sn` option), specifying only the moving subunits in the selection.  
+- In cases where an assembly has both fixed subunits and moving subunits, the superposition of models in `sampcon` produces a slight distortion (1-2 Å) in the coordinates of the fixed subunit. Since PrISM is sensitive to small fluctuations in coordinates, this may result in a confusing PrISM output. To alleviate this, run `sampcon` and PrISM in the selection mode (`-sn` option), specifying only the moving subunits in the selection.  
 
 - Try to increase the number of decoder layers (`decoder_depth`) to improve the accuracy of precision annotation. 
