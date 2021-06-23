@@ -1,9 +1,9 @@
 # PrISM : Annotating Precision for Integrative Structure Models
 PrISM is a package for visualizing regions of high and low precision in ensembles of integrative models. It uses autoencoders, a class of deep-learning networks, to annotate bead-wise precision in a scalable and efficient manner for ensembles of large macromolecular assemblies.
 
-<img width="684" alt="Screenshot 2021-05-05 at 10 08 18 AM" src="https://user-images.githubusercontent.com/8314735/117098728-e8effa00-ad8c-11eb-8ed6-04485b2f9d36.png">
-
 **Manuscript** Find details of the method [here](https://www.biorxiv.org/content/10.1101/2021.06.22.449385v1).
+
+<img width="684" alt="Screenshot 2021-05-05 at 10 08 18 AM" src="https://user-images.githubusercontent.com/8314735/117098728-e8effa00-ad8c-11eb-8ed6-04485b2f9d36.png">
 
 ## Installation
 PrISM requires [IMP](http://integrativemodeling.org) to be installed.
