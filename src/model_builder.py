@@ -116,7 +116,7 @@ class ModelBuilder(pl.LightningModule):
             for i in scaled_precision[0]:
                 f.write(str(i) + " \n")
 
-        with open(os.path.join(self.color_precision_save_path, "precision.txt"), 'w') as f:
+        with open(os.path.join(self.color_precision_save_path, "inverse_precision.txt"), 'w') as f:
             for i in scaled_precision[0]:
                 f.write(str(i) + " \n")
 
