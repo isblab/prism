@@ -113,7 +113,7 @@ $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input pdbs/ --o
 ```
 
 ## Step 2. Getting the precision-colored model from PrISM
-The output precision values are stored in a text file in the output directory called `precision.txt` with precision per bead (for NPZ/RMF input) or per residue (for PDB input). The annotated precision can be visualized by coloring the beads of a representative model (e.g., the cluster center model) using the following command.  
+The previous `run_prism.py` command produces a file `precision.txt` in the output directory with precision per bead (for NPZ/RMF input) or per residue (for PDB input). The next command uses these annotated precision values to color the beads of a representative model (e.g., the cluster center model). Additionally, a `bead_precisions.txt` file is created with bead names and their corresponding precision values.  
 
 For `NPZ` input, the `-su`, `-r`, and `-sn` options should be **identical** to what was passed in the sampcon step `exhaust.py`.
 
@@ -121,7 +121,9 @@ For `RMF` input, the `-su`, `-r`, and `-sn` options should be **identical** to w
 
 The representative model is specified by the `-i` option.
 
-The `-o` option specifies the name of the output precision-colored RMF file.
+The `-o` option specifies the name of the output precision-colored RMF file. 
+
+
 
 ### Example 1. NPZ / RMF input  
 For e.g. in `example/1AVX_npz` or `example/1AVX_rmf3`
