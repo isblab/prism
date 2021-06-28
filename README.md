@@ -115,7 +115,7 @@ $IMP/build/setup_environment.sh python ../../src/run_prism.py  --input pdbs/ --o
 ## Step 2. Getting the precision-colored model from PrISM
 The previous `run_prism.py` command, on running successfully, produces a file `inverse_precision.txt` in the output directory with the inverse of the precision (also termed spread) per bead (for NPZ/RMF input) or per residue (for PDB input). 
 
-The next command uses these annotated precision values to color the beads of a representative model (e.g., the cluster center model). Additionally, a `bead_inverse_precision.txt` file is created with the bead names and their corresponding spreads. Spreads take values from 0 (high precision) to 1 (low precision).
+The next command uses these annotated precision values to color the beads of a representative model (e.g., the cluster center model). Additionally, a `bead_inverse_precisions.txt` file is created with the bead names and their corresponding spreads. Spreads take values from 0 (high precision) to 1 (low precision).
 
 For `NPZ` input, the `-su`, `-r`, and `-sn` options should be **identical** to what was passed in the sampcon step `exhaust.py`.
 
