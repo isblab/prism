@@ -131,7 +131,7 @@ The `-o` option specifies the name of the output precision-colored RMF file.
 For e.g. in `example/1AVX_npz` or `example/1AVX_rmf3`
 
 ```
-$IMP/build/setup_environment.sh python ../../src/color_precision.py -su B -r 1 -pf output/precision.txt -i cluster_center_model.rmf3 -o precision_colored_cluster_center_model.rmf3
+$IMP/build/setup_environment.sh python ../../src/color_precision.py -su B -r 1 -pf output/inverse_precision.txt -i cluster_center_model.rmf3 -o precision_colored_cluster_center_model.rmf3
 ```
 
 For e.g. in `example/rnapol_npz`
