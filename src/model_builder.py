@@ -112,7 +112,7 @@ class ModelBuilder(pl.LightningModule):
         print("Saving precision_file in path: {}".format(self.color_precision_save_path))
 
         import os
-        with open(os.path.join(self.save_path, "precision.txt"), 'w') as f:
+        with open(os.path.join(self.save_path, "inverse_precision.txt"), 'w') as f:
             for i in scaled_precision[0]:
                 f.write(str(i) + " \n")
 
