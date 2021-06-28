@@ -41,4 +41,4 @@ def test_model_train(test_config, request):
     test_config['dataset']['input_dir'] = request.config.cache.get("input_dir", None)
     test_config['dataset']['output_dir'] = request.config.cache.get("output_dir", None)
     start_training(test_config, None)
-    assert os.path.exists(os.path.join(test_config.dataset.output_dir, 'precision.txt'))
+    assert os.path.exists(os.path.join(test_config.dataset.output_dir, 'inverse_precision.txt'))
