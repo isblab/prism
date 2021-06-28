@@ -31,7 +31,7 @@ def parse_args():
         "each entry in the dictionary takes the form"
         "'selection name': [(residue_start, residue_end, protein name)",
         default=None)
-    parser.add_argument('--precision_file','-pf',dest="precision_file",required=True,type=str,
+    parser.add_argument('--inverse_precision_file','-pf',dest="precision_file",required=True,type=str,
             help='location of output from the autoencoder; one precision per line; required argument')
     parser.add_argument('--output', '-o', dest="output",
             help='precision-colored model in RMF format. Visualize using Chimera.', default="precision_colored_cluster_center_model.rmf3")
@@ -123,7 +123,7 @@ def main():
     h_root = IMP.atom.Hierarchy.setup_particle(m_new,p_root)
 
     # Simultaneously output precisions with bead names to a text file for user to see
-    precisions_out_file = open('bead_precisions.txt','w')
+    precisions_out_file = open('bead_inverse_precisions.txt','w')
 
     # default protein
     prev_prot ="DUMMY.0"
