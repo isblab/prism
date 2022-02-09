@@ -1,2 +1,0 @@
-Number of Models: 100 
- Number of bead in each model: 391
