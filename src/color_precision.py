@@ -115,7 +115,7 @@ def main():
     pf.close()
 
     if len(precisions)!=len(s0_particles):
-        print("Number of precision values: " + str(len(precisions)) + " is not equal to the number of selected particles " + str(len(particles)) +".Check that the same selection arguments (e.g. subunit/resolution) are used in the sampcon code that generated the superposed particles, and this code")
+        print("Number of precision values: " + str(len(precisions)) + " is not equal to the number of selected particles " + str(len(s0_particles)) +".Check that the same selection arguments (e.g. subunit/resolution) are used in the sampcon code that generated the superposed particles, and this code")
         exit(1)
     low_cols = [(1,0,0), (1,0.5, 0.5), (1,0.75,0.75)] #red 
     high_cols = [(0,0.39,0), ( 0.20,0.80,0.20), (0.56,0.93,0.56)] #green

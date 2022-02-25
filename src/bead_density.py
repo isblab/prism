@@ -11,13 +11,13 @@ class BeadDensity():
     self.grid = grid
   
   def extend_voxel(self, voxel_center):
-    kernel_d1 = _pad_self.grid(voxel_center, padding=self.padding)
-    kernel_d2 = _pad_self.grid(voxel_center, padding = -self.padding)
+    kernel_d1 = _pad_grid(voxel_center, padding=self.padding)
+    kernel_d2 = _pad_grid(voxel_center, padding = -self.padding)
     return kernel_d1, kernel_d2
   
   def construct_kernel(self, k1, k2):
     if (k1 == k2).all():
-      fixed_bead_kc = self.grid.index_to_coordinate(self.grid.get_closest_voxel(points[0]))
+      fixed_bead_kc = self.grid.index_to_coordinate(self.grid.get_closest_voxel(k1))
       k1, k2 = self.extend_voxel(fixed_bead_kc)
     else:
       k1,k2 = _pad_grid(k1,k2, padding = self.padding)
