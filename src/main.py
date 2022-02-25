@@ -14,7 +14,7 @@ def main_density_calc(i, grid, voxel_size, n_breaks):
   bead_density = BeadDensity(coords.shape[0], grid=grid, voxel_size=voxel_size)
   k1, k2 = _get_bounding_box(coords[:,i,:])
   bead_density.construct_kernel(k1,k2)
-  return bead_density.return_density_opt(coords[:,i,:], radius[i], mass[i], n_breaks=n_breaks)
+  return bead_density.return_density_opt(coords[:,i,:], radius[i], mass[i], n_breaks)
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser("PrISM")
