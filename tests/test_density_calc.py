@@ -44,12 +44,3 @@ def test_patch_calc(output_dir):
 	annot_df.sort_values(['Patch'], ascending=[True])
 	annot_df.to_csv(str(output_dir) + '/annotations.txt', index=None)
 	assert os.path.exists(os.path.join( str(output_dir), 'annotations.txt'))
-
-
-
-
-
-
-
-
-

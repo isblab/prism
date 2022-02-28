@@ -9,7 +9,6 @@ from patch_computer import calc_bead_spread, get_patches, annotate_patches
 from utils import _get_bounding_box
 import argparse
 
-
 def main_density_calc(i, grid, voxel_size, n_breaks):
   bead_density = BeadDensity(coords.shape[0], grid=grid, voxel_size=voxel_size)
   k1, k2 = _get_bounding_box(coords[:,i,:])

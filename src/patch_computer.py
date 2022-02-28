@@ -2,7 +2,6 @@ import numpy as np
 import itertools
 import jenkspy
 
-
 def calc_bead_spread(tup, grid):
   inds = tup[0]
   den = np.expand_dims(tup[1], axis=-1)
