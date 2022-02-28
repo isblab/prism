@@ -2,13 +2,12 @@ import os
 import pytest
 import numpy as np
 import sys
-sys.path.append('src/')
 
 def check_density_calc():
 	from src.sparse_grid import SparseGrid
 	from src.bead_density import BeadDensity
 	from src.utils import _get_bounding_box
-
+	sys.path = ['..'] + sys.path()
 	arr = np.load('tests/data/input.npz')
 	coords = arr['arr_0']
 	grid = SparseGrid(voxel_size=4)
