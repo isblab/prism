@@ -4,7 +4,7 @@ import numpy as np
 import sys
 
 def test_density_calc():
-	#sys.path.append('./src/')
+	sys.path.append('./src/')
 	from src.sparse_grid import SparseGrid
 	from src.bead_density import BeadDensity
 	from src.utils import _get_bounding_box
