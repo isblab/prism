@@ -13,7 +13,7 @@ It also requires a list of python packages that can be installed with the follow
 pip3 install --user -r requirements.txt
 or
 pip install -r requirements.txt
-'''
+```
 
 ## Running PrISM
 
