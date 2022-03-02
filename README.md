@@ -67,7 +67,7 @@ The output RMF file, `patch_colored_cluster_center_model.rmf3` can be visualized
 
 ## Tips to improve the usability of PrISM output
 
--Increase the voxel size if you are out of memory or if computation takes a lot of time. 
--Increase the 'n_breaks' parameter if memory consumption is high. However, this will increase the time. 
--Use selection mode in sampcon if there is a region fixed while sampling. This avoids having to calculate patches on the fixed region
--For multi-scale systems use the coarsest resolution in sampcon to speed up calculations
+- Increase the voxel size if you are out of memory or if computation takes a lot of time. 
+- Increase the 'n_breaks' parameter if memory consumption is high. However, this will increase the time. 
+- Use selection mode in sampcon if there is a region fixed while sampling. This avoids having to calculate patches on the fixed region
+- For multi-scale systems use the coarsest resolution in sampcon to speed up calculations
