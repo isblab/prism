@@ -38,6 +38,8 @@ The following command runs PrISM for given set of inputs and arguments:
 python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 4 --return_spread --classes 2 --cores 16 --models 1.0 -n_breaks 50
 ```
 
+Tips here 
+
 ## Step 2. Getting the precision-colored model from PrISM
 The previous `main.py` command, on running successfully, produces a file `annotations.txt` in the output directory. 
 
@@ -68,6 +70,6 @@ The output RMF file, `patch_colored_cluster_center_model.rmf3` can be visualized
 ## Tips to improve the usability of PrISM output
 
 - Increase the voxel size if you are out of memory or if computation takes a lot of time. 
-- Increase the 'n_breaks' parameter if memory consumption is high. However, this will increase the time. 
+- Increase the `n_breaks` parameter if memory consumption is high. However, this will increase the time. 
 - Use selection mode in sampcon if there is a region fixed while sampling. This avoids having to calculate patches on the fixed region
-- For multi-scale systems use the coarsest resolution in sampcon to speed up calculations
+- For multi-scale systems use the coarsest resolution (`-r`) in sampcon to speed up calculations
