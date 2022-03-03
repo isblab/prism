@@ -17,10 +17,10 @@ pip install -r requirements.txt
 
 ## Running PrISM
 
-## Step 1. Running the method
+## Step 1. Annotating the precision
 
 ### Inputs
-TODO 
+The input for PrISM is a set of structurally superposed integrative models for a particular protein complex. Specifically, it requires bead coordinates, mass, residue and bead names as single numpy array file. This can be obtained by using the `--prism` flag in [sampcon](https://github.com/salilab/imp-sampcon). 
 
 ### Outputs
 There are two outputs at the end of a successful run. The first, 'annotations.txt', provides bead-wise records of the bead name, type (high, low or medium precision), class, patch identity and bead spread value. This is used as the input to the color_precision.py script. The second type of files, 'low_prec.txt' and 'high_prec.txt' gives information about patch composition for low and high precision cases respectively.  
@@ -37,15 +37,38 @@ The following command runs PrISM for given set of inputs and arguments:
 ```
 python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 4 --return_spread --classes 2 --cores 16 --models 1.0 -n_breaks 50
 ```
+Here, the annotated patches are obtained for 2 classes each for both low and high precision. 
 
-Tips here 
+#### Example. PrISM on the GTUSC complex for 3 classes
+
+In the `example\Gtusc' directory, run the following to obtained annotated patches for 3 classes:
+
+```
+python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 4 --return_spread --classes 3 --cores 16 --models 1.0 -n_breaks 50
+```
+
+#### Example. PrISM on the TFIIH complex for voxel size=2
+
+The voxel size of the grid used to calulate densities can be changed by varying the `voxel_size` parameter. In the `example\Tfiih' directory, run the following:
+
+```
+python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 -n_breaks 50
+```
+
+#### Tips to improve the usability of PrISM output
+
+- Increase the `voxel_size` parameter if you are out of memory or if computation takes a lot of time. 
+- Increase the `n_breaks` parameter if memory consumption is high. However, this will increase the time taken. 
+- Decrease the fraction of models (`models`) parameter if computation is expensive. 
+- Use selection mode in sampcon if there is a region fixed while sampling. This avoids having to calculate patches on the fixed region
+- For multi-scale systems use the coarsest resolution (`-r`) in sampcon to speed up calculations
 
 ## Step 2. Getting the precision-colored model from PrISM
 The previous `main.py` command, on running successfully, produces a file `annotations.txt` in the output directory. 
 
 The next command uses information from this file to color the beads of a representative model (e.g., the cluster center model).
 
-For `NPZ` input, the `-su`, `-r`, and `-sn` options should be **identical** to what was passed in the sampcon step `exhaust.py`.
+For the `NPZ` input, the `-su`, `-r`, and `-sn` options should be **identical** to what was passed in the sampcon step `exhaust.py`.
 
 The representative model is specified by the `-i` option.
 
@@ -67,9 +90,4 @@ The output RMF file, `patch_colored_cluster_center_model.rmf3` can be visualized
 2. One can hide/select a set of beads from this hierarchy using the RMF viewer.
 3. [rmfalias](https://www.cgl.ucsf.edu/chimera/docs/UsersGuide/midas/rmfalias.html) might be helpful for selecting/unselection sets of beads.
 
-## Tips to improve the usability of PrISM output
 
-- Increase the voxel size if you are out of memory or if computation takes a lot of time. 
-- Increase the `n_breaks` parameter if memory consumption is high. However, this will increase the time. 
-- Use selection mode in sampcon if there is a region fixed while sampling. This avoids having to calculate patches on the fixed region
-- For multi-scale systems use the coarsest resolution (`-r`) in sampcon to speed up calculations
