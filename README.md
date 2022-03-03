@@ -1,7 +1,9 @@
 # PrISM : Annotating Precision for Integrative Structure Models
 PrISM is a package for visualizing regions of high and low precision in ensembles of integrative models. It annotates structural patches with similar levels of precision in a scalable and efficient manner for ensembles of large macromolecular assemblies.
 
-TODO: Display pic
+**Manuscript** Find details of the method here. 
+
+<img width="850" alt="Graphical-Abstract" src="https://user-images.githubusercontent.com/87467265/156516753-69d3c7ae-3fea-48e3-86a0-c72b1a3358d6.png">
 
 ## Installation
 PrISM requires [IMP](http://integrativemodeling.org) to be installed.
@@ -74,7 +76,7 @@ The representative model is specified by the `-i` option.
 
 The `-o` option specifies the name of the output patch-colored RMF file. 
 
-### Example. 
+#### Example. 
 For e.g. in `example/Actin`
 
 ```
