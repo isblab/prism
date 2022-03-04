@@ -3,7 +3,8 @@ PrISM is a package for visualizing regions of high and low precision in ensemble
 
 **Manuscript** Find details of the method here. 
 
-<img width="860" alt="Graphical-Abstract2" src="https://user-images.githubusercontent.com/87467265/156542172-36c43cb9-fe3a-4bf6-86ed-457aef6aaac8.png">
+<img width="848" alt="Graphical-Abstract3" src="https://user-images.githubusercontent.com/87467265/156757215-58ee64cd-5e2d-4e0f-ac9a-bc3d0c5d1043.png">
+
 
 ## Installation
 PrISM requires [IMP](http://integrativemodeling.org) to be installed.
