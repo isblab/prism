@@ -80,9 +80,21 @@ The `-o` option specifies the name of the output patch-colored RMF file.
 For e.g. in `example/Actin`
 
 ```
-$IMP/build/setup_environment.sh python ../../src/color_precision.py --resolution 30 --annotations_file output/annotations_cl2.txt --input actin_cluster_center_model.rmf3 --output actin_patch_colored_cluster_center_model.rmf3
+$IMP/build/setup_environment.sh python ../../src/color_precision.py --resolution 30 --annotations_file output/annotations_cl2.txt --input actin_cluster_center_model.rmf3 --output output/actin_patch_colored_cluster_center_model.rmf3
 ```
 Here `$IMP` is the path to local installation of IMP (if compiled from source). If IMP has been installed using a binary installer, the `$IMP/build/setup_environment.sh` argument may be skipped.
+
+Similary for the GTUSC complex, run the following from 'example/Gtusc'
+
+```
+$IMP/build/setup_environment.sh python ../../src/color_precision.py --resolution 10 --annotations_file output/annotations_cl3.txt --input gtusc_cluster_center_model.rmf3 --output output/gtusc_patch_colored_cluster_center_model.rmf3 -su Spc110
+```
+
+Finally, for TFIIH, run the following from 'example/Tfiih'
+
+```
+$IMP/build/setup_environment.sh python ../../src/color_precision.py --resolution 30 --annotations_file output/annotations_cl2.txt --input tfiih_cluster_center_model.rmf3 --output output/tfiih_patch_colored_cluster_center_model.rmf3
+```
 
 ### Visualizing the precision-colored model
 
