@@ -32,7 +32,7 @@ There are two outputs at the end of a successful run. The first, `annotations.tx
 Use `src/main.py`to generate the precision for the given input. Use the `--help` option to generate descriptions of arguments.
 
 #### Example. PrISM on the ACTIN complex
-Here, we assume you are in the `example/Actin` directory which contains the 'cluster.0.prism.npz' file as input to PrISM and a cluster representative model 'actin_cluster_center_model.rmf3' to visualize the results. 
+Here, we assume you are in the `example/Actin` directory which contains the `cluster.0.prism.npz` file as input to PrISM and a cluster representative model `actin_cluster_center_model.rmf3` to visualize the results. 
 
 The following command runs PrISM for given set of inputs and arguments:
 
