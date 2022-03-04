@@ -25,7 +25,7 @@ pip install -r requirements.txt
 The primary input for PrISM is a set of structurally superposed integrative models for a macromolecular assembly. Specifically, it requires bead coordinates, masses, radii, and bead names of the models as single numpy array file. This can be directly obtained for each cluster of models from the [integrative modeling analysis pipeline](https://github.com/salilab/imp-sampcon) by using the `--prism` flag in [sampcon](https://github.com/salilab/imp-sampcon). 
 
 ### Outputs
-There are two outputs at the end of a successful run. The first, `annotations.txt`, provides bead-wise records of the bead name, type (high, low or medium precision), class, patch identity and bead spread value. This is used as the input to the `color_precision.py` script. The second type of files, `low_prec*.txt` and `high_prec*.txt` gives bead composition for low and high precision patches respectively.  
+There are two outputs at the end of a successful run. The first, `annotations.txt`, provides bead-wise records of the bead name, type (high, low or medium precision), class, patch identity and bead spread value. This is used as the input to the `color_precision.py` script. The second type of files, `low_prec.txt` and `high_prec.txt` gives bead composition for low and high precision patches respectively.  
 
 ### Run command
 
