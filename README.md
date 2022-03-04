@@ -42,7 +42,7 @@ python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_s
 ```
 Here, the annotated patches are obtained for 2 classes each for both low and high precision. 
 
-#### Example. PrISM on the GTUSC complex for 3 classes
+#### Example. PrISM on the Spc110-GTuSC complex for 3 classes
 
 In the `example\Gtusc' directory, run the following to obtained annotated patches for 3 classes:
 
