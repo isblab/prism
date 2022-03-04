@@ -37,7 +37,7 @@ Here, we assume you are in the `example/Actin` directory which contains the `clu
 The following command runs PrISM for given set of inputs and arguments:
 
 ```
-python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 4 --return_spread --classes 2 --cores 16 --models 1.0 -n_breaks 50
+python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 4 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
 ```
 Here, the annotated patches are obtained for 2 classes each for both low and high precision. 
 
@@ -46,7 +46,7 @@ Here, the annotated patches are obtained for 2 classes each for both low and hig
 In the `example\Gtusc' directory, run the following to obtained annotated patches for 3 classes:
 
 ```
-python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 4 --return_spread --classes 3 --cores 16 --models 1.0 -n_breaks 50
+python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 4 --return_spread --classes 3 --cores 16 --models 1.0 --n_breaks 50
 ```
 
 #### Example. PrISM on the TFIIH complex for voxel size=2
@@ -54,7 +54,7 @@ python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_s
 The voxel size of the grid used to calulate densities can be changed by varying the `voxel_size` parameter. In the `example\Tfiih' directory, run the following:
 
 ```
-python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 -n_breaks 50
+python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
 ```
 
 #### Tips for running PrISM 
