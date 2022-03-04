@@ -1,0 +1,4 @@
+Level	Bead Indices	Bead Names
+1	67,68,6,7,12,53,86,54,55,90,59	actin_144_153_0,actin_154_163_0,geltrop_61_70_0,geltrop_71_80_0,geltrop_121_126_0,actin_5_14_0,actin_334_343_0,actin_15_24_0,actin_25_34_0,actin_374_375_0,actin_65_72_0
+1	77	actin_244_253_0
+2	3,4,9,10,11,12,46,56,57,58,60,61,62,63,64,66,69,70,71,73,74,76,78,79,82,83,85,87	geltrop_31_40_0,geltrop_41_50_0,geltrop_91_100_0,geltrop_101_110_0,geltrop_111_120_0,geltrop_121_126_0,geltrop_295_304_0,actin_35_44_0,actin_45_54_0,actin_55_64_0,actin_74_83_0,actin_84_93_0,actin_94_103_0,actin_104_113_0,actin_114_123_0,actin_134_143_0,actin_164_173_0,actin_174_183_0,actin_184_193_0,actin_204_213_0,actin_214_223_0,actin_234_243_0,actin_254_263_0,actin_264_273_0,actin_294_303_0,actin_304_313_0,actin_324_333_0,actin_344_353_0

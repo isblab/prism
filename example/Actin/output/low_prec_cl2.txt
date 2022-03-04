@@ -1,0 +1,8 @@
+Level	Bead Indices	Bead Names
+1	15,16,17,18,19,20,21	geltrop_129_129_0,geltrop_130_130_0,geltrop_131_131_0,geltrop_132_132_0,geltrop_133_133_0,geltrop_134_134_0,geltrop_135_135_0
+1	28,29	geltrop_142_142_0,geltrop_143_143_0
+1	33	geltrop_165_174_0
+1	49,50	actin_1_1_0,actin_2_2_0
+1	91	actin_73_73_0
+2	22,23,24,25,26,27	geltrop_136_136_0,geltrop_137_137_0,geltrop_138_138_0,geltrop_139_139_0,geltrop_140_140_0,geltrop_141_141_0
+2	49	actin_1_1_0
