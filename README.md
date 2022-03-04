@@ -19,13 +19,13 @@ pip install -r requirements.txt
 
 ## Running PrISM
 
-## Step 1. Annotating the precision
+## Step 1. Annotating precision
 
 ### Inputs
-The input for PrISM is a set of structurally superposed integrative models for a particular protein complex. Specifically, it requires bead coordinates, mass, residue and bead names as single numpy array file. This can be obtained by using the `--prism` flag in [sampcon](https://github.com/salilab/imp-sampcon). 
+The primary input for PrISM is a set of structurally superposed integrative models for a macromolecular assembly. Specifically, it requires bead coordinates, mass, residue, and bead names of the models as single numpy array file. This can be directly obtained for each cluster of models from the [integrative modeling analysis pipeline](https://github.com/salilab/imp-sampcon) by using the `--prism` flag in [sampcon](https://github.com/salilab/imp-sampcon). 
 
 ### Outputs
-There are two outputs at the end of a successful run. The first, 'annotations.txt', provides bead-wise records of the bead name, type (high, low or medium precision), class, patch identity and bead spread value. This is used as the input to the color_precision.py script. The second type of files, 'low_prec.txt' and 'high_prec.txt' gives information about patch composition for low and high precision cases respectively.  
+There are two outputs at the end of a successful run. The first, `annotations.txt`, provides bead-wise records of the bead name, type (high, low or medium precision), class, patch identity and bead spread value. This is used as the input to the `color_precision.py` script. The second type of files, `low_prec*.txt` and `high_prec*.txt` gives information about patch composition for low and high precision cases respectively.  
 
 ### Run command
 
@@ -57,20 +57,20 @@ The voxel size of the grid used to calulate densities can be changed by varying 
 python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 -n_breaks 50
 ```
 
-#### Tips to improve the usability of PrISM output
+#### Tips for running PrISM 
 
 - Increase the `voxel_size` parameter if you are out of memory or if computation takes a lot of time. 
 - Increase the `n_breaks` parameter if memory consumption is high. However, this will increase the time taken. 
-- Decrease the fraction of models (`models`) parameter if computation is expensive. 
-- Use selection mode in sampcon if there is a region fixed while sampling. This avoids having to calculate patches on the fixed region
-- For multi-scale systems use the coarsest resolution (`-r`) in sampcon to speed up calculations
+- Decrease the fraction of models (`models`) parameter if iterating through the input models is taking a long time. This selects a random fraction of models for precision calculation.
+- Use selection mode (`-sn`) in [sampcon](https://github.com/salilab/imp-sampcon) if some parts of the sustem were fixed during sampling. This avoids having to calculate patches on the fixed parts. 
+- For multi-scale systems use the coarsest resolution (`-r`) in [sampcon](https://github.com/salilab/imp-sampcon) to speed up precision calculation in PrISM. 
 
 ## Step 2. Getting the precision-colored model from PrISM
 The previous `main.py` command, on running successfully, produces a file `annotations.txt` in the output directory. 
 
 The next command uses information from this file to color the beads of a representative model (e.g., the cluster center model).
 
-For the `NPZ` input, the `-su`, `-r`, and `-sn` options should be **identical** to what was passed in the sampcon step `exhaust.py`.
+For the `NPZ` input, the `-su`, `-r`, and `-sn` options should be **identical** to what was passed in the [sampcon](https://github.com/salilab/imp-sampcon) step `exhaust.py`.
 
 The representative model is specified by the `-i` option.
 
