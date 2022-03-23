@@ -62,12 +62,11 @@ if __name__ == '__main__':
 			for bs in bead_spread:
 				fl.write(str(bs))
 				fl.write("\n")
-
+				
 	patches = get_patches(bead_spread, args.classes, coords, radius)
 	annotated_patches = annotate_patches(patches, args.classes, ps_names, coords.shape[1])
 	high_prec, low_prec = patches[:args.classes], patches[args.classes+1:]
 	print('Patch computing done')
-
 	annot_df = pd.DataFrame(np.array(annotated_patches), columns = ['Bead', 'Bead Name', 'Type', 'Class', 'Patch'])
 	annot_df['Patch'] = pd.to_numeric(annot_df["Patch"])
 	annot_df.sort_values(['Patch'], ascending=[True])
