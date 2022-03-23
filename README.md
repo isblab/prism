@@ -1,4 +1,6 @@
 # PrISM : Annotating Precision for Integrative Structure Models
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6241201.svg)](https://doi.org/10.5281/zenodo.6241201)
+
 PrISM is a package for visualizing regions of high and low precision in ensembles of integrative models. It annotates structural patches with similar levels of precision in a scalable and efficient manner for ensembles of large macromolecular assemblies.
 
 **Manuscript** Find details of the method here. 
