@@ -11,7 +11,7 @@ PrISM is a package for visualizing regions of high and low precision in ensemble
 
 ## Installation
 PrISM requires [IMP](http://integrativemodeling.org) to be installed.
-Ensure that the `sampcon` module is also installed (if installing IMP from source: clone `sampcon` from [github](https://github.com/salilab/imp-sampcon/) into its module directory and recompile IMP).
+Ensure that the analysis module [`sampcon`](https://github.com/salilab/imp-sampcon) is also installed (if installing IMP from source: clone `sampcon` from [github](https://github.com/salilab/imp-sampcon/) into its module directory and recompile IMP).
 
 It also requires a list of python packages that can be installed with the following types of commands:
 
