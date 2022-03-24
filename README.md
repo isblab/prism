@@ -3,8 +3,8 @@
 
 PrISM is a package for visualizing regions of high and low precision in ensembles of integrative models. It annotates structural patches with similar levels of precision in a scalable and efficient manner for ensembles of large macromolecular assemblies.
 
-**Manuscript** Find details of the method here. 
-
+## Manuscript
+Find details of the method [here].(https://www.biorxiv.org/content/10.1101/2021.06.22.449385v4) 
 
 <img width="905" alt="Graphical-Abstract4" src="https://user-images.githubusercontent.com/87467265/159347624-e59764d0-70ed-47cb-a1d2-6f9b821d9492.png">
 
