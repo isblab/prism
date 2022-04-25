@@ -1,13 +1,18 @@
 # PrISM : Annotating Precision for Integrative Structure Models
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6241201.svg)](https://doi.org/10.5281/zenodo.6241201)
+
 PrISM is a package for visualizing regions of high and low precision in ensembles of integrative models. It annotates structural patches with similar levels of precision in a scalable and efficient manner for ensembles of large macromolecular assemblies.
 
-**Manuscript** Find details of the method here. 
+## Manuscript
+Find details of the method [biorxiv](https://www.biorxiv.org/content/10.1101/2021.06.22.449385v4).
+Data used to reproduce the results in the paper is deposited at [zenodo](https://doi.org/10.5281/zenodo.6241201).
 
-<img width="860" alt="Graphical-Abstract2" src="https://user-images.githubusercontent.com/87467265/156542172-36c43cb9-fe3a-4bf6-86ed-457aef6aaac8.png">
+<img width="905" alt="Graphical-Abstract4" src="https://user-images.githubusercontent.com/87467265/159347624-e59764d0-70ed-47cb-a1d2-6f9b821d9492.png">
+
 
 ## Installation
 PrISM requires [IMP](http://integrativemodeling.org) to be installed.
-Ensure that the `sampcon` module is also installed (if installing IMP from source: clone `sampcon` from [github](https://github.com/salilab/imp-sampcon/) into its module directory and recompile IMP).
+Ensure that the analysis module [`sampcon`](https://github.com/salilab/imp-sampcon) is also installed (if installing IMP from source: clone `sampcon` from [github](https://github.com/salilab/imp-sampcon/) into its module directory and recompile IMP).
 
 It also requires a list of python packages that can be installed with the following types of commands:
 
@@ -25,7 +30,7 @@ pip install -r requirements.txt
 The primary input for PrISM is a set of structurally superposed integrative models for a macromolecular assembly. Specifically, it requires bead coordinates, masses, radii, and bead names of the models as single numpy array file. This can be directly obtained for each cluster of models from the [integrative modeling analysis pipeline](https://github.com/salilab/imp-sampcon) by using the `--prism` flag in [sampcon](https://github.com/salilab/imp-sampcon). 
 
 ### Outputs
-There are two outputs at the end of a successful run. The first, `annotations.txt`, provides bead-wise records of the bead name, type (high, low or medium precision), class, patch identity and bead spread value. This is used as the input to the `color_precision.py` script. The second type of files, `low_prec.txt` and `high_prec.txt` gives bead composition for low and high precision patches respectively.  
+There are two outputs at the end of a successful run. The first, `annotations_cl*.txt`, provides bead-wise records of the bead name, type (high, low or medium precision), class, patch identity and bead spread value. This is used as the input to the `color_precision.py` script. The second type of files, `low_prec.txt` and `high_prec.txt` gives bead composition for low and high precision patches respectively.  
 
 ### Run command
 
@@ -41,7 +46,7 @@ python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_s
 ```
 Here, the annotated patches are obtained for 2 classes each for both low and high precision. 
 
-#### Example. PrISM on the GTUSC complex for 3 classes
+#### Example. PrISM on the Spc110-GTuSC complex for 3 classes
 
 In the `example\Gtusc' directory, run the following to obtained annotated patches for 3 classes:
 
@@ -51,7 +56,7 @@ python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_s
 
 #### Example. PrISM on the TFIIH complex for voxel size=2
 
-The voxel size of the grid used to calulate densities can be changed by varying the `voxel_size` parameter. In the `example\Tfiih' directory, run the following:
+The voxel size of the grid used to calulate densities can be changed by varying the `voxel_size` parameter. In the `example\Tfiih` directory, run the following:
 
 ```
 python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
@@ -84,13 +89,13 @@ $IMP/build/setup_environment.sh python ../../src/color_precision.py --resolution
 ```
 Here `$IMP` is the path to local installation of IMP (if compiled from source). If IMP has been installed using a binary installer, the `$IMP/build/setup_environment.sh` argument may be skipped.
 
-Similary for the GTUSC complex, run the following from 'example/Gtusc'
+Similary for the Gtusc complex, run the following from `example/Gtusc`
 
 ```
 $IMP/build/setup_environment.sh python ../../src/color_precision.py --resolution 10 --annotations_file output/annotations_cl3.txt --input gtusc_cluster_center_model.rmf3 --output output/gtusc_patch_colored_cluster_center_model.rmf3 -su Spc110
 ```
 
-Finally, for TFIIH, run the following from 'example/Tfiih'
+Finally, for TFIIH, run the following from `example/Tfiih`
 
 ```
 $IMP/build/setup_environment.sh python ../../src/color_precision.py --resolution 30 --annotations_file output/annotations_cl2.txt --input tfiih_cluster_center_model.rmf3 --output output/tfiih_patch_colored_cluster_center_model.rmf3
