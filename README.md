@@ -38,7 +38,7 @@ There are two outputs at the end of a successful run. The first, `annotations_cl
 
 Use `src/main.py`to generate the precision for the given input. Use the `--help` option to generate descriptions of arguments.
 
-#### Example. PrISM on the ACTIN complex
+#### Example. PrISM on the ACTIN complex (NPZ)
 Here, we assume you are in the `example/Actin` directory which contains the `cluster.0.prism.npz` file as input to PrISM and a cluster representative model `actin_cluster_center_model.rmf3` to visualize the results. 
 
 The following command runs PrISM for given set of inputs and arguments:
@@ -48,7 +48,7 @@ python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_s
 ```
 Here, the annotated patches are obtained for 2 classes each for both low and high precision. 
 
-#### Example. PrISM on the Spc110-GTuSC complex for 3 classes
+#### Example. PrISM on the Spc110-GTuSC complex for 3 classes (NPZ)
 
 In the `example\Gtusc' directory, run the following to obtained annotated patches for 3 classes:
 
@@ -56,13 +56,22 @@ In the `example\Gtusc' directory, run the following to obtained annotated patche
 python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 4 --return_spread --classes 3 --cores 16 --models 1.0 --n_breaks 50
 ```
 
-#### Example. PrISM on the TFIIH complex for voxel size=2
+#### Example. PrISM on the TFIIH complex for voxel size=2 (NPZ)
 
 The voxel size of the grid used to calulate densities can be changed by varying the `voxel_size` parameter. In the `example\Tfiih` directory, run the following:
 
 ```
 python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
 ```
+
+#### Example. PrISM on RMF files
+
+For RMF files, set the required parameters `resolution`, `subunit` and 'selection`. The input here would be the directory containing the RMF files. In the `example\rmfs' directory, run the following:
+
+```
+~/imp-clean/build/setup_environment.sh python ../../src/main.py  --input . --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 30
+```
+
 #### Example. PrISM on PDB files
 
 For PDB files, ensure that the `return_spread` flag is present. The input here would be the directory containing the PDB files. In the `example\pdbs' directory, run the following:
