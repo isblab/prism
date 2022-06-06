@@ -84,7 +84,7 @@ def get_attributes(str_file, input_type, resolution, subunit, selection):
     return mass, radii, bead_names
 
 
-def parse_all_rmfs(path, resolution=30, subunit=None, selection=None):
+def parse_all_rmfs(path, resolution, subunit, selection):
     files_path = glob.glob(os.path.join(path, "*.rmf3" ))
     with Pool(16) as p:
         coords = p.map(partial(get_coordinates, input_type="rmf", resolution=resolution, subunit=subunit, selection=selection), files_path)

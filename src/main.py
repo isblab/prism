@@ -46,6 +46,9 @@ if __name__ == '__main__':
 	parser.add_argument("--cores", "-co", help="Number of cores to use", default = 16, type=int)
 	parser.add_argument("--models", "-m", help="Percentage of total models to use", default = 1, type=float)
 	parser.add_argument("--n_breaks", "-n", help="Number of breaks to use for cDist calculation", default = 50, type=int)
+	parser.add_argument('--resolution',help="The resolution at which to sample the beads for rmf input", default=30, required=False)
+	parser.add_argument('--subunit', help="Subunit that needs to be sampled for rmf input", default=None, required=False)
+	parser.add_argument('--selection', help='File containing dictionary of selected subunits and residues for rmf input', default=None, required=False)
 	args = parser.parse_args()
 
 	if os.path.splitext(args.input)[-1] == '.npz':
@@ -60,7 +63,7 @@ if __name__ == '__main__':
 		if file_type == 'pdb':
 			coords, mass, radius, ps_names = parse_all_pdbs(args.input)
 		elif file_type == 'rmf3':
-			coords, mass, radius, ps_names = parse_all_rmfs(args.input)
+			coords, mass, radius, ps_names = parse_all_rmfs(args.input, args.resolution, args.subunit, args.selection)
 	models = round(args.models*coords.shape[0])
 	if args.models != 1:
 		selected_models = np.random.choice(coords.shape[0], models, replace=False)
