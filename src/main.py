@@ -7,6 +7,7 @@ from sparse_grid import SparseGrid
 from bead_density import BeadDensity
 from patch_computer import calc_bead_spread, get_patches, annotate_patches
 from pdb_parser import parse_all_pdbs
+from rmf_parser import parse_all_rmfs
 from utils import _get_bounding_box
 import argparse
 
@@ -19,9 +20,25 @@ def main_density_calc(i, coords, mass, radius, grid, voxel_size, n_breaks):
 def scale(v):
 	return (v - min(v)) / (max(v) - min(v))
 
+def get_file_type(input):
+	folder_walk = os.walk(input)
+	i = 2
+	ret=False
+	while ret == False:
+		file_in_folder = next(folder_walk)[i][0]
+		if os.path.splitext(file_in_folder)[-1] == '.pdb':
+			file_type = 'pdb'
+			ret=True
+		elif os.path.splitext(file_in_folder)[-1] == '.rmf3':
+			file_type = 'rmf3'
+			ret=True
+		i = i+1
+	return file_type
+
+
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser("PrISM")
-	parser.add_argument("--input", "-i", help="Npz file or folder containing pdb files", required=True, type=str)
+	parser.add_argument("--input", "-i", help="Npz file or folder containing pdb or rmf files", required=True, type=str)
 	parser.add_argument("--voxel_size", "-v", help="Voxel size for density calculations", default=4, type=int)
 	parser.add_argument("--return_spread", "-rs", help="Return the spread bead_spread", action='store_true', default = True)
 	parser.add_argument("--output", "-o", help="Output directory", required = True, type=str)
@@ -39,7 +56,11 @@ if __name__ == '__main__':
 		ps_names = arr['arr_3']
 		del arr
 	else:
-		coords, mass, radius, ps_names = parse_all_pdbs(args.input)
+		file_type = get_file_type(args.input)
+		if file_type == 'pdb':
+			coords, mass, radius, ps_names = parse_all_pdbs(args.input)
+		elif file_type == 'rmf3':
+			coords, mass, radius, ps_names = parse_all_rmfs(args.input)
 	models = round(args.models*coords.shape[0])
 	if args.models != 1:
 		selected_models = np.random.choice(coords.shape[0], models, replace=False)

@@ -28,10 +28,7 @@ class SparseGrid():
     z = round((point[2] - min_vox[2])/self.voxel_size)
     y = round((point[1] - min_vox[1])/self.voxel_size)
     x = round((point[0] - min_vox[0])/self.voxel_size)
-    if return_type == '1d':
-      return self.index_to_oneDindex(np.array([x,y,z]))
-    elif return_type == '3d':
-      return np.array([x,y,z])
+    return np.array([x,y,z])
   
   def get_grid_size(self):
     return np.cumprod(self.get_nvoxels())[-1]
