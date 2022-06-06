@@ -66,7 +66,7 @@ python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_s
 
 #### Example. PrISM on RMF files
 
-For RMF files, set the required parameters `resolution`, `subunit` and 'selection`. The input here would be the directory containing the RMF files. In the `example\rmfs' directory, run the following:
+For RMF files, set the required parameters `resolution`, `subunit` and `selection`. The input here would be the directory containing the RMF files. In the `example\rmfs' directory, run the following:
 
 ```
 ~/imp-clean/build/setup_environment.sh python ../../src/main.py  --input . --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 30
