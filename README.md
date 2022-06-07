@@ -27,8 +27,15 @@ pip install -r requirements.txt
 ## Step 1. Annotating precision
 
 ### Inputs
-The primary input for PrISM is a set of structurally superposed integrative models for a macromolecular assembly. Specifically, it requires bead coordinates, masses, radii, and bead names of the models as single numpy array file. This can be directly obtained for each cluster of models from the [integrative modeling analysis pipeline](https://github.com/salilab/imp-sampcon) by using the `--prism` flag in [sampcon](https://github.com/salilab/imp-sampcon).  
+The primary input for PrISM is a set of structurally superposed integrative models for a macromolecular assembly. This can be in any of the following formats below. See examples for usage of each type. 
 
+#### Type 1. Directly from integrative modeling analysis pipeline (NPZ)
+PrISM requires bead coordinates, masses, radii, and bead names of the models as single numpy array file. This can be directly obtained for each cluster of models from the [integrative modeling analysis pipeline](https://github.com/salilab/imp-sampcon) by using the `--prism` flag in [sampcon](https://github.com/salilab/imp-sampcon). This is the recommended way to obtain inputs for PrISM. 
+
+#### Type 2. Set of RMF3 files (RMF)
+One can also provide a folder containing superposed supports Protein Data Bank (.pdb) files of structurally superposed model ensembles. 
+
+#### Type 3. Set of PDB files (PDB)
 PrISM also supports Protein Data Bank (.pdb) files of structurally superposed model ensembles. 
 
 ### Outputs
@@ -38,7 +45,7 @@ There are two outputs at the end of a successful run. The first, `annotations_cl
 
 Use `src/main.py`to generate the precision for the given input. Use the `--help` option to generate descriptions of arguments.
 
-#### Example. PrISM on the ACTIN complex (NPZ)
+#### Example. PrISM on the ACTIN complex (NPZ input)
 Here, we assume you are in the `example/Actin` directory which contains the `cluster.0.prism.npz` file as input to PrISM and a cluster representative model `actin_cluster_center_model.rmf3` to visualize the results. 
 
 The following command runs PrISM for given set of inputs and arguments:
@@ -48,7 +55,7 @@ python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_s
 ```
 Here, the annotated patches are obtained for 2 classes each for both low and high precision. 
 
-#### Example. PrISM on the Spc110-GTuSC complex for 3 classes (NPZ)
+#### Example. PrISM on the Spc110-GTuSC complex for 3 classes (NPZ input)
 
 In the `example\Gtusc' directory, run the following to obtained annotated patches for 3 classes:
 
@@ -56,7 +63,7 @@ In the `example\Gtusc' directory, run the following to obtained annotated patche
 python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 4 --return_spread --classes 3 --cores 16 --models 1.0 --n_breaks 50
 ```
 
-#### Example. PrISM on the TFIIH complex for voxel size=2 (NPZ)
+#### Example. PrISM on the TFIIH complex for voxel size=2 (NPZ input)
 
 The voxel size of the grid used to calulate densities can be changed by varying the `voxel_size` parameter. In the `example\Tfiih` directory, run the following:
 
@@ -64,7 +71,7 @@ The voxel size of the grid used to calulate densities can be changed by varying 
 python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
 ```
 
-#### Example. PrISM on RMF files
+#### Example. PrISM on RMF files (RMF input)
 
 For RMF files, set the required parameters `resolution`, `subunit` and `selection`. The input here would be the directory containing the RMF files. In the `example\rmfs` directory, run the following:
 
@@ -72,7 +79,7 @@ For RMF files, set the required parameters `resolution`, `subunit` and `selectio
 ~/imp-clean/build/setup_environment.sh python ../../src/main.py  --input . --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 30
 ```
 
-#### Example. PrISM on PDB files
+#### Example. PrISM on PDB files (PDB input) 
 
 For PDB files, ensure that the `return_spread` flag is present. The input here would be the directory containing the PDB files. In the `example\pdbs' directory, run the following:
 
@@ -93,13 +100,13 @@ The previous `main.py` command, on running successfully, produces a file `annota
 
 The next command uses information from this file to color the beads of a representative model (e.g., the cluster center model).
 
-For the `NPZ` input, the `-su`, `-r`, and `-sn` options should be **identical** to what was passed in the [sampcon](https://github.com/salilab/imp-sampcon) step `exhaust.py`.
+For the `NPZ` and `RMF`  input, the `-su`, `-r`, and `-sn` options should be **identical** to what was passed in the [sampcon](https://github.com/salilab/imp-sampcon) step `exhaust.py`.
 
 The representative model is specified by the `-i` option.
 
 The `-o` option specifies the name of the output patch-colored RMF file. 
 
-#### Example. 
+#### Example. NPZ or RMF input 
 For e.g. in `example/Actin`
 
 ```
@@ -118,7 +125,7 @@ Finally, for TFIIH, run the following from `example/Tfiih`
 ```
 $IMP/build/setup_environment.sh python ../../src/color_precision.py --resolution 30 --annotations_file output/annotations_cl2.txt --input tfiih_cluster_center_model.rmf3 --output output/tfiih_patch_colored_cluster_center_model.rmf3
 ```
-#### Example. Coloring PDB files
+#### Example. PDB input 
 
 Use the `color_precision_pdb.py` script to color pdb structures using the bead_spread file generated by PrISM. For e.g in `example/pdbs`
 
