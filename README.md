@@ -33,7 +33,7 @@ The primary input for PrISM is a set of structurally superposed integrative mode
 PrISM requires bead coordinates, masses, radii, and bead names of the models as single numpy array file. This can be directly obtained for each cluster of models from the [integrative modeling analysis pipeline](https://github.com/salilab/imp-sampcon) by using the `--prism` flag in [sampcon](https://github.com/salilab/imp-sampcon). This is the recommended way to obtain inputs for PrISM. 
 
 #### Type 2. Set of RMF3 files (RMF)
-One can also provide a folder containing superposed supports Protein Data Bank (.pdb) files of structurally superposed model ensembles. 
+One can also provide a folder containing superposed models in RMF3 or RMF format. 
 
 #### Type 3. Set of PDB files (PDB)
 PrISM also supports Protein Data Bank (.pdb) files of structurally superposed model ensembles. 
