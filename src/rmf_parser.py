@@ -11,7 +11,7 @@ import argparse
 from multiprocessing import Pool
 
 
-def get_selected_particles(m,input_file, input_type, resolution=1, subunit=None,selection=None):
+def get_selected_particles(m,input_file, input_type, resolution, subunit=None,selection=None):
     s0 = None
     if input_type =="rmf":
         inf = RMF.open_rmf_file_read_only(input_file)
