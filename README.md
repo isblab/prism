@@ -73,7 +73,9 @@ python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_s
 
 #### Example. PrISM on RMF files (RMF input)
 
-For RMF files, set the required parameters `resolution`, `subunit` and `selection`. The input here would be the directory containing the RMF files. In the `example\rmfs` directory, run the following:
+For RMF files, the `input` here would be the directory containing the RMF files. Set the parameters `resolution` (coarse-grained bead-resolution in a multi-scale system; precision is annotated only one beads of a single resolution), `subunit` (if only a single subunit needs to be annotated) and `selection` (if parts of the system bigger than a subunit needs to be annotated). These options are similar to what was used in the integrative modeling analysis pipeline, and the selection defaults to beads from all subunits at `resolution=1` (one residue per bead). 
+
+In the `example\rmfs` directory, run the following:
 
 ```
 ~/imp-clean/build/setup_environment.sh python ../../src/main.py  --input . --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 30
@@ -100,7 +102,7 @@ The previous `main.py` command, on running successfully, produces a file `annota
 
 The next command uses information from this file to color the beads of a representative model (e.g., the cluster center model).
 
-For the `NPZ` and `RMF`  input, the `-su`, `-r`, and `-sn` options should be **identical** to what was passed in the [sampcon](https://github.com/salilab/imp-sampcon) step `exhaust.py`.
+For the `NPZ` and `RMF`  input, the `resolution`, `selection`, `subunit` options i.e. `-r`, `-sn`, and `-su` options should be **identical** to what was passed in the [sampcon](https://github.com/salilab/imp-sampcon) step `exhaust.py`.
 
 The representative model is specified by the `-i` option.
 
