@@ -57,7 +57,7 @@ Here, the annotated patches are obtained for 2 classes each for both low and hig
 
 #### Example. PrISM on the Spc110-GTuSC complex for 3 classes (NPZ input)
 
-In the `example\Gtusc' directory, run the following to obtained annotated patches for 3 classes:
+In the `example/Gtusc' directory, run the following to obtained annotated patches for 3 classes:
 
 ```
 python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 4 --return_spread --classes 3 --cores 16 --models 1.0 --n_breaks 50
@@ -65,7 +65,7 @@ python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_s
 
 #### Example. PrISM on the TFIIH complex for voxel size=2 (NPZ input)
 
-The voxel size of the grid used to calulate densities can be changed by varying the `voxel_size` parameter. In the `example\Tfiih` directory, run the following:
+The voxel size of the grid used to calulate densities can be changed by varying the `voxel_size` parameter. In the `example/Tfiih` directory, run the following:
 
 ```
 python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
@@ -73,9 +73,13 @@ python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_s
 
 #### Example. PrISM on RMF files (RMF input)
 
-For RMF files, the `input` here would be the directory containing the RMF files. Set the parameters `resolution` (coarse-grained bead-resolution in a multi-scale system; precision is annotated only one beads of a single resolution), `subunit` (if only a single subunit needs to be annotated) and `selection` (if parts of the system bigger than a subunit needs to be annotated). These options are similar to what was used in the integrative modeling analysis pipeline, and the selection defaults to beads from all subunits at `resolution=1` (one residue per bead). 
+For RMF files, the `input` would be the directory containing the RMF files. 
 
-In the `example\rmfs` directory, run the following:
+Set the parameters `resolution` (coarse-grained bead-resolution in a multi-scale system; precision is annotated only one beads of a single resolution), `subunit` (if only a single subunit needs to be annotated) and `selection` (if subsets of the system comprising of multiple subunits/domains need to be annotated). These options are similar to what was used in the integrative modeling analysis pipeline. 
+
+The selection defaults to `resolution=30` (30 residues per bead); all subunits are selected by default. 
+
+In the `example/rmfs` directory, run the following:
 
 ```
 ~/imp-clean/build/setup_environment.sh python ../../src/main.py  --input . --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 30
@@ -83,7 +87,7 @@ In the `example\rmfs` directory, run the following:
 
 #### Example. PrISM on PDB files (PDB input) 
 
-For PDB files, ensure that the `return_spread` flag is present. The input here would be the directory containing the PDB files. In the `example\pdbs' directory, run the following:
+For PDB files, ensure that the `return_spread` flag is present. The input here would be the directory containing the PDB files. In the `example/pdbs' directory, run the following:
 
 ```
 python ../../src/main.py  --input . --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
