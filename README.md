@@ -51,7 +51,7 @@ Here, we assume you are in the `example/Actin` directory which contains the `clu
 The following command runs PrISM for given set of inputs and arguments:
 
 ```
-python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 4 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
+python ../../src/main.py  --input cluster.0.prism.npz --input_type npz --output output/ --voxel_size 4 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
 ```
 Here, the annotated patches are obtained for 2 classes each for both low and high precision. 
 
@@ -60,7 +60,7 @@ Here, the annotated patches are obtained for 2 classes each for both low and hig
 In the `example/Gtusc' directory, run the following to obtained annotated patches for 3 classes:
 
 ```
-python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 4 --return_spread --classes 3 --cores 16 --models 1.0 --n_breaks 50
+python ../../src/main.py  --input cluster.0.prism.npz --input_type npz --output output/ --voxel_size 4 --return_spread --classes 3 --cores 16 --models 1.0 --n_breaks 50
 ```
 
 #### Example. PrISM on the TFIIH complex for voxel size=2 (NPZ input)
@@ -68,7 +68,7 @@ python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_s
 The voxel size of the grid used to calulate densities can be changed by varying the `voxel_size` parameter. In the `example/Tfiih` directory, run the following:
 
 ```
-python ../../src/main.py  --input cluster.0.prism.npz --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
+python ../../src/main.py  --input cluster.0.prism.npz --input_type npz --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
 ```
 
 #### Example. PrISM on RMF files (RMF input)
@@ -82,15 +82,23 @@ The selection defaults to `resolution=30` (30 residues per bead); all subunits a
 In the `example/rmfs` directory, run the following:
 
 ```
-~/imp-clean/build/setup_environment.sh python ../../src/main.py  --input . --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 30
+$IMP/build/setup_environment.sh python ../../src/main.py  --input . --input_type rmf --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 30
 ```
+Here `$IMP` is the path to local installation of IMP (if compiled from source). If IMP has been installed using a binary installer, the `$IMP/build/setup_environment.sh` argument may be skipped.
 
 #### Example. PrISM on PDB files (PDB input) 
 
 For PDB files, ensure that the `return_spread` flag is present. The input here would be the directory containing the PDB files. In the `example/pdbs' directory, run the following:
 
 ```
-python ../../src/main.py  --input . --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
+python ../../src/main.py  --input . --input_type pdb --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
+```
+#### Example. PrISM on binary DCD files (DCD input)
+
+First download the `cluster.0.dcd` file from the given [link](https://zenodo.org/record/3951752#.YrKxxXZBw2x) into the `example/dcd` folder. In the same folder, run the following:
+
+```
+$IMP/build/setup_environment.sh python ../../src/main.py  --input . --input_type dcd --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
 ```
 
 #### Tips for running PrISM 
@@ -98,7 +106,7 @@ python ../../src/main.py  --input . --output output/ --voxel_size 2 --return_spr
 - Increase the `voxel_size` parameter if you are out of memory or if computation takes a lot of time. 
 - Increase the `n_breaks` parameter if memory consumption is high. However, this will increase the time taken. 
 - Decrease the fraction of models (`models`) parameter if iterating through the input models is taking a long time. This selects a random fraction of models for precision calculation.
-- Use selection mode (`-sn`) in [sampcon](https://github.com/salilab/imp-sampcon) if some parts of the sustem were fixed during sampling. This avoids having to calculate patches on the fixed parts. 
+- Use selection mode (`-sn`) in [sampcon](https://github.com/salilab/imp-sampcon) if some parts of the system were fixed during sampling. This avoids having to calculate patches on the fixed parts. 
 - For multi-scale systems use the coarsest resolution (`-r`) in [sampcon](https://github.com/salilab/imp-sampcon) to speed up precision calculation in PrISM. 
 
 ## Step 2. Getting the precision-colored model from PrISM
