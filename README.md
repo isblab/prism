@@ -36,7 +36,10 @@ PrISM requires bead coordinates, masses, radii, and bead names of the models as 
 One can also provide a folder containing superposed models in RMF3 or RMF format. 
 
 #### Type 3. Set of PDB files (PDB)
-PrISM also supports Protein Data Bank (.pdb) files of structurally superposed model ensembles. 
+PrISM supports Protein Data Bank (.pdb) files of structurally superposed model ensembles. 
+
+#### Type 4. DCD input (DCD)
+PrISM can read binary DCD (.dcd) files for atomic coordinates. Here a RMF file would be required to read the mass, radius and particle name of every bead. 
 
 ### Outputs
 There are two outputs at the end of a successful run. The first, `annotations_cl*.txt`, provides bead-wise records of the bead name, type (high, low or medium precision), class, patch identity and bead spread value. This is used as the input to the `color_precision.py` script. The second type of files, `low_prec.txt` and `high_prec.txt` gives bead composition for low and high precision patches respectively. 
