@@ -7,7 +7,6 @@ from sparse_grid import SparseGrid
 from bead_density import BeadDensity
 from patch_computer import calc_bead_spread, get_patches, annotate_patches
 from pdb_parser import parse_all_pdbs
-from rmf_parser import parse_all_rmfs
 from utils import _get_bounding_box
 import argparse
 
@@ -38,7 +37,8 @@ def get_file_type(input):
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser("PrISM")
-	parser.add_argument("--input", "-i", help="Npz file or folder containing pdb or rmf files", required=True, type=str)
+	parser.add_argument("--input", "-i", help="Npz file or folder containing necessary files", required=True, type=str)
+	parser.add_argument("--input_type", "-t", help="Type of input: npz/pdb/rmf/dcd", required=True, type=str)
 	parser.add_argument("--voxel_size", "-v", help="Voxel size for density calculations", default=4, type=int)
 	parser.add_argument("--return_spread", "-rs", help="Return the spread bead_spread", action='store_true', default = True)
 	parser.add_argument("--output", "-o", help="Output directory", required = True, type=str)
@@ -46,24 +46,26 @@ if __name__ == '__main__':
 	parser.add_argument("--cores", "-co", help="Number of cores to use", default = 16, type=int)
 	parser.add_argument("--models", "-m", help="Percentage of total models to use", default = 1, type=float)
 	parser.add_argument("--n_breaks", "-n", help="Number of breaks to use for cDist calculation", default = 50, type=int)
-	parser.add_argument('--resolution',help="The resolution at which to sample the beads for rmf input", default=30, required=False)
-	parser.add_argument('--subunit', help="Subunit that needs to be sampled for rmf input", default=None, required=False)
-	parser.add_argument('--selection', help='File containing dictionary of selected subunits and residues for rmf input', default=None, required=False)
+	parser.add_argument("--resolution",help="The resolution at which to sample the beads for rmf input", default=30, required=False, type=float)
+	parser.add_argument("--subunit", help="Subunit that needs to be sampled for rmf input", default=None, required=False)
+	parser.add_argument("--selection", help='File containing dictionary of selected subunits and residues for rmf input', default=None, required=False)
 	args = parser.parse_args()
 
-	if os.path.splitext(args.input)[-1] == '.npz':
+	if args.input_type == 'npz':
 		arr = np.load(args.input)
 		coords = arr['arr_0']
 		mass = arr['arr_1']
 		radius = arr['arr_2']
 		ps_names = arr['arr_3']
-		del arr
-	else:
-		file_type = get_file_type(args.input)
-		if file_type == 'pdb':
-			coords, mass, radius, ps_names = parse_all_pdbs(args.input)
-		elif file_type == 'rmf3':
-			coords, mass, radius, ps_names = parse_all_rmfs(args.input, args.resolution, args.subunit, args.selection)
+		del arr		
+	elif args.input_type == 'pdb':
+		coords, mass, radius, ps_names = parse_all_pdbs(args.input)
+	elif args.input_type == 'rmf':
+		from rmf_parser import parse_all_rmfs
+		coords, mass, radius, ps_names = parse_all_rmfs(args.input, args.resolution, args.subunit, args.selection)
+	elif args.input_type == 'dcd':
+		from dcd_parser import parse_all_dcds
+		coords, mass, radius, ps_names = parse_all_dcds(args.input, args.resolution, args.subunit, args.selection)
 	models = round(args.models*coords.shape[0])
 	if args.models != 1:
 		selected_models = np.random.choice(coords.shape[0], models, replace=False)

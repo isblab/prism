@@ -18,6 +18,7 @@ def get_selected_particles(m,input_file, input_type, resolution, subunit=None,se
         h = IMP.rmf.create_hierarchies(inf, m)[0]
         IMP.rmf.load_frame(inf, 0)
         m.update()
+        resolution = float(resolution)
         if subunit:
             s0 = IMP.atom.Selection(h, resolution=resolution, molecule=subunit)
         elif selection:
