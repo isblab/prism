@@ -6,7 +6,7 @@ PrISM is a package for visualizing regions of high and low precision in ensemble
 ## Manuscript
 Publication: [here](https://doi.org/10.1093/bioinformatics/btac400).
 Biorxiv: [here](https://www.biorxiv.org/content/10.1101/2021.06.22.449385v4).
-Data reproduce the results in the paper: [zenodo](https://doi.org/10.5281/zenodo.6241201).
+Data to reproduce the results in the paper: [zenodo](https://doi.org/10.5281/zenodo.6241201).
 
 <img width="905" alt="Graphical-Abstract4" src="https://user-images.githubusercontent.com/87467265/159347624-e59764d0-70ed-47cb-a1d2-6f9b821d9492.png">
 
