@@ -8,6 +8,8 @@ Publication: [here](https://doi.org/10.1093/bioinformatics/btac400).
 Biorxiv: [here](https://www.biorxiv.org/content/10.1101/2021.06.22.449385v4).
 Data to reproduce the results in the paper: [zenodo](https://doi.org/10.5281/zenodo.6241201).
 
+**Reference** Please cite Varun Ullanat, Nikhil Kasukurthi, Shruthi Viswanath, PrISM: precision for integrative structural models, Bioinformatics, Volume 38, Issue 15, 1 August 2022, Pages 3837–3839, https://doi.org/10.1093/bioinformatics/btac400. 
+
 <img width="905" alt="Graphical-Abstract4" src="https://user-images.githubusercontent.com/87467265/159347624-e59764d0-70ed-47cb-a1d2-6f9b821d9492.png">
 
 
