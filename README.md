@@ -120,7 +120,7 @@ The previous `main.py` command, on running successfully, produces a file `annota
 
 The next command uses information from this file to color the beads of a representative model (e.g., the cluster center model).
 
-For the `NPZ` and `RMF`  input, the `resolution`, `selection`, `subunit` options i.e. `-r`, `-sn`, and `-su` options should be **identical** to what was passed in the [sampcon](https://github.com/salilab/imp-sampcon) step `exhaust.py`.
+For the `NPZ` and `RMF`  input, the `resolution`, `selection`, `subunit` options i.e. `-r`, `-sn`, and `-su` options should be **identical** to what was passed in the previous step (`main.py`) and in the [sampcon](https://github.com/salilab/imp-sampcon) step `exhaust.py`.
 
 The representative model is specified by the `-i` option.
 
