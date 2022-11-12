@@ -6,6 +6,7 @@ import IMP.rmf
 import IMP.sampcon.precision_rmsd
 import IMP.sampcon.rmsd_calculation
 import numpy as np
+from rmf_parser import *
 
 __doc__ = "Get an RMF where beads of the cluster representative model are colored \
 based on their precision as reported by PRISM."
@@ -36,45 +37,6 @@ def parse_args():
 
     return parser.parse_args()
 
-def get_selected_particles(m,input_file, input_type, resolution, subunit,selection):
-    s0 = None
-    if input_type =="rmf":
-        inf = RMF.open_rmf_file_read_only(input_file)
-        h = IMP.rmf.create_hierarchies(inf, m)[0]
-        IMP.rmf.load_frame(inf, 0)
-        m.update()
-        if subunit:
-            s0 = IMP.atom.Selection(h, resolution=resolution, molecule=subunit)
-        elif selection:
-            s0 = IMP.sampcon.rmsd_calculation.parse_rmsd_selection(h, selection, resolution)
-        else:
-            s0 = IMP.atom.Selection(h, resolution=resolution)
-        del inf
-    elif input_type == "pdb":
-        h = IMP.atom.read_pdb(input_file, m, IMP.atom.CAlphaPDBSelector())
-        s0 = IMP.atom.Selection(h)
-    return s0
-
-def get_bead_name(p, input_type):
-    ''' Input: particle
-    Output: bead name in the format moleculename_copynumber_startresidue_endresidue
-    '''
-
-    if input_type=="rmf":
-        mol_name = IMP.atom.get_molecule_name(IMP.atom.Hierarchy(p))
-        copy_number=IMP.atom.get_copy_index(IMP.atom.Hierarchy(p))
-        if IMP.atom.Fragment.get_is_setup(p):
-            residues_in_bead = IMP.atom.Fragment(p).get_residue_indexes()
-            bead_name = mol_name+":"+str(copy_number)+":"+str(min(residues_in_bead))+":"+str(max(residues_in_bead))
-        else:
-            residue_in_bead = str(IMP.atom.Residue(p).get_index())
-            bead_name = mol_name+":"+str(copy_number)+":"+residue_in_bead+":"+residue_in_bead
-        return bead_name
-    elif input_type =="pdb":
-        mol_name = IMP.atom.get_molecule_name(IMP.atom.Hierarchy(p))
-        residue_number = IMP.atom.Residue(IMP.atom.Hierarchy(p).get_parent()).get_index()
-        bead_name = mol_name+":"+str(residue_number)
-        return bead_name
 
 def main():
     args = parse_args()
@@ -103,8 +65,9 @@ def main():
 
     m1 = IMP.Model()
     sTotal = get_selected_particles(m1,args.input,input_type, args.resolution,None,None)
-    s0_particles = s0.get_selected_particles()
-    sTotal_particles = sTotal.get_selected_particles()
+    
+    s0_particles = s0
+    sTotal_particles = sTotal
     s0_beads = [get_bead_name(i, input_type) for i in s0_particles]
     sTotal_beads = [get_bead_name(i, input_type) for i in sTotal_particles]
     
@@ -138,12 +101,13 @@ def main():
     # default protein
     prev_prot ="DUMMY.0"
 
+    
     for i,leaf in enumerate(sTotal_particles):
-
         #ASSUMPTION Assuming single state models for now
         # One can make this multi-state by adding state name in the bead name
-
+        # Select only if the particle is not a gaussian.          
         bead_name = get_bead_name(leaf,input_type)
+
         #print(bead_name, precisions[i])
         ## see if we need to create a new protein
         prot_base_name = bead_name.split(':')[0]

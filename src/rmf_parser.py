@@ -26,16 +26,20 @@ def get_selected_particles(m,input_file, input_type, resolution, subunit=None,se
         else:
             s0 = IMP.atom.Selection(h, resolution=resolution)
         del inf
+        selected_particles = []
+        [selected_particles.append( p )  for p in s0.get_selected_particles() if "gaussian" not in str(p)]
+
     elif input_type == "pdb":
         h = IMP.atom.read_pdb(input_file, m, IMP.atom.CAlphaPDBSelector())
         s0 = IMP.atom.Selection(h)
-    return s0
+        selected_particles = s0.get_selected_particles()
+    return selected_particles
 
 def _get_number_of_beads(input_file,input_type, resolution, subunit, selection):
     m = IMP.Model()
     s0 = get_selected_particles(m,input_file, input_type, resolution, subunit, selection)
     if s0:
-        return (len(s0.get_selected_particles()))
+        return (len(s0))
     return 0
 
 
@@ -65,8 +69,8 @@ def get_bead_name(p, input_type):
 def get_coordinates(str_file, input_type, resolution, subunit, selection):
     m = IMP.Model()
     s0 = get_selected_particles(m, str_file,input_type,resolution, subunit, selection)
-    conform = np.empty([ len(s0.get_selected_particles()), 3])
-    for i, leaf in enumerate(s0.get_selected_particles()):
+    conform = np.empty([ len(s0), 3])
+    for i, leaf in enumerate(s0):
         p = IMP.core.XYZR(leaf)
         conform[i] = p.get_coordinates()  
     return conform
@@ -74,10 +78,10 @@ def get_coordinates(str_file, input_type, resolution, subunit, selection):
 def get_attributes(str_file, input_type, resolution, subunit, selection):
     m = IMP.Model()
     s0 = get_selected_particles(m, str_file,input_type,resolution, subunit, selection)
-    radii = np.empty([ len(s0.get_selected_particles()) ])
-    mass = np.empty([len(s0.get_selected_particles())])
-    bead_names = [0]*len(s0.get_selected_particles())
-    for i, leaf in enumerate(s0.get_selected_particles()):
+    radii = np.empty([ len(s0) ])
+    mass = np.empty([len(s0)])
+    bead_names = [0]*len(s0)
+    for i, leaf in enumerate(s0):
         p = IMP.core.XYZR(leaf)
         radii[i] = p.get_radius()
         mass[i] = IMP.atom.Mass(leaf).get_mass()
