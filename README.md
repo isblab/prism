@@ -49,12 +49,13 @@ PrISM can read binary DCD (.dcd) files for atomic coordinates of integrative mod
 
 #### Type 6. PrISM on PDBDEV entries
 
-One can run PrISM for PDBDEV IMP entries in the following ways:
+One can run PrISM for PDBDEV entries in the following ways:
 
-	Use dcd mode if a binary DCD file and rmf file both are available.
+	Use dcd mode if a binary DCD file and RMF file both are available.
 
-	Use rmf mode if an ensemble of rmf files is available.
-For non-IMP entries one can use pdb/mmcif mode if an ensemble of pdb/cif files are available.
+	Use rmf mode if an ensemble of RMF files is available.
+	
+	Use pdb or mmcif mode if an ensemble of PDB or MMCIF files is available. 
 
 ### Outputs
 There are two outputs at the end of a successful run. The first, `annotations_cl*.txt`, provides bead-wise records of the bead name, type (high, low or medium precision), class, patch identity and bead spread value. This is used as the input to the `color_precision.py` script. The second type of files, `low_prec.txt` and `high_prec.txt` gives bead composition for low and high precision patches respectively. 
@@ -140,7 +141,7 @@ The previous `main.py` command, on running successfully, produces a file `annota
 
 The next command uses information from this file to color the beads of a representative model (e.g., the cluster center model).
 
-For the `NPZ` and `RMF`  input, the `resolution`, `selection`, `subunit` options i.e. `-r`, `-sn`, and `-su` options should be **identical** to what was passed in the [sampcon](https://github.com/salilab/imp-sampcon) step `exhaust.py`.
+For the `NPZ` and `RMF`  input, the `resolution`, `selection`, `subunit` options i.e. `-r`, `-sn`, and `-su` options should be **identical** to what was passed in the  previous step (`main.py`) and in the [sampcon](https://github.com/salilab/imp-sampcon) step `exhaust.py`.
 
 The representative model is specified by the `-i` option.
 
