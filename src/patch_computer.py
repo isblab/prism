@@ -47,7 +47,7 @@ def get_connected_components(arg, coords, radius, thresh=10):
   return clusts
 
 def get_patches(bead_spread, classes, coords, radius):
-    breaks = jenkspy.jenks_breaks(bead_spread, nb_class= (classes*2) + 1) 
+    breaks = jenkspy.jenks_breaks(bead_spread, n_classes= (classes*2) + 1) 
     arg_patches = [thresh_to_arg(bead_spread, breaks[i-1], breaks[i]) for i in range(1,len(breaks))]
     patches = [get_connected_components(arg, coords, radius) for arg in arg_patches]
     return patches
