@@ -1,4 +1,5 @@
 from Bio.PDB import PDBParser
+from Bio.PDB.MMCIFParser import MMCIFParser
 import numpy as np
 import glob
 import os
@@ -19,9 +20,15 @@ def get_chain_length(model):
 				res_no +=1
 	return res_no
     
-def get_features(modelFile):
-	parser=PDBParser()
-	models=parser.get_structure('pdb',modelFile)
+def get_features( modelFile, cif = False ):
+	
+	if cif:
+		parser = MMCIFParser()
+		models=parser.get_structure('cif',modelFile)
+	else:
+		parser=PDBParser()
+		models=parser.get_structure('pdb',modelFile)
+	
 	coords = []
 	mass = []
 	radius = []
@@ -43,12 +50,24 @@ def get_features(modelFile):
 	radius = np.array(radius).reshape(chain_len, 1)
 	return [coords, mass, radius, res_ids]
 
-def parse_all_pdbs(folder):
-	files = glob.glob(os.path.join(folder, '*.pdb'))
-	if len(files) == 0:
-		print('No PDB file found')
-	all_feats = [get_features(i) for i in files]
-	coords = np.vstack([i[0] for i in all_feats])
+
+def parse_all_struct(folder, _type = "pdb" ):
+	if _type == "cif":
+		files = glob.glob(os.path.join(folder, '*.cif'))
+
+		if len(files) == 0:
+			print('No CIF file found')
+		all_feats = [get_features(i, cif = True) for i in files]
+		coords = np.vstack([i[0] for i in all_feats])
+	
+	elif _type == "pdb":
+		files = glob.glob(os.path.join(folder, '*.pdb'))
+
+		if len(files) == 0:
+			print('No PDB file found')
+		all_feats = [get_features(i, cif = False) for i in files]
+		coords = np.vstack([i[0] for i in all_feats])
+
 	mass = all_feats[0][1]
 	radius = all_feats[0][2]
 	res_ids = all_feats[0][3]
