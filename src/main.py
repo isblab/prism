@@ -84,7 +84,7 @@ if __name__ == '__main__':
 	grid.pad_grid(0)
 	
 	with Pool(args.cores) as p:
-			densities = p.map( partial(main_density_calc, coords=coords, mass=mass, radius=radius, grid=grid, voxel_size=args.voxel_size, n_breaks=args.n_breaks), range(0, coords.shape[1] ))
+		densities = p.map( partial(main_density_calc, coords=coords, mass=mass, radius=radius, grid=grid, voxel_size=args.voxel_size, n_breaks=args.n_breaks), range(0, coords.shape[1] ))
 	print('Density calculation done')
 
 	with Pool(args.cores) as p:
