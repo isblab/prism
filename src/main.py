@@ -9,6 +9,7 @@ from patch_computer import calc_bead_spread, get_patches, annotate_patches
 from pdb_parser import parse_all_struct
 from utils import _get_bounding_box
 import argparse
+from ihm_parser import *
 
 def main_density_calc(i, coords, mass, radius, grid, voxel_size, n_breaks):
 	bead_density = BeadDensity(coords.shape[0], grid=grid, voxel_size=voxel_size)
@@ -64,12 +65,16 @@ if __name__ == '__main__':
 		coords, mass, radius, ps_names = parse_all_struct(args.input, _type = "pdb" )
 	elif args.input_type == "cif":
 		coords, mass, radius, ps_names = parse_all_struct(args.input, _type = "cif" )
+	elif args.input_type == "ihm":
+		parse_all_models( args )
 	elif args.input_type == "rmf":
 		from rmf_parser import parse_all_rmfs
 		coords, mass, radius, ps_names = parse_all_rmfs(args.input, args.resolution, args.subunit, args.selection)
 	elif args.input_type == "dcd":
 		from dcd_parser import parse_all_dcds
 		coords, mass, radius, ps_names = parse_all_dcds(args.input, args.resolution, args.subunit, args.selection)
+	
+def run_prism( coords, mass, radius, ps_names, args, output_dir = None ):	
 	models = round(args.models*coords.shape[0])
 	if args.models != 1:
 		selected_models = np.random.choice(coords.shape[0], models, replace=False)
@@ -93,7 +98,10 @@ if __name__ == '__main__':
 	print('Bead Spread calculation done')
 
 	# If not specified create a default output directory.
-	if not os.path.exists(args.output):
+	if not os.path.exists(args.output) and output_dir == None:
+		os.makedirs(args.output)
+	else:
+		args.output = output_dir
 		os.makedirs(args.output)
 
 	# Save the bead_spread values.

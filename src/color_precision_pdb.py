@@ -49,7 +49,11 @@ def main():
 		print("Cluster representative file not found %s",args.input)
 		exit(1)
 
-	struct = get_structure(args.input, args.input_type)
+	if args.input_type == "cif":
+		struct = get_structure(args.input, cif = True)
+	else:
+		struct = get_structure(args.input, cif = False)
+
 	pf = open(args.precision_file,'r')
 	precisions = [float(pr) for pr in pf.readlines()]
 	pf.close()
