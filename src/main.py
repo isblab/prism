@@ -60,19 +60,24 @@ if __name__ == '__main__':
 		mass = arr['arr_1']
 		radius = arr['arr_2']
 		ps_names = arr['arr_3']
-		del arr		
+		del arr
+		run_prism( coords, mass, radius, ps_names, args )	
 	elif args.input_type == "pdb":
 		coords, mass, radius, ps_names = parse_all_struct(args.input, _type = "pdb" )
+		run_prism( coords, mass, radius, ps_names, args )
 	elif args.input_type == "cif":
 		coords, mass, radius, ps_names = parse_all_struct(args.input, _type = "cif" )
+		run_prism( coords, mass, radius, ps_names, args )
 	elif args.input_type == "ihm":
 		parse_all_models( args )
 	elif args.input_type == "rmf":
 		from rmf_parser import parse_all_rmfs
 		coords, mass, radius, ps_names = parse_all_rmfs(args.input, args.resolution, args.subunit, args.selection)
+		run_prism( coords, mass, radius, ps_names, args )
 	elif args.input_type == "dcd":
 		from dcd_parser import parse_all_dcds
 		coords, mass, radius, ps_names = parse_all_dcds(args.input, args.resolution, args.subunit, args.selection)
+		run_prism( coords, mass, radius, ps_names, args )
 	
 def run_prism( coords, mass, radius, ps_names, args, output_dir = None ):	
 	models = round(args.models*coords.shape[0])

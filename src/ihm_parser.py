@@ -11,6 +11,7 @@ import ihm.reader
 
 import IMP
 import IMP.atom
+import RMF
 from dcd_parser import *
 from main import *
 from pdb_parser import *
@@ -70,12 +71,6 @@ def get_hierarchy_from_model( model ):
 
 	for a in model.get_atoms():
 		root[a.asym_unit.id][a.seq_id][a.atom_id] = a
-	
-	# for r in model.representation:
-		# if r.granularity == 'by-residue':
-		# 	print(r.asym_unit.asym.id, " <--> ", r.asym_unit.seq_id_range)
-		# 	for i in range(r.asym_unit.seq_id_range[0], r.asym_unit.seq_id_range[1] + 1):
-		# 		root[r.asym_unit.asym.id][i]['CA'] = None
 
 	for s in model.get_spheres():
 		# Consider only by-residue spheres
@@ -157,8 +152,67 @@ def get_all_attributes( models, IMP_ ):
 	return [coords, radius, mass, ps_names]
 
 
-def parse_all_models( args ):
+def get_patch_coloured_model( annotations, coords, radius ):
+	with open( f"./{annotations}/annotations_cl2.txt",'r') as pf:
+		file = pf.readlines()[1:]
+	precisions = [pr.split(',')[2:4] for pr in file]
+	particles = [pr.split(',')[1] for pr in file]
 
+	low_cols = [(1,0,0), (1,0.5, 0.5), (1,0.75,0.75)] #red 
+	high_cols = [(0,0.39,0), ( 0.20,0.80,0.20), (0.56,0.93,0.56)] #green
+
+	ind_dict = {}
+
+	for i,prec in enumerate( precisions ):
+		ind_dict[particles[i]] = prec
+
+	# Create a new RMF with beads of same XYZR as selected particles, but colored according to precision
+	# This is a reduced version of the representative cluster center model
+	m_new = IMP.Model()
+
+	# Create new hierarchy to add new beads to
+	p_root = m_new.add_particle("System")
+	h_root = IMP.atom.Hierarchy.setup_particle( m_new, p_root )
+    
+	for i,bead_name in enumerate( particles ):
+		# bead_name = model_asym_id_residue.
+		res = bead_name.split( "_" )[2]
+
+		# create new particle
+		# Decorate with arbitrary mass, coordinates, radius.
+		p_new = IMP.Particle( m_new, res )
+		x, y, z = coords[0][i]
+		p_new = IMP.atom.Mass.setup_particle( m_new, p_new, 110.0 )
+		p_new = IMP.core.XYZR.setup_particle( p_new, IMP.algebra.Sphere3D( IMP.algebra.Vector3D(x, y, z), 2.7 ) )
+
+		# Color particle based on its precision
+		tp = ind_dict[bead_name]
+
+		if type(tp) == int:
+			c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(1, 1, 1))
+		elif tp[0] == 'low':
+			c_ind = int(tp[1]) - 1
+			c_rgb = low_cols[c_ind]
+			c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(c_rgb[0], c_rgb[1], c_rgb[2]))
+		elif tp[0] == 'high':
+			c_ind = int(tp[1]) - 1
+			c_rgb = high_cols[c_ind]
+			c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(c_rgb[0], c_rgb[1], c_rgb[2]))
+		else:
+			c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(1, 1, 1))
+
+		# Add particle to the new model's hierarchy
+		h_new = IMP.atom.Hierarchy.setup_particle( m_new, p_new )
+		h_root.add_child(h_new)
+
+	# Now create a new RMF file with the new model
+	rmf_new = RMF.create_rmf_file( f"./{annotations}/patch_coloured_model.rmf3" )
+	IMP.rmf.add_hierarchy( rmf_new, h_root )
+	IMP.rmf.save_frame( rmf_new )
+	del rmf_new
+
+
+def parse_all_models( args ):
 	try:
 	    with open( args.input, encoding='utf8') as fh:
 	        mmcif, = ihm.reader.read(fh, model_class=ihm.model.Model)
@@ -209,21 +263,9 @@ def parse_all_models( args ):
 					coords, mass, radius, ps_names = get_all_attributes( model_groups, IMP_ )
 					# Run PrISM t get bead precision.
 					run_prism( coords, mass, radius, ps_names, args, f"output_{ist}_{img}" )
+					print( "Creating patch coloured model..." )
+					get_patch_coloured_model( f"output_{ist}_{img}", coords, radius )
 
-
-
-
-
-
-
-
-# m = parse_models(mmcif)
-# x = m[1]["A"][266]["CA"]
-# f = get_features(m)
-# print(f.keys())
-# x = m[1]["A"][266]["CA"]
-# print(x.radius)
-# exit()
 
 
 
