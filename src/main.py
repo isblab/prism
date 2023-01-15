@@ -12,11 +12,13 @@ import argparse
 from ihm_parser import *
 
 def main_density_calc(i, coords, mass, radius, grid, voxel_size, n_breaks):
+	print( "-----> ", i )
 	bead_density = BeadDensity(coords.shape[0], grid=grid, voxel_size=voxel_size)
 	# Obtain min-max coords for each bead across all models to construct a kernel.
 	# k1 --> min xyz coords of kernel; k2 --> max xyz coords of kernel.
 	k1, k2 = _get_bounding_box(coords[:,i,:])
 	bead_density.construct_kernel(k1,k2)
+	print( "======> ", i )
 	return bead_density.return_density_opt(coords[:,i,:], radius[i], mass[i], n_breaks)
 
 def scale(v):
@@ -69,7 +71,7 @@ if __name__ == '__main__':
 		coords, mass, radius, ps_names = parse_all_struct(args.input, _type = "cif" )
 		run_prism( coords, mass, radius, ps_names, args )
 	elif args.input_type == "ihm":
-		parse_all_models( args )
+		parse_ihm_models( args )
 	elif args.input_type == "rmf":
 		from rmf_parser import parse_all_rmfs
 		coords, mass, radius, ps_names = parse_all_rmfs(args.input, args.resolution, args.subunit, args.selection)

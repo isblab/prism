@@ -38,6 +38,26 @@ def parse_args():
     return parser.parse_args()
 
 
+def colour_rmf( tp, m_new, p_new ):
+    low_cols = [(1,0,0), (1,0.5, 0.5), (1,0.75,0.75)] #red 
+    high_cols = [(0,0.39,0), ( 0.20,0.80,0.20), (0.56,0.93,0.56)] #green
+
+    if type(tp) == int:
+        c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(1, 1, 1))
+    elif tp[0] == 'low':
+        c_ind = int(tp[1]) - 1
+        c_rgb = low_cols[c_ind]
+        c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(c_rgb[0], c_rgb[1], c_rgb[2]))
+    elif tp[0] == 'high':
+        c_ind = int(tp[1]) - 1
+        c_rgb = high_cols[c_ind]
+        c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(c_rgb[0], c_rgb[1], c_rgb[2]))
+    else:
+        c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(1, 1, 1))
+
+    return c_new, m_new, p_new
+
+
 def main():
     args = parse_args()
 
@@ -145,19 +165,19 @@ def main():
 
         #IMP.display.color(r,g,b)   (255,0,0)
         tp = ind_dict[bead_name]
-
-        if type(tp) == int:
-            c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(1, 1, 1))
-        elif tp[0] == 'low':
-            c_ind = int(tp[1]) - 1
-            c_rgb = low_cols[c_ind]
-            c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(c_rgb[0], c_rgb[1], c_rgb[2]))
-        elif tp[0] == 'high':
-            c_ind = int(tp[1]) - 1
-            c_rgb = high_cols[c_ind]
-            c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(c_rgb[0], c_rgb[1], c_rgb[2]))
-        else:
-            c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(1, 1, 1))
+        c_new, m_new, p_new = colour_rmf( tp, m_new, p_new )
+        # if type(tp) == int:
+        #     c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(1, 1, 1))
+        # elif tp[0] == 'low':
+        #     c_ind = int(tp[1]) - 1
+        #     c_rgb = low_cols[c_ind]
+        #     c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(c_rgb[0], c_rgb[1], c_rgb[2]))
+        # elif tp[0] == 'high':
+        #     c_ind = int(tp[1]) - 1
+        #     c_rgb = high_cols[c_ind]
+        #     c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(c_rgb[0], c_rgb[1], c_rgb[2]))
+        # else:
+        #     c_new  = IMP.display.Colored.setup_particle(m_new,p_new,IMP.display.Color(1, 1, 1))
         
         # other options include get_gray_color, get_gnuplot_color
 
