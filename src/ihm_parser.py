@@ -279,8 +279,7 @@ def parse_ihm_models( args ):
 					coords, radius, mass, ps_names = get_all_attributes( model_groups, IMP_ )
 					# Run PrISM to get bead precision.
 					run_prism( coords, mass, radius, ps_names, args, f"output_{ist}_{img}" )
-					# Get a patch coloured bead model.
+					# Get a patch coloured ihm cif file.
 					print( "Creating patch coloured model..." )
-					get_patch_coloured_rmf( f"output_{ist}_{img}", coords, mass, radius )
-					# ihm_set_bfactor( f"output_{ist}_{img}", args.input, mg )
-					exit()
+					# get_patch_coloured_rmf( f"output_{ist}_{img}", coords, mass, radius )
+					ihm_set_bfactor( f"output_{ist}_{img}", args.input, mg )
