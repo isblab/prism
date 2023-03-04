@@ -47,10 +47,10 @@ PrISM supports Protein Data Bank (.pdb) files of structurally superposed model e
 #### Type 5. DCD input (DCD)
 PrISM can read binary DCD (.dcd) files for atomic coordinates of integrative models. Here a representative RMF file would also be required to read the mass, radius and particle name of each bead. 
 
-#### Type 6. PrISM on PDBDEV entries (IHM)
+#### Type 6. PrISM on PDBDEV entries
 
 Run PrISM with downloaded mmCIF PDBDEV file in `ihm` mode.
-	
+
 ### Outputs
 There are two outputs at the end of a successful run. The first, `annotations_cl*.txt`, provides bead-wise records of the bead name, type (high, low or medium precision), class, patch identity and bead spread value. This is used as the input to the `color_precision.py` script. The second type of files, `low_prec.txt` and `high_prec.txt` gives bead composition for low and high precision patches respectively. 
 
@@ -120,15 +120,19 @@ First download the `cluster.0.dcd` file from the given [link](https://zenodo.org
 ```
 $IMP/build/setup_environment.sh python ../../src/main.py  --input . --input_type dcd --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
 ```
-
 #### Example. PrISM on PDBDEV entries (IHM input)
-#TODO 
 
-##### Non-IMP example
+For an IMP entry (PDBDEV_00000025):
 
-##### IMP-example 
+```
+$IMP/build/setup_environment.sh python ../../src/main.py  --input . --input_type ihm --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
+```
+For an nonIMP entry (PDBDEV_00000044):
 
-_*NOTE*_  No need to run the step 2.  below separately in case of IHM input. Coloring is done on the fly. 
+```
+$IMP/build/setup_environment.sh python ../../src/main.py  --input . --input_type ihm --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
+```
+**NOTE**  No need to run the step 2.  below separately in case of IHM input. Coloring is done on the fly.
 
 #### Tips for running PrISM 
 
@@ -139,7 +143,6 @@ _*NOTE*_  No need to run the step 2.  below separately in case of IHM input. Col
 - For multi-scale systems use the coarsest resolution (`-r`) in [sampcon](https://github.com/salilab/imp-sampcon) to speed up precision calculation in PrISM. 
 
 ## Step 2. Getting the precision-colored model from PrISM
-
 The previous `main.py` command, on running successfully, produces a file `annotations.txt` in the output directory. 
 
 The next command uses information from this file to color the beads of a representative model (e.g., the cluster center model).
