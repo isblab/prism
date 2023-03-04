@@ -18,7 +18,6 @@ def main_density_calc(i, coords, mass, radius, grid, voxel_size, n_breaks):
 	# k1 --> min xyz coords of kernel; k2 --> max xyz coords of kernel.
 	k1, k2 = _get_bounding_box(coords[:,i,:])
 	bead_density.construct_kernel(k1,k2)
-	print( "======> ", i )
 	return bead_density.return_density_opt(coords[:,i,:], radius[i], mass[i], n_breaks)
 
 def scale(v):
