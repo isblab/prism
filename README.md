@@ -125,12 +125,12 @@ $IMP/build/setup_environment.sh python ../../src/main.py  --input . --input_type
 **For an IMP entry (PDBDEV_00000025):**
 
 ```
-$IMP/build/setup_environment.sh python ../../src/main.py  --input . --input_type ihm --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
+$IMP/build/setup_environment.sh python ../../src/main.py  --input ./PDBDEV_00000025.cif --input_type ihm --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
 ```
 **For a nonIMP entry (PDBDEV_00000044):**
 
 ```
-$IMP/build/setup_environment.sh python ../../src/main.py  --input . --input_type ihm --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
+$IMP/build/setup_environment.sh python ../../src/main.py  --input ./PDBDEV_00000044.cif --input_type ihm --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
 ```
 **NOTE:**  No need to run the step 2.  below separately in case of IHM input. Coloring is done on the fly.
 
