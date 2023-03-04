@@ -219,8 +219,10 @@ def ihm_set_bfactor( precision_file, mmcif, model_group ):
 							if _id[i] == atom.seq_id:
 								atom.biso = precision[i]
 							elif _id[i] != atom.seq_id:
-								i+=1
+								i = i+1 if i != len( precision )-1 else i
 								atom.biso = precision[i]
+								
+								
 	with open( f"./{precision_file}/patch_coloured_model.cif", "w" ) as fh:
 		ihm.dumper.write( fh, [mmcif] )
 
