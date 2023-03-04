@@ -127,7 +127,7 @@ $IMP/build/setup_environment.sh python ../../src/main.py  --input . --input_type
 ```
 $IMP/build/setup_environment.sh python ../../src/main.py  --input . --input_type ihm --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
 ```
-**For an nonIMP entry (PDBDEV_00000044):**
+**For a nonIMP entry (PDBDEV_00000044):**
 
 ```
 $IMP/build/setup_environment.sh python ../../src/main.py  --input . --input_type ihm --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
