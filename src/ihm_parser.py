@@ -201,7 +201,7 @@ def get_patch_coloured_rmf( annotations, coords, mass, radius ):
 	del rmf_new
 
 
-def ihm_set_bfactor( precision_file, input_file, model_group ):
+def ihm_set_bfactor( precision_file, mmcif, model_group ):
 	# Set the bfactor as the precision values.
 	with open(f"./{precision_file}/bead_spreads_cl2.txt",'r') as pf:
 		precision = [float(pr) for pr in pf.readlines()]
@@ -282,4 +282,4 @@ def parse_ihm_models( args ):
 					# Get a patch coloured ihm cif file.
 					print( "Creating patch coloured model..." )
 					# get_patch_coloured_rmf( f"output_{ist}_{img}", coords, mass, radius )
-					ihm_set_bfactor( f"output_{ist}_{img}", args.input, mg )
+					ihm_set_bfactor( f"output_{ist}_{img}", mmcif, mg )
