@@ -35,21 +35,20 @@ The primary input for PrISM is a set of structurally superposed integrative mode
 #### Type 1. Directly from integrative modeling analysis pipeline (NPZ)
 PrISM requires bead coordinates, masses, radii, and bead names of the models as single numpy array file. This can be directly obtained for each cluster of models from the [integrative modeling analysis pipeline](https://github.com/salilab/imp-sampcon) by using the `--prism` flag in [sampcon](https://github.com/salilab/imp-sampcon). This is the recommended way to obtain inputs for PrISM. 
 
-#### Type 2. Set of RMF3 files (RMF)
+#### Type 2. PrISM on PDBDEV entries (IHM)
+Run PrISM with downloaded mmCIF PDBDEV file in `ihm` mode.
+
+#### Type 3. Set of RMF3 files (RMF)
 One can also provide a folder containing superposed models in RMF3 or RMF format. 
 
-#### Type 3. Set of PDB files (PDB)
+#### Type 4. Set of PDB files (PDB)
 PrISM supports Protein Data Bank (.pdb) files of structurally superposed model ensembles.
 
-#### Type 4. Set of MMCIF files (MMCIF)
+#### Type 5. Set of MMCIF files (MMCIF)
 PrISM supports Protein Data Bank (.pdb) files of structurally superposed model ensembles. 
 
-#### Type 5. DCD input (DCD)
+#### Type 6. DCD input (DCD)
 PrISM can read binary DCD (.dcd) files for atomic coordinates of integrative models. Here a representative RMF file would also be required to read the mass, radius and particle name of each bead. 
-
-#### Type 6. PrISM on PDBDEV entries
-
-Run PrISM with downloaded mmCIF PDBDEV file in `ihm` mode.
 
 ### Outputs
 There are two outputs at the end of a successful run. The first, `annotations_cl*.txt`, provides bead-wise records of the bead name, type (high, low or medium precision), class, patch identity and bead spread value. This is used as the input to the `color_precision.py` script. The second type of files, `low_prec.txt` and `high_prec.txt` gives bead composition for low and high precision patches respectively. 
@@ -83,6 +82,20 @@ The voxel size of the grid used to calulate densities can be changed by varying 
 ```
 python ../../src/main.py  --input cluster.0.prism.npz --input_type npz --output output/ --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50
 ```
+
+#### Example. PrISM on PDBDEV entries (IHM input)
+
+**For an IMP entry (PDBDEV_00000025):**
+
+```
+$IMP/build/setup_environment.sh python ../../src/main.py  --input ./PDBDEV_00000025.cif --input_type ihm --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
+```
+**For a non-IMP entry (PDBDEV_00000044):**
+
+```
+$IMP/build/setup_environment.sh python ../../src/main.py  --input ./PDBDEV_00000044.cif --input_type ihm --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
+```
+**NOTE:**  No need to run the step 2. below separately in case of IHM input. Coloring is generated on the fly.
 
 #### Example. PrISM on RMF files (RMF input)
 
@@ -120,19 +133,6 @@ First download the `cluster.0.dcd` file from the given [link](https://zenodo.org
 ```
 $IMP/build/setup_environment.sh python ../../src/main.py  --input . --input_type dcd --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
 ```
-#### Example. PrISM on PDBDEV entries (IHM input)
-
-**For an IMP entry (PDBDEV_00000025):**
-
-```
-$IMP/build/setup_environment.sh python ../../src/main.py  --input ./PDBDEV_00000025.cif --input_type ihm --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
-```
-**For a nonIMP entry (PDBDEV_00000044):**
-
-```
-$IMP/build/setup_environment.sh python ../../src/main.py  --input ./PDBDEV_00000044.cif --input_type ihm --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
-```
-**NOTE:**  No need to run the step 2.  below separately in case of IHM input. Coloring is done on the fly.
 
 #### Tips for running PrISM 
 
