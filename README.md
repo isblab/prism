@@ -38,14 +38,14 @@ PrISM requires bead coordinates, masses, radii, and bead names of the models as 
 #### Type 2. PrISM on PDBDEV entries (IHM)
 Run PrISM with downloaded mmCIF PDBDEV file in `ihm` mode.
 
-#### Type 3. Set of RMF3 files (RMF)
-One can also provide a folder containing superposed models in RMF3 or RMF format. 
+#### Type 3. RMF3 files (RMF)
+Run PrISM with either a  single RMF3 file contaiing multiple models or a folder of RMF3 files each contaiing 1 or more models. For efficiency provide a single RMF3 file by concatenating all models from all RMF3 files into one. 
 
 #### Type 4. Set of PDB files (PDB)
 PrISM supports Protein Data Bank (.pdb) files of structurally superposed model ensembles.
 
 #### Type 5. Set of MMCIF files (MMCIF)
-PrISM supports Protein Data Bank (.pdb) files of structurally superposed model ensembles. 
+PrISM supports Protein Data Bank (.cif) files of structurally superposed model ensembles. 
 
 #### Type 6. DCD input (DCD)
 PrISM can read binary DCD (.dcd) files for atomic coordinates of integrative models. Here a representative RMF file would also be required to read the mass, radius and particle name of each bead. 
