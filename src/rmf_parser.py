@@ -68,7 +68,7 @@ def get_bead_name(p, input_type):
 
 def get_coordinates(str_file, frame_index, input_type, resolution, subunit, selection):
     m = IMP.Model()
-    s0 = get_selected_particles(m, str_file, 0, input_type,resolution, subunit, selection)
+    s0 = get_selected_particles(m, str_file, frame_index, input_type,resolution, subunit, selection)
     conform = np.empty([ len(s0), 3])
     for i, leaf in enumerate(s0):
         p = IMP.core.XYZR(leaf)
@@ -97,13 +97,18 @@ def parse_all_rmfs(path, resolution, subunit, selection):
     #     coords = p.map(partial(get_coordinates, input_type="rmf", resolution=resolution, subunit=subunit, selection=selection), files_path)
     print('Files Detected: ', files_path)
     with Pool(16) as p:
+        coordinates = []
+        # Load all frames from all rmf files.
         if len(files_path) > 1:
-            coordinates = p.map(partial(get_coordinates, frame_index=0, input_type="rmf", resolution=resolution, subunit=subunit, selection=selection), files_path)
-        if len(files_path) == 1:  # load all frames if only a single rmf found
+            for path in files_path:
+                for coords in p.imap(partial(get_coordinates, path, input_type='rmf', resolution=resolution, subunit=subunit, selection=selection), range(all_frames), chunksize=20):
+                    coordinates.append( coords )
+            # coordinates = p.map(partial(get_coordinates, frame_index=0, input_type="rmf", resolution=resolution, subunit=subunit, selection=selection), files_path)
+        # Load all frames if only a single rmf file found.
+        else:
             inf = RMF.open_rmf_file_read_only(files_path[0])
             all_frames = inf.get_number_of_frames()
             iterobj = p.imap(partial(get_coordinates, files_path[0], input_type='rmf', resolution=resolution, subunit=subunit, selection=selection), range(all_frames), chunksize=20)
-            coordinates = []
             for coords in tqdm.tqdm(iterobj, total=all_frames):
                 coordinates.append( coords )
     mass, radii, bead_names = get_attributes(files_path[0], input_type="rmf", resolution=resolution, subunit=subunit, selection=selection)
@@ -111,10 +116,7 @@ def parse_all_rmfs(path, resolution, subunit, selection):
 
 
 def main(input_type, path, output_base_path, resolution, subunit, selection):  # path to directory containing RMF/PDB files
-    if input_type=="rmf":
-        input_suffix = "rmf3"
-    elif input_type=="pdb":
-        input_suffix = "pdb"
+    input_suffix = "rmf3"
     files_path = glob.glob(os.path.join(path, "*." + input_suffix ))
     with Pool(16) as p:
         coords = p.map(partial(get_coordinates, input_type=input_type, resolution=resolution, subunit=subunit, selection=selection), files_path)
