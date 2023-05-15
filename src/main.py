@@ -10,9 +10,9 @@ from pdb_parser import parse_all_struct
 from utils import _get_bounding_box
 import argparse
 from ihm_parser import *
+import tqdm
 
 def main_density_calc(i, coords, mass, radius, grid, voxel_size, n_breaks):
-	print( "-----> ", i )
 	bead_density = BeadDensity(coords.shape[0], grid=grid, voxel_size=voxel_size)
 	# Obtain min-max coords for each bead across all models to construct a kernel.
 	# k1 --> min xyz coords of kernel; k2 --> max xyz coords of kernel.
@@ -95,11 +95,17 @@ def run_prism( coords, mass, radius, ps_names, args, output_dir = None ):
 	grid.pad_grid(0)
 	
 	with Pool(args.cores) as p:
-		densities = p.map( partial(main_density_calc, coords=coords, mass=mass, radius=radius, grid=grid, voxel_size=args.voxel_size, n_breaks=args.n_breaks), range(0, coords.shape[1] ))
+		densities = []
+		for density in tqdm.tqdm( p.imap( partial(main_density_calc, coords=coords, mass=mass, radius=radius, grid=grid, voxel_size=args.voxel_size, n_breaks=args.n_breaks), range(0, coords.shape[1] ) ) ):
+			densities.append( density )
+		# densities = p.map( partial(main_density_calc, coords=coords, mass=mass, radius=radius, grid=grid, voxel_size=args.voxel_size, n_breaks=args.n_breaks), range(0, coords.shape[1] ))
 	print('Density calculation done')
 
 	with Pool(args.cores) as p:
-		bead_spread = p.map( partial(calc_bead_spread, grid=grid), densities) 
+		bead_spread = []
+		for spread in tqdm.tqdm( p.map( partial(calc_bead_spread, grid=grid), densities)  ):
+			bead_spread.append( spread )
+		# bead_spread = p.map( partial(calc_bead_spread, grid=grid), densities) 
 	bead_spread = scale(bead_spread)
 	print('Bead Spread calculation done')
 

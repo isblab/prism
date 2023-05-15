@@ -11,20 +11,20 @@ import argparse
 from multiprocessing import Pool
 
 
-def get_selected_particles(m,input_file, input_type, resolution, subunit=None,selection=None):
+def get_selected_particles(m, input_file, frame_index, input_type, resolution, subunit=None,selection=None):
     s0 = None
     if input_type =="rmf":
-        inf = RMF.open_rmf_file_read_only(input_file)
-        h = IMP.rmf.create_hierarchies(inf, m)[0]
-        IMP.rmf.load_frame(inf, 0)
+        inf = RMF.open_rmf_file_read_only( input_file )
+        h = IMP.rmf.create_hierarchies( inf, m )[0]
+        IMP.rmf.load_frame( inf, frame_index )
         m.update()
-        resolution = float(resolution)
+        resolution = float( resolution )
         if subunit:
-            s0 = IMP.atom.Selection(h, resolution=resolution, molecule=subunit)
+            s0 = IMP.atom.Selection( h, resolution=resolution, molecule=subunit )
         elif selection:
-            s0 = IMP.sampcon.rmsd_calculation.parse_rmsd_selection(h, selection, resolution)
+            s0 = IMP.sampcon.rmsd_calculation.parse_rmsd_selection( h, selection, resolution )
         else:
-            s0 = IMP.atom.Selection(h, resolution=resolution)
+            s0 = IMP.atom.Selection( h, resolution=resolution )
         del inf
         selected_particles = []
         [selected_particles.append( p )  for p in s0.get_selected_particles() if "gaussian" not in str(p)]
@@ -66,9 +66,9 @@ def get_bead_name(p, input_type):
 
 
 
-def get_coordinates(str_file, input_type, resolution, subunit, selection):
+def get_coordinates(str_file, frame_index, input_type, resolution, subunit, selection):
     m = IMP.Model()
-    s0 = get_selected_particles(m, str_file,input_type,resolution, subunit, selection)
+    s0 = get_selected_particles(m, str_file, 0, input_type,resolution, subunit, selection)
     conform = np.empty([ len(s0), 3])
     for i, leaf in enumerate(s0):
         p = IMP.core.XYZR(leaf)
@@ -77,7 +77,7 @@ def get_coordinates(str_file, input_type, resolution, subunit, selection):
 
 def get_attributes(str_file, input_type, resolution, subunit, selection):
     m = IMP.Model()
-    s0 = get_selected_particles(m, str_file,input_type,resolution, subunit, selection)
+    s0 = get_selected_particles(m, str_file, 0, input_type, resolution, subunit, selection)
     radii = np.empty([ len(s0) ])
     mass = np.empty([len(s0)])
     bead_names = [0]*len(s0)
@@ -90,11 +90,24 @@ def get_attributes(str_file, input_type, resolution, subunit, selection):
 
 
 def parse_all_rmfs(path, resolution, subunit, selection):
+    # Read the selected particles.
+    selection = parse_custom_ranges( selection )
     files_path = glob.glob(os.path.join(path, "*.rmf3" ))
+    # with Pool(16) as p:
+    #     coords = p.map(partial(get_coordinates, input_type="rmf", resolution=resolution, subunit=subunit, selection=selection), files_path)
+    print('Files Detected: ', files_path)
     with Pool(16) as p:
-        coords = p.map(partial(get_coordinates, input_type="rmf", resolution=resolution, subunit=subunit, selection=selection), files_path)
+        if len(files_path) > 1:
+            coordinates = p.map(partial(get_coordinates, frame_index=0, input_type="rmf", resolution=resolution, subunit=subunit, selection=selection), files_path)
+        if len(files_path) == 1:  # load all frames if only a single rmf found
+            inf = RMF.open_rmf_file_read_only(files_path[0])
+            all_frames = inf.get_number_of_frames()
+            iterobj = p.imap(partial(get_coordinates, files_path[0], input_type='rmf', resolution=resolution, subunit=subunit, selection=selection), range(all_frames), chunksize=20)
+            coordinates = []
+            for coords in tqdm.tqdm(iterobj, total=all_frames):
+                coordinates.append( coords )
     mass, radii, bead_names = get_attributes(files_path[0], input_type="rmf", resolution=resolution, subunit=subunit, selection=selection)
-    return np.array(coords), np.array(mass), np.array(radii), np.array(bead_names)
+    return np.array(coordinates), np.array(mass), np.array(radii), np.array(bead_names)
 
 
 def main(input_type, path, output_base_path, resolution, subunit, selection):  # path to directory containing RMF/PDB files
