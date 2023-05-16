@@ -35,9 +35,9 @@ def get_selected_particles(m, input_file, frame_index, input_type, resolution, s
         selected_particles = s0.get_selected_particles()
     return selected_particles
 
-def _get_number_of_beads(input_file,input_type, resolution, subunit, selection):
+def _get_number_of_beads(input_file, input_type, resolution, subunit, selection):
     m = IMP.Model()
-    s0 = get_selected_particles(m,input_file, input_type, resolution, subunit, selection)
+    s0 = get_selected_particles(m, input_file, 0, input_type, resolution, subunit, selection)
     if s0:
         return (len(s0))
     return 0
@@ -93,17 +93,17 @@ def parse_all_rmfs(path, resolution, subunit, selection):
     # Read the selected particles.
     selection = parse_custom_ranges( selection )
     files_path = glob.glob(os.path.join(path, "*.rmf3" ))
-    # with Pool(16) as p:
-    #     coords = p.map(partial(get_coordinates, input_type="rmf", resolution=resolution, subunit=subunit, selection=selection), files_path)
     print('Files Detected: ', files_path)
     with Pool(16) as p:
         coordinates = []
         # Load all frames from all rmf files.
         if len(files_path) > 1:
             for path in files_path:
-                for coords in p.imap(partial(get_coordinates, path, input_type='rmf', resolution=resolution, subunit=subunit, selection=selection), range(all_frames), chunksize=20):
+                inf = RMF.open_rmf_file_read_only(files_path[0])
+                all_frames = inf.get_number_of_frames()
+                for coords in p.imap( partial(get_coordinates, path, input_type='rmf', resolution=resolution, subunit=subunit, selection=selection), range(all_frames), chunksize=20 ):
                     coordinates.append( coords )
-            # coordinates = p.map(partial(get_coordinates, frame_index=0, input_type="rmf", resolution=resolution, subunit=subunit, selection=selection), files_path)
+
         # Load all frames if only a single rmf file found.
         else:
             inf = RMF.open_rmf_file_read_only(files_path[0])
