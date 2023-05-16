@@ -42,7 +42,9 @@ def get_file_type(input):
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser("PrISM")
 	parser.add_argument("--input", "-i", help="Npz file or folder containing necessary files", required=True, type=str)
-	parser.add_argument("--input_type", "-t", help="Type of input: npz/pdb/cif/rmf/dcd", required=True, type=str)
+	parser.add_argument("--input_type", "-t", 
+		help="Type of input: npz/pdb/cif/rmf/dcd. For rmf input can have a folder with multiple rmf files or a single rmf file with all models.", 
+		required=True, type=str)
 	parser.add_argument("--voxel_size", "-v", help="Voxel size for density calculations", default=4, type=int)
 	parser.add_argument("--return_spread", "-rs", help="Return the spread bead_spread", action='store_true', default = True)
 	parser.add_argument("--output", "-o", help="Output directory", required = True, type=str)
@@ -98,14 +100,12 @@ def run_prism( coords, mass, radius, ps_names, args, output_dir = None ):
 		densities = []
 		for density in tqdm.tqdm( p.imap( partial(main_density_calc, coords=coords, mass=mass, radius=radius, grid=grid, voxel_size=args.voxel_size, n_breaks=args.n_breaks), range(0, coords.shape[1] ) ) ):
 			densities.append( density )
-		# densities = p.map( partial(main_density_calc, coords=coords, mass=mass, radius=radius, grid=grid, voxel_size=args.voxel_size, n_breaks=args.n_breaks), range(0, coords.shape[1] ))
 	print('Density calculation done')
 
 	with Pool(args.cores) as p:
 		bead_spread = []
 		for spread in tqdm.tqdm( p.map( partial(calc_bead_spread, grid=grid), densities)  ):
 			bead_spread.append( spread )
-		# bead_spread = p.map( partial(calc_bead_spread, grid=grid), densities) 
 	bead_spread = scale(bead_spread)
 	print('Bead Spread calculation done')
 
