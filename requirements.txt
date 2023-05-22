@@ -2,6 +2,7 @@ numpy >= 1.21.0
 matplotlib >= 3.4.0
 scipy >= 1.6.1
 networkx >= 2.6.2
+wget
 jenkspy
 pandas
 biopython
