@@ -99,7 +99,7 @@ def parse_all_rmfs(path, resolution, subunit, selection):
         # Load all frames from all rmf files.
         if len(files_path) > 1:
             for path in files_path:
-                inf = RMF.open_rmf_file_read_only(files_path[0])
+                inf = RMF.open_rmf_file_read_only( path )
                 all_frames = inf.get_number_of_frames()
                 for coords in p.imap( partial(get_coordinates, path, input_type='rmf', resolution=resolution, subunit=subunit, selection=selection), range(all_frames), chunksize=20 ):
                     coordinates.append( coords )
@@ -123,38 +123,4 @@ def main(input_type, path, output_base_path, resolution, subunit, selection):  #
     mass, radii, bead_names = get_attributes(files_path[0], input_type=input_type, resolution=resolution, subunit=subunit, selection=selection)
     out_path = os.path.join(output_base_path, 'prism.npz')
     np.savez(out_path, np.array(coords), np.array(mass), np.array(radii), np.array(bead_names))
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Generate PrISM inputs from rmf or pdb files')
-    parser.add_argument('--input',
-                        help="The path to rmf3 or files",
-                        required=True)
-    parser.add_argument('--type',
-                        default='rmf',
-                        help="rmf or pdb input.",
-                        required=True)
-    parser.add_argument('--output_dir',
-                        help="Path to save the prism input files.",
-                        required=True)
-    parser.add_argument('--resolution',
-                        help="The resolution at which to sample the beads.",
-                        default=30,
-                        required=False)
-    parser.add_argument('--subunit',
-                        help="Subunit that needs to be sampled.",
-                        default="B",
-                        required=False)
-    parser.add_argument('--selection', 
-                        help='File containing dictionary of selected subunits and residues.', 
-                        default=None, 
-                        required=False)
-
-    args = parser.parse_args()
-    output_base_path = args.output_dir
-    if not os.path.exists(output_base_path):
-        os.makedirs(output_base_path)
-
-    main(args.type, args.input, output_base_path, args.resolution, args.subunit, args.selection)
-
 
