@@ -49,6 +49,7 @@ PrISM supports Protein Data Bank (.cif) files of structurally superposed model e
 
 #### Type 6. DCD input (DCD)
 PrISM can read binary DCD (.dcd) files for atomic coordinates of integrative models. Here a representative RMF file would also be required to read the mass, radius and particle name of each bead. 
+
 **NOTE:**  DCD files from IMP usually have models deposited at resolution = 1. So run PrISM with resolution =1 for these types of models.
 
 ### Outputs
