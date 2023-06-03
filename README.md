@@ -135,6 +135,7 @@ First download the `cluster.0.dcd` file from the given [link](https://zenodo.org
 ```
 $IMP/build/setup_environment.sh python ../../src/main.py  --input . --input_type dcd --output output/  --voxel_size 2 --return_spread --classes 2 --cores 16 --models 1.0 --n_breaks 50 --resolution 1
 ```
+**NOTE:**  DCD files from IMP usually have models deposited at resolution = 1. So run PrISM with resolution =1 for these types of models. 
 
 #### Tips for running PrISM 
 
