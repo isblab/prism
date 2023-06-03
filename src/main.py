@@ -43,7 +43,7 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser("PrISM")
 	parser.add_argument("--input", "-i", help="Npz file or folder containing necessary files", required=True, type=str)
 	parser.add_argument("--input_type", "-t", 
-		help="Type of input: npz/pdb/cif/rmf/dcd. For rmf input can have a folder with multiple rmf files or a single rmf file with all models.", 
+		help="Type of input: npz/pdb/cif/rmf/dcd.", 
 		required=True, type=str)
 	parser.add_argument("--voxel_size", "-v", help="Voxel size for density calculations", default=4, type=int)
 	parser.add_argument("--return_spread", "-rs", help="Return the spread bead_spread", action='store_true', default = True)
