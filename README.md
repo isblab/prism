@@ -50,8 +50,6 @@ PrISM supports Protein Data Bank (.cif) files of structurally superposed model e
 #### Type 6. DCD input (DCD)
 PrISM can read binary DCD (.dcd) files for atomic coordinates of integrative models. Here a representative RMF file would also be required to read the mass, radius and particle name of each bead. 
 
-**NOTE:**  DCD files from IMP usually have models deposited at resolution = 1. So run PrISM with resolution =1 for these types of models.
-
 ### Outputs
 There are two outputs at the end of a successful run. The first, `annotations_cl*.txt`, provides bead-wise records of the bead name, type (high, low or medium precision), class, patch identity and bead spread value. This is used as the input to the `color_precision.py` script. The second type of files, `low_prec.txt` and `high_prec.txt` gives bead composition for low and high precision patches respectively. 
 
