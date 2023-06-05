@@ -7,7 +7,7 @@ import IMP.atom
 import IMP.rmf
 import IMP.sampcon.precision_rmsd
 import IMP.sampcon.rmsd_calculation
-import IMP.Sampcon.parse_custom_ranges
+import IMP.sampcon.parse_custom_ranges
 import RMF
 import argparse
 from multiprocessing import Pool
