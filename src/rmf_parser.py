@@ -1,6 +1,7 @@
 import numpy as np
 import sys, os, glob
 from functools import partial
+import tqdm
 import IMP
 import IMP.atom
 import IMP.rmf
