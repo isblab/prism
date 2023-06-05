@@ -92,7 +92,7 @@ def get_attributes(str_file, input_type, resolution, subunit, selection):
 
 def parse_all_rmfs(path, resolution, subunit, selection):
     # Read the selected particles.
-    selection = IMP.sampcon.rmsd_calculation.parse_custom_ranges( selection )
+    selection = IMP.sampcon.precision_rmsd.parse_custom_ranges( selection )
     files_path = glob.glob(os.path.join(path, "*.rmf3" ))
     print('Files Detected: ', files_path)
     with Pool(16) as p:
