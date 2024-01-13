@@ -83,10 +83,10 @@ def main():
         print("Input file is not in RMF or PDB format.")
         exit(1)
 
-    s0 = get_selected_particles(m,args.input,input_type,args.resolution,args.subunit,rmsd_custom_ranges)
+    s0 = get_selected_particles(m,args.input,args.frame_index,input_type,args.resolution,args.subunit,rmsd_custom_ranges)
 
     m1 = IMP.Model()
-    sTotal = get_selected_particles(m1,args.input,input_type, args.resolution,None,None)
+    sTotal = get_selected_particles(m1,args.input,args.frame_index,input_type, args.resolution,None,None)
     
     s0_particles = s0
     sTotal_particles = sTotal
