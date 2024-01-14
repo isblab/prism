@@ -18,6 +18,8 @@ def parse_args():
             description="Color the regions of a representative model based on the precision as output from PRISM")
     parser.add_argument('--input', '-i', dest="input",
             help='representative model in RMF or PDB format', default="cluster.0/cluster_center_model.rmf3",required=True)
+    parser.add_argument('--frame_index', '-fi', dest="frame_index", type=int,
+            help='frame index of the rmf file, ignored for PDB input', default=0)
     parser.add_argument('--subunit', '-su', dest="subunit",
             help='annotate variation in precision over this subunit only', default=None)
     parser.add_argument('--resolution', '-r', dest="resolution", type=int,
@@ -81,10 +83,10 @@ def main():
         print("Input file is not in RMF or PDB format.")
         exit(1)
 
-    s0 = get_selected_particles(m,args.input,input_type,args.resolution,args.subunit,rmsd_custom_ranges)
+    s0 = get_selected_particles(m,args.input,args.frame_index,input_type,args.resolution,args.subunit,rmsd_custom_ranges)
 
     m1 = IMP.Model()
-    sTotal = get_selected_particles(m1,args.input,input_type, args.resolution,None,None)
+    sTotal = get_selected_particles(m1,args.input,args.frame_index,input_type, args.resolution,None,None)
     
     s0_particles = s0
     sTotal_particles = sTotal
