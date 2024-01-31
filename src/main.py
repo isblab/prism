@@ -120,7 +120,7 @@ def run_prism( coords, mass, radius, ps_names, args, output_dir = None ):
 	if args.return_spread == 1:
 		with open(args.output + "/bead_spreads_cl" + str(args.classes) + ".txt", "w") as fl:
 			for bs in bead_spread:
-				fl.write(str(bs))
+				fl.write('{:0.3f}'.format(bs))
 				fl.write("\n")
 	
 	# Obtain patches for all the beads.
