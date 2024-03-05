@@ -6,8 +6,6 @@ PrISM is a package for visualizing regions of high and low precision in ensemble
 <img width="905" alt="Graphical-Abstract4" src="https://user-images.githubusercontent.com/87467265/159347624-e59764d0-70ed-47cb-a1d2-6f9b821d9492.png">
 
 ## Publication and Data
-Please cite: 
-
 Varun Ullanat, Nikhil Kasukurthi, Shruthi Viswanath, PrISM: precision for integrative structural models, Bioinformatics, 38(15),3837–3839 [DOI](https://doi.org/10.1093/bioinformatics/btac400).
 
 Data deposition: [Zenodo](https://doi.org/10.5281/zenodo.6241201).
