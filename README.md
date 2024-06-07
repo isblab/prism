@@ -1,7 +1,11 @@
 \brief PrISM is a package for visualizing regions of high and low precision in ensembles of integrative models.
 
-# PrISM : Annotating Precision for Integrative Structure Models
+[![PubMed](https://salilab.org/imp-systems/static/images/pubmed.png)](https://pubmed.ncbi.nlm.nih.gov/35723541/)
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6241201.svg)](https://doi.org/10.5281/zenodo.6241201)
+
+
+# PrISM : Annotating Precision for Integrative Structure Models
 
 PrISM is a package for visualizing regions of high and low precision in ensembles of integrative models. It annotates structural patches with similar levels of precision in a scalable and efficient manner for ensembles of large macromolecular assemblies.
 
@@ -213,4 +217,4 @@ __Testable:__ Yes
 
 __Parallelizeable:__ Yes
 
-__Publications:__  Ullanat, V., _et_. al. PrISM: precision for integrative structural models, Bioinformatics, 38(15), 3837–3839, 2022. DOI:[https://doi.org/10.1093/bioinformatics/btac400](https://doi.org/10.1093/bioinformatics/btac400).
+__Publications:__  Ullanat, V., _et_. al. PrISM: precision for integrative structural models. DOI:[https://doi.org/10.1093/bioinformatics/btac400](https://doi.org/10.1093/bioinformatics/btac400).
