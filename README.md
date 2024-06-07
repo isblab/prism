@@ -217,4 +217,4 @@ __Testable:__ Yes
 
 __Parallelizeable:__ Yes
 
-__Publications:__  Ullanat, V., _et_. al. PrISM: precision for integrative structural models. DOI:[https://doi.org/10.1093/bioinformatics/btac400](https://doi.org/10.1093/bioinformatics/btac400).
+__Publications:__  Ullanat, V., _et_. al. PrISM: precision for integrative structural models,  Bioinformatics, 38(15), 3837–3839, 2022. DOI:[https://doi.org/10.1093/bioinformatics/btac400](https://doi.org/10.1093/bioinformatics/btac400).
