@@ -1,3 +1,5 @@
+\brief PrISM is a package for visualizing regions of high and low precision in ensembles of integrative models.
+
 # PrISM : Annotating Precision for Integrative Structure Models
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6241201.svg)](https://doi.org/10.5281/zenodo.6241201)
 
@@ -6,9 +8,9 @@ PrISM is a package for visualizing regions of high and low precision in ensemble
 <img width="905" alt="Graphical-Abstract4" src="https://user-images.githubusercontent.com/87467265/159347624-e59764d0-70ed-47cb-a1d2-6f9b821d9492.png">
 
 ## Publication and Data
-Varun Ullanat, Nikhil Kasukurthi, Shruthi Viswanath, PrISM: precision for integrative structural models, Bioinformatics, 38(15), 3837–3839 at [DOI](https://doi.org/10.1093/bioinformatics/btac400).
+* Varun Ullanat, Nikhil Kasukurthi, Shruthi Viswanath, __PrISM: precision for integrative structural models__, _Bioinformatics_, 38(15), 3837–3839, 2022 at [DOI](https://doi.org/10.1093/bioinformatics/btac400).
 
-Data deposition at [Zenodo](https://doi.org/10.5281/zenodo.6241201).
+* Data is deposited in [Zenodo](https://doi.org/10.5281/zenodo.6241201).
 
 ## Installation
 PrISM requires [IMP](http://integrativemodeling.org) to be installed.
@@ -195,3 +197,20 @@ The output RMF file, `patch_colored_cluster_center_model.rmf3` can be visualized
 3. [rmfalias](https://www.cgl.ucsf.edu/chimera/docs/UsersGuide/midas/rmfalias.html) might be helpful for selecting/unselection sets of beads.
 
 If run on PDBs, the output PDB file, `patch_colored_model.pdb` can be visualized in UCSF Chimera or ChimeraX. The precision is in the B-factor field, and can be displayed by for example, clicking on `Molecule Display-> B-factor`. 
+
+## Information
+__Author(s):__ Varun Ullanat, Kartik Majila, Shruthi Viswanath
+
+__Date__: April 7th, 2023
+
+__License:__ [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+International License.
+
+__Last known good IMP version:__ `not tested`
+
+__Testable:__ Yes
+
+__Parallelizeable:__ Yes
+
+__Publications:__  Ullanat, V., _et_. al. PrISM: precision for integrative structural models, Bioinformatics, 38(15), 3837–3839, 2022. DOI:[https://doi.org/10.1093/bioinformatics/btac400](https://doi.org/10.1093/bioinformatics/btac400).
