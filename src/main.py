@@ -82,6 +82,13 @@ if __name__ == '__main__':
 		coords, mass, radius, ps_names = parse_all_dcds(args.input, args.resolution, args.subunit, args.selection)
 		run_prism( coords, mass, radius, ps_names, args )
 	
+
+def get_bead_spread(i, coords, mass, radius, grid, voxel_size, n_breaks):
+	# dummy function to call main_density_calc for parallelization
+	density = main_density_calc(i, coords, mass, radius, grid, voxel_size, n_breaks)
+	spread = calc_bead_spread(density, grid)
+	return spread
+
 def run_prism( coords, mass, radius, ps_names, args, output_dir = None ):	
 	models = round(args.models*coords.shape[0])
 	if args.models != 1:
@@ -96,15 +103,14 @@ def run_prism( coords, mass, radius, ps_names, args, output_dir = None ):
 	# Not padding the grid.
 	grid.pad_grid(0)
 	
-	with Pool(args.cores) as p:
-		densities = []
-		for density in tqdm.tqdm( p.imap( partial(main_density_calc, coords=coords, mass=mass, radius=radius, grid=grid, voxel_size=args.voxel_size, n_breaks=args.n_breaks), range(0, coords.shape[1] ) ) ):
-			densities.append( density )
-	print('Density calculation done')
+	cores_ = min(max(os.cpu_count() - 1, 1), args.cores)
+	chunksize, extra = divmod(coords.shape[1], cores_ * 4)
+	if extra:
+		chunksize += 1
 
-	with Pool(args.cores) as p:
+	with Pool(cores_) as p:
 		bead_spread = []
-		for spread in tqdm.tqdm( p.map( partial(calc_bead_spread, grid=grid), densities)  ):
+		for spread in tqdm.tqdm( p.imap( partial(get_bead_spread, coords=coords, mass=mass, radius=radius, grid=grid, voxel_size=args.voxel_size, n_breaks=args.n_breaks), range(coords.shape[1]), chunksize=chunksize ) ):
 			bead_spread.append( spread )
 	bead_spread = scale(bead_spread)
 	print('Bead Spread calculation done')
