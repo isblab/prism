@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import os
 from multiprocessing import Pool
-from functools import partial
 from sparse_grid import SparseGrid
 from bead_density import BeadDensity
 from patch_computer import calc_bead_spread, get_patches, annotate_patches
@@ -11,13 +10,13 @@ from utils import _get_bounding_box
 import argparse
 import tqdm
 
-def main_density_calc(i, coords, mass, radius, grid, voxel_size, n_breaks):
-	bead_density = BeadDensity(coords.shape[0], grid=grid, voxel_size=voxel_size)
-	# Obtain min-max coords for each bead across all models to construct a kernel.
+def main_density_calc(coords, mass, radius, bead_density, n_breaks):
+	# bead_density = BeadDensity(coords.shape[0], grid=grid, voxel_size=voxel_size)
+	# Obtain min-max coords for the bead across all models to construct a kernel.
 	# k1 --> min xyz coords of kernel; k2 --> max xyz coords of kernel.
-	k1, k2 = _get_bounding_box(coords[:,i,:])
+	k1, k2 = _get_bounding_box(coords)
 	bead_density.construct_kernel(k1,k2)
-	return bead_density.return_density_opt(coords[:,i,:], radius[i], mass[i], n_breaks)
+	return bead_density.return_density_opt(coords, radius, mass, n_breaks)
 
 def scale(v):
 	return (v - min(v)) / (max(v) - min(v))
@@ -37,9 +36,10 @@ def get_file_type(input):
 		i = i+1
 	return file_type
 
-def get_bead_spread(i, coords, mass, radius, grid, voxel_size, n_breaks):
+def get_bead_spread(arguments):
+	coords, mass, radius, grid, bead_density, n_breaks = arguments
 	# dummy function to call main_density_calc for parallelization
-	density = main_density_calc(i, coords, mass, radius, grid, voxel_size, n_breaks)
+	density = main_density_calc(coords, mass, radius, bead_density, n_breaks)
 	spread = calc_bead_spread(density, grid)
 	return spread
 
@@ -65,10 +65,11 @@ def run_prism( coords, mass, radius, ps_names, args, output_dir = None ):
 	chunksize, extra = divmod(coords.shape[1], cores_ * 4)
 	if extra:
 		chunksize += 1
-
+	bead_density = BeadDensity(coords.shape[0], grid=grid, voxel_size=args.voxel_size)
 	with Pool(cores_) as p:
 		bead_spread = []
-		for spread in tqdm.tqdm( p.imap( partial(get_bead_spread, coords=coords, mass=mass, radius=radius, grid=grid, voxel_size=args.voxel_size, n_breaks=args.n_breaks), range(coords.shape[1]), chunksize=chunksize ) ):
+		arguments = [(coords[:,i,:], mass[i], radius[i], grid, bead_density, args.n_breaks) for i in range(coords.shape[1])]
+		for spread in tqdm.tqdm( p.imap( get_bead_spread, arguments, chunksize=chunksize ) ):
 			bead_spread.append( spread )
 	bead_spread = scale(bead_spread)
 	print('Bead Spread calculation done')
