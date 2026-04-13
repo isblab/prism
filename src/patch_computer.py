@@ -35,15 +35,17 @@ def initialize_worker(coords_, radius_):
     coords = coords_
     radius = radius_
 
+def batch_pair_iterator(args, batch_size):
+    pairs = itertools.combinations(args, 2)
+    while True:
+        batch = list(itertools.islice(pairs, batch_size))
+        if not batch:
+            break
+        yield batch
+
 def calc_distance_matrix(args, coords, radius, cores=min(max(os.cpu_count() - 1, 1), 16)):
-  # pairs = itertools.combinations(args, 2)
-  # mean_dist = []
-  # for p in pairs:
-  #   surface_distance = np.linalg.norm(coords[:,p[0],:] - coords[:,p[1],:], axis=1) -(radius[p[0]] + radius[p[1]])
-  #   mean_dist.append(np.mean(surface_distance) if np.mean(surface_distance) >= 0 else 0)
-  batches = np.array_split(list(itertools.combinations(args, 2)), cores)
   with Pool(cores, initializer=initialize_worker, initargs=(coords, radius)) as pool:
-    results = pool.map(worker_calc_distance, batches)
+    results = pool.map(worker_calc_distance, batch_pair_iterator(args, batch_size=1000))
   mean_dist = [dist for batch in results for dist in batch]
   return to_array(mean_dist, args)
 
