@@ -9,7 +9,6 @@ from patch_computer import calc_bead_spread, get_patches, annotate_patches
 from pdb_parser import parse_all_struct
 from utils import _get_bounding_box
 import argparse
-from ihm_parser import *
 import tqdm
 
 def main_density_calc(i, coords, mass, radius, grid, voxel_size, n_breaks):
@@ -37,51 +36,6 @@ def get_file_type(input):
 			ret=True
 		i = i+1
 	return file_type
-
-
-if __name__ == '__main__':
-	parser = argparse.ArgumentParser("PrISM")
-	parser.add_argument("--input", "-i", help="Npz file or folder containing necessary files", required=True, type=str)
-	parser.add_argument("--input_type", "-t", 
-		help="Type of input: npz/pdb/cif/rmf/dcd.", 
-		required=True, type=str)
-	parser.add_argument("--voxel_size", "-v", help="Voxel size for density calculations", default=4, type=int)
-	parser.add_argument("--return_spread", "-rs", help="Return the spread bead_spread", action='store_true', default = True)
-	parser.add_argument("--output", "-o", help="Output directory", required = True, type=str)
-	parser.add_argument("--classes", "-cl", help="Number of classes(1,2,3)", default = 2, choices=[1,2,3], type=int) 
-	parser.add_argument("--cores", "-co", help="Number of cores to use", default = 16, type=int)
-	parser.add_argument("--models", "-m", help="Percentage of total models to use", default = 1, type=float)
-	parser.add_argument("--n_breaks", "-n", help="Number of breaks to use for cDist calculation", default = 50, type=int)
-	parser.add_argument("--resolution",help="The resolution at which to sample the beads for rmf input", default=30, required=False, type=float)
-	parser.add_argument("--subunit", help="Subunit that needs to be sampled for rmf input", default=None, required=False)
-	parser.add_argument("--selection", help='File containing dictionary of selected subunits and residues for rmf input', default=None, required=False)
-	args = parser.parse_args()
-
-	if args.input_type == 'npz':
-		arr = np.load(args.input)
-		coords = arr['arr_0']
-		mass = arr['arr_1']
-		radius = arr['arr_2']
-		ps_names = arr['arr_3']
-		del arr
-		run_prism( coords, mass, radius, ps_names, args )	
-	elif args.input_type == "pdb":
-		coords, mass, radius, ps_names = parse_all_struct(args.input, _type = "pdb" )
-		run_prism( coords, mass, radius, ps_names, args )
-	elif args.input_type == "cif":
-		coords, mass, radius, ps_names = parse_all_struct(args.input, _type = "cif" )
-		run_prism( coords, mass, radius, ps_names, args )
-	elif args.input_type == "ihm":
-		parse_ihm_models( args )
-	elif args.input_type == "rmf":
-		from rmf_parser import parse_all_rmfs
-		coords, mass, radius, ps_names = parse_all_rmfs(args.input, args.resolution, args.subunit, args.selection)
-		run_prism( coords, mass, radius, ps_names, args )
-	elif args.input_type == "dcd":
-		from dcd_parser import parse_all_dcds
-		coords, mass, radius, ps_names = parse_all_dcds(args.input, args.resolution, args.subunit, args.selection)
-		run_prism( coords, mass, radius, ps_names, args )
-	
 
 def get_bead_spread(i, coords, mass, radius, grid, voxel_size, n_breaks):
 	# dummy function to call main_density_calc for parallelization
@@ -168,4 +122,47 @@ def run_prism( coords, mass, radius, ps_names, args, output_dir = None ):
 				fl.write("\n")
 			lev=lev+1
 
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser("PrISM")
+	parser.add_argument("--input", "-i", help="Npz file or folder containing necessary files", required=True, type=str)
+	parser.add_argument("--input_type", "-t", 
+		help="Type of input: npz/pdb/cif/rmf/dcd.", 
+		required=True, type=str)
+	parser.add_argument("--voxel_size", "-v", help="Voxel size for density calculations", default=4, type=int)
+	parser.add_argument("--return_spread", "-rs", help="Return the spread bead_spread", action='store_true', default = True)
+	parser.add_argument("--output", "-o", help="Output directory", required = True, type=str)
+	parser.add_argument("--classes", "-cl", help="Number of classes(1,2,3)", default = 2, choices=[1,2,3], type=int) 
+	parser.add_argument("--cores", "-co", help="Number of cores to use", default = 16, type=int)
+	parser.add_argument("--models", "-m", help="Percentage of total models to use", default = 1, type=float)
+	parser.add_argument("--n_breaks", "-n", help="Number of breaks to use for cDist calculation", default = 50, type=int)
+	parser.add_argument("--resolution",help="The resolution at which to sample the beads for rmf input", default=30, required=False, type=float)
+	parser.add_argument("--subunit", help="Subunit that needs to be sampled for rmf input", default=None, required=False)
+	parser.add_argument("--selection", help='File containing dictionary of selected subunits and residues for rmf input', default=None, required=False)
+	args = parser.parse_args()
 
+	if args.input_type == 'npz':
+		arr = np.load(args.input)
+		coords = arr['arr_0']
+		mass = arr['arr_1']
+		radius = arr['arr_2']
+		ps_names = arr['arr_3']
+		del arr
+		run_prism( coords, mass, radius, ps_names, args )	
+	elif args.input_type == "pdb":
+		coords, mass, radius, ps_names = parse_all_struct(args.input, _type = "pdb" )
+		run_prism( coords, mass, radius, ps_names, args )
+	elif args.input_type == "cif":
+		coords, mass, radius, ps_names = parse_all_struct(args.input, _type = "cif" )
+		run_prism( coords, mass, radius, ps_names, args )
+	elif args.input_type == "ihm":
+		from ihm_parser import parse_ihm_models
+		parse_ihm_models( args )
+	elif args.input_type == "rmf":
+		from rmf_parser import parse_all_rmfs
+		coords, mass, radius, ps_names = parse_all_rmfs(args.input, args.resolution, args.subunit, args.selection)
+		run_prism( coords, mass, radius, ps_names, args )
+	elif args.input_type == "dcd":
+		from dcd_parser import parse_all_dcds
+		coords, mass, radius, ps_names = parse_all_dcds(args.input, args.resolution, args.subunit, args.selection)
+		run_prism( coords, mass, radius, ps_names, args )
+	
