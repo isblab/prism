@@ -3,6 +3,7 @@ import itertools
 import jenkspy
 import os
 from multiprocessing import Pool
+DEFAULT_CORES = min(max((os.cpu_count() or 1) - 1, 1), 16)
 
 def calc_bead_spread(tup, grid):
   inds = tup[0]
@@ -43,7 +44,7 @@ def batch_pair_iterator(args, batch_size):
             break
         yield batch
 
-def calc_distance_matrix(args, coords, radius, cores=min(max(os.cpu_count() - 1, 1), 16)):
+def calc_distance_matrix(args, coords, radius, cores=DEFAULT_CORES):
   with Pool(cores, initializer=initialize_worker, initargs=(coords, radius)) as pool:
     results = pool.map(worker_calc_distance, batch_pair_iterator(args, batch_size=1000))
   mean_dist = [dist for batch in results for dist in batch]
@@ -52,7 +53,7 @@ def calc_distance_matrix(args, coords, radius, cores=min(max(os.cpu_count() - 1,
 def thresh_to_arg(bead_spread, low_thresh, high_thresh):
   return [ n for n,i in enumerate(bead_spread) if i >= low_thresh and i <= high_thresh  ]
 
-def get_connected_components(arg, coords, radius, thresh=10, cores=min(max(os.cpu_count() - 1, 1), 16)):
+def get_connected_components(arg, coords, radius, thresh=10, cores=DEFAULT_CORES):
   import networkx as nx
   dist = calc_distance_matrix(arg, coords, radius, cores=cores)
   true_pairs = np.argwhere(dist < thresh)
@@ -66,7 +67,7 @@ def get_connected_components(arg, coords, radius, thresh=10, cores=min(max(os.cp
     clusts.append(list(connected_component))
   return clusts
 
-def get_patches(bead_spread, classes, coords, radius, cores=min(max(os.cpu_count() - 1, 1), 16)):
+def get_patches(bead_spread, classes, coords, radius, cores=DEFAULT_CORES):
     breaks = jenkspy.jenks_breaks(bead_spread, n_classes= (classes*2) + 1) 
     arg_patches = [thresh_to_arg(bead_spread, breaks[i-1], breaks[i]) for i in range(1,len(breaks))]
     patches = [get_connected_components(arg, coords, radius, thresh=10, cores=cores) for arg in arg_patches]
