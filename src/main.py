@@ -85,7 +85,7 @@ def run_prism( coords, mass, radius, ps_names, args, output_dir = None ):
 				fl.write("\n")
 	
 	# Obtain patches for all the beads.
-	patches = get_patches(bead_spread, args.classes, coords, radius)
+	patches = get_patches(bead_spread, args.classes, coords, radius, cores_)
 	# Annotate the patches for low-med-high precision.
 	annotated_patches = annotate_patches(patches, args.classes, ps_names, coords.shape[1])
 	high_prec, low_prec = patches[:args.classes], patches[args.classes+1:]
