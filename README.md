@@ -203,7 +203,7 @@ The output RMF file, `patch_colored_cluster_center_model.rmf3` can be visualized
 If run on PDBs, the output PDB file, `patch_colored_model.pdb` can be visualized in UCSF Chimera or ChimeraX. The precision is in the B-factor field, and can be displayed by for example, clicking on `Molecule Display-> B-factor`. 
 
 ## Information
-__Author(s):__ Varun Ullanat, Kartik Majila, Shruthi Viswanath
+__Author(s):__ Varun Ullanat, Kartik Majila, Omkar Golatkar, Shruthi Viswanath
 
 __Date__: April 7th, 2023
 
